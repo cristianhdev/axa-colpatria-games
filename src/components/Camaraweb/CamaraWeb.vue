@@ -128,7 +128,7 @@ const handleSuccess = (stream) => {
 }
 
 onMounted(() => {
-    //init()
+    init()
 })
 
 </script>
