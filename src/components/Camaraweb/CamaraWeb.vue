@@ -1,11 +1,11 @@
 <template>
     <div>
         <div id="video" class="video-wrap">
-            <!-- <video ref="video" id="video" playsinline autoplay></video> -->
+            <video ref="video" id="video" playsinline autoplay></video>
         </div>
-        <!--  <div>
+         <div>
             <canvas id="canvas" width="640" height="480"></canvas>
-        </div> -->
+        </div>
     </div>
 </template>
 
@@ -20,8 +20,8 @@ const video = ref(null)
 
 onBeforeMount(() => {
 
-    const handsfree = new Handsfree({ pose: true })
-    handsfree.start()
+   /*  const handsfree = new Handsfree({ pose: true })
+    handsfree.start() */
 
     /*   const handsfree = new Handsfree({ showDebug: true, hands: true })
       handsfree.start() */
