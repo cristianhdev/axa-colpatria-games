@@ -1,0 +1,36 @@
+{
+  "name": "practicando-vue-3",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 5050",
+    "test:unit": "vitest --environment jsdom",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+  },
+  "dependencies": {
+    "@splidejs/vue-splide": "^0.6.3",
+    "animejs": "^3.2.1",
+    "gsap": "^3.10.3",
+    "handsfree": "^8.5.1",
+    "pinia": "^2.0.13",
+    "soundjs": "^1.0.1",
+    "vue": "^3.2.31",
+    "vue-router": "^4.0.14"
+  },
+  "devDependencies": {
+    "@rushstack/eslint-patch": "^1.1.0",
+    "@vitejs/plugin-vue": "^2.3.1",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "@vue/test-utils": "^2.0.0-rc.18",
+    "@vueuse/core": "^8.4.1",
+    "eslint": "^8.5.0",
+    "eslint-plugin-vue": "^8.2.0",
+    "jsdom": "^19.0.0",
+    "pinia-plugin-persist": "^1.0.0",
+    "pinia-plugin-persistedstate": "^1.5.1",
+    "prettier": "^2.5.1",
+    "vite": "^2.9.1",
+    "vitest": "^0.8.1"
+  }
+}
