@@ -27,7 +27,7 @@
                     </slot>
                 </div>
             </div>
-
+<!-- comentario para subir archivo actualizado -->
             <div class="auto flex-center-elements-row gap-2" style="text-align:center">
                 <button class="btn-primary-vr1" @mousemove="confity"  @click="continuarTrivia">CONTINUAR TRIVIA!</button>
                 <button class="btn-primary-vr1" @mousemove="confity"  @click="volverEscenario">VOLVER A EJERCICIOS</button>
