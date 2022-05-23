@@ -47,6 +47,7 @@ const ventanaClick = ref(null)
 
 
 onMounted(() => {
+    //party debug
    /*  party.settings.debug = true; */
     /*  document.querySelector('#simulate-click').addEventListener("mousemove", function (e) {
          e.preventDefault();
