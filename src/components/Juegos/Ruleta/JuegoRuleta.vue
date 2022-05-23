@@ -117,7 +117,7 @@ const puntosMalos = ref(0)
 const acomuladorPuntos = ref(5)
 const mostrarMensaje = ref(false)
 
-const mostrarDebug = ref(true)
+const mostrarDebug = ref(false)
 const audioAplausos = ref(null)
 const audioRuleta = ref(null)
 const audioIncorrecto = ref(null)
