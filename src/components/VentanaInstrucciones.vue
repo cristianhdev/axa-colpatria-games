@@ -1,6 +1,6 @@
 <template>
 
-    <div class="contenedor-instrucciones animate__animated animate__ animate__jackInTheBox">
+    <div :style="styleContenedor" class=" animate__animated animate__ animate__jackInTheBox">
         <div class="texto-instrucciones center-element">
             <div class="imagen-texto">
                 <div class="texto">
@@ -26,12 +26,33 @@
 </template>
 
 <script setup>
+import { ref, reactive } from 'vue'
 
 const emit = defineEmits(['ocultarVentana'])
 
 const continuarActividad = () => {
     emit('ocultarVentana')
 }
+
+
+const opciones = defineProps({
+    urlImagenFondo: {
+        type: String,
+        default: 'InstruccioneJuegos'
+    }
+});
+
+const styleContenedor = reactive({
+    background: `var(--azul-axa) url(/src/img/${opciones.urlImagenFondo}.png) no-repeat center center`,
+    backgroundSize: "cover",
+    backgroundColor: "#18488c",
+    width: '100vw',
+    height: '105vh',
+    position: 'absolute',
+    zIndex: '9999'
+});
+
+
 
 </script>
 
@@ -68,15 +89,7 @@ const continuarActividad = () => {
 
 
 
-.contenedor-instrucciones {
-    background: var(--azul-axa) url(/src/img/InstruccioneJuegos.png) no-repeat center center;
-    background-size: cover;
-    background-color: #18488c;
-    width: 100vw;
-    height: 105vh;
-    position: absolute;
-    z-index: 9999;
-}
+
 
 .imagen {}
 
