@@ -24,6 +24,12 @@ import Sonidos from '../../../helpers/sounds.js'
 const audioIncorrecto = ref(null)
 const audioCorrecto = ref(null)
 
+const emit = defineEmits(['ocultarVentana', 'finAnimacion', 'finAnimacionFlip', 'OpcionCorrecto'])
+
+
+const mostrarNumero = ref(false)
+const respuestaCorrecta = ref(false)
+const respuestaIncorrecta = ref(false)
 
 onMounted(() => {
 
@@ -38,9 +44,6 @@ onBeforeMount(() => {
 
 
 
-const mostrarNumero = ref(false)
-const respuestaCorrecta = ref(false)
-const respuestaIncorrecta = ref(false)
 
 const imagenes = ref([
     { imagen: "/src/img/Ejercicio1.png", numero: secuencia.numero },
@@ -132,7 +135,7 @@ watch(() => secuencia.girarOpciones, (newGiroOpcion, oldGiroOpcion) => {
 });
 
 
-const emit = defineEmits(['ocultarVentana', 'finAnimacion', 'finAnimacionFlip', 'OpcionCorrecto'])
+
 
 const getIdimagen = computed(() => {
     return imagenes.value[secuencia.numero - 1].numero

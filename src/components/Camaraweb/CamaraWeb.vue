@@ -3,8 +3,8 @@
         <div id="video" class="video-wrap">
             <video ref="video" id="video" playsinline autoplay></video>
         </div>
-         <div>
-            <canvas id="canvas" width="640" height="480"></canvas>
+        <div>
+            <!--   <canvas id="canvas" width="640" height="480"></canvas> -->
         </div>
     </div>
 </template>
@@ -18,10 +18,12 @@ const handsfree = ref(null)
 const video = ref(null)
 
 
+const emit = defineEmits(['camaraLoad'])
+
 onBeforeMount(() => {
 
-   /*  const handsfree = new Handsfree({ pose: true })
-    handsfree.start() */
+    /*  const handsfree = new Handsfree({ pose: true })
+     handsfree.start() */
 
     /*   const handsfree = new Handsfree({ showDebug: true, hands: true })
       handsfree.start() */
@@ -125,6 +127,11 @@ const init = async () => {
 const handleSuccess = (stream) => {
     window.stream = stream;
     video.value.srcObject = stream;
+
+    emit('camaraLoad')
+
+
+
 }
 
 onMounted(() => {

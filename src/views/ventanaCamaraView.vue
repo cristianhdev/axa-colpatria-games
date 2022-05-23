@@ -1,28 +1,34 @@
 <template>
     <div class="container">
 
-        <VentanaBienvenida v-if="ocultarVentana" :sliderActive="false" ruta="Escenario">
+        <VentanaBienvenida v-if="ocultarVentana" :sliderActive="false">
             <template #titulo>
-                Permitir el acceso a la cámara web.
+                <img v-if="!camaraReady" src="/src/img/camarawebImagen.png" alt="" width="240">
             </template>
             <template #texto>
-                <div v-if="!camaraReady" class="flex-center-elements-row gap-3">
-                    <div class="btn-primary" @click="config.habilitarCamara()">SI</div>
-                    <div class="btn-primary" @click="config.inhabilitarCamara()">NO</div>
-                </div>
-                <div v-if="camaraReady">
+
+                <div class="contenedor-camara" v-if="camaraReady">
                     <div id="camara">
-                        <CaramaWeb :width="300" :height="300" />
-                    </div>  
+                        <CaramaWeb :width="200" :height="200"  />
+                    </div>
 
                 </div>
                 <div v-else>
-                    <img src="/src/img/camaraweb.png" alt="" width="240">
+                    <!-- <img src="/src/img/camaraweb.png" alt="" width="240"> -->
+                    <h2>Permitir el acceso a la cámara web.</h2>
                 </div>
 
             </template>
-            <template #button-ventana >
-                CONTINUAR
+            <template #button-ventana>
+                <div v-if="!camaraReady" class="flex-center-elements-row gap-3">
+                    <div class="btn-primary-vr1" @click="config.habilitarCamara()">SI</div>
+                    <div class="btn-primary-vr1" @click="config.inhabilitarCamara()">NO</div>
+                </div>
+                <div v-else>
+                    <div class="btn-primary-vr1 flex-center-elements-row gap-3" @click="habilitahabilitarCamaraWebrcamaraweb">
+                        CONTINUAR
+                    </div>
+                </div>
             </template>
 
         </VentanaBienvenida>
@@ -33,8 +39,9 @@
 import VentanaBienvenida from "@/components/VentanaBienvenida.vue";
 import { ref, onMounted, onBeforeMount, computed } from "vue";
 import { useConfigStore } from "../stores/config.js";
+import party from "party-js";
 import CaramaWeb from '../components/Camaraweb/CamaraWeb.vue'
-
+import animateCSS from "../helpers/animations.js";
 import { useRouter, useRoute } from "vue-router";
 
 
@@ -50,6 +57,11 @@ onBeforeMount(() => {
 })
 
 onMounted(() => {
+    setTimeout((e) => {
+        party.confetti(this);
+    }
+        , 1000)
+
 
     // From anywhere
     //handsfree.value.data.hands.landmarks
@@ -83,8 +95,11 @@ onMounted(() => {
 
 
 const habilitahabilitarCamaraWebrcamaraweb = () => {
-  
-     router.push('/Escenario')
+
+    animateCSS(".ventana-usuario", "fadeOut").then((message) => {
+        router.push('/Escenario')
+        document.querySelector(".ventana-usuario").style.display = "none";
+    });
 }
 
 
@@ -101,4 +116,6 @@ const camaraReady = computed(() => config.isCamara)
 .container {
     /* display: none */
 }
+
+.contenedor-camara {}
 </style>

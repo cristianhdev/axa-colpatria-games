@@ -7,7 +7,8 @@
                     <slot name="texto">
                         <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus illo odit eos porro
                             consectetur
-                            ipsum, unde impedit id consequatur deserunt sint quidem laboriosam voluptatibus doloribus.</h2>
+                            ipsum, unde impedit id consequatur deserunt sint quidem laboriosam voluptatibus doloribus.
+                        </h2>
                     </slot>
                 </div>
                 <div class="imagen">
@@ -15,11 +16,11 @@
                 </div>
             </div>
 
-
-
-            <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center">
-                <button class="btn-primary" @click="continuarActividad">JUGAR</button>
+            <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center"
+                @click="continuarActividad">
+                <slot name="btntexto"><button class="btn-primary"> JUGAR</button></slot>
             </div>
+
         </div>
     </div>
 </template>
@@ -64,6 +65,8 @@ const continuarActividad = () => {
 .texto {
     width: 39vw;
 }
+
+
 
 .contenedor-instrucciones {
     background: var(--azul-axa) url(/src/img/InstruccioneJuegos.png) no-repeat center center;

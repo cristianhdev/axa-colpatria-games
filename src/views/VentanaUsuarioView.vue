@@ -11,21 +11,23 @@
               : `¡Hola ${capitalize}! `
         }}
       </template>
-      <template  #texto>
+      <template #texto>
 
         <div>
-          <div class="flex-center-elements-row-nowrap gap-2" v-if="guardar">
-            <input  type="text" v-model="usuario" placeholder="Nombre" />
+          <div class="flex-center-elements-row gap-2" v-if="guardar">
+            <input id="usuarionombre" type="text" v-model="usuario" placeholder="Nombre" />
 
-            <div  class="btn-primary flex-center-elements-row gap-3"
-              @click="guardar = !guardar">
-              GUARDAR
-            </div>
+
           </div>
         </div>
       </template>
       <template #button-ventana>
-        CONTINUAR
+        <div v-if="config.nombreUsuario==null" class="btn-primary-vr1 flex-center-elements-row gap-3" @click="guardar = !guardar">
+          GUARDAR
+        </div>
+        <div class="btn-primary-vr1 flex-center-elements-row gap-3">
+          CONTINUAR
+        </div>
       </template>
     </VentanaBienvenida>
   </div>
@@ -45,8 +47,8 @@ onMounted(() => {
     slidersBienvenida.value.push(element);
   });
 
-  config.nombreUsuario?guardar.value=false:guardar.value=true
-  
+  config.nombreUsuario ? guardar.value = false : guardar.value = true
+
 });
 
 
@@ -65,7 +67,7 @@ console.log(config.nombreUsuario)
 // watch works directly on a ref
 watch(usuario, (newQuestion, oldQuestion) => {
   config.setNombreUsuario(newQuestion)
-  
+
 })
 
 const capitalize = computed(() => {
@@ -80,6 +82,16 @@ const capitalize = computed(() => {
 
 </script>
 
-<style scoped>
-
+<style lang="css" scoped>
+input#usuarionombre[type=text] {
+  width: 20em;
+  height: 25px;
+  padding: 8px;
+  border: 1px solid #E5E5E5;
+  margin: 8px 0 0;
+  box-shadow: 3px 3px #F0F0F0;
+  text-transform: capitalize;
+  background-color: #f0ff93;
+  border-radius: 12px;
+}
 </style>

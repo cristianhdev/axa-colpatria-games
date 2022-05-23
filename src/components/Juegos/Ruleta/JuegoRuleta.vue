@@ -7,18 +7,19 @@
         </template>
     </VentanaInstrucciones>
     <div class="container-ruleta">
-        <div v-if="mostrarMensaje"
-            class="mensaje-puntos center-element flex-center-elements-column gap-2 border-axa padding-2 animate__animated animate__fadeIn">
-            <div>
-                <h1>
-                    ¡GENIAL! <br> TIENES {{ puntosBuenos }} RESPUESTAS SEGUIDAS
-                </h1>
-            </div>
-            <div class="auto flex-center-elements-row gap-2" style="text-align:center">
-                <button class="btn-primary" @click="continuarTrivia">CONTINUAR TRIVIA</button>
-                <button class="btn-primary" @click="volverEscenario">VOLVER A EJERCICIOS</button>
-            </div>
-        </div>
+        <VentanaPuntosFinal v-if="mostrarMensaje" @continuarTriviaEvent="continuarActividad"
+            @volverEscenarioEvent="volveraAlEscenario">
+            <template #puntos-buenos>
+                {{ puntosBuenos }}
+            </template>
+            <template #mensaje-respuestas>
+                <span>RESPUESTAS SEGUIDAS</span>
+            </template>
+            <template #mensaje-opcion>
+                <span>¡GENIAL!</span>
+            </template>
+        </VentanaPuntosFinal>
+
         <div>
             <div v-if="loading">
                 <div class="spiner center-element">
@@ -86,8 +87,9 @@
         </div>
         <div v-if="mostrarDebug" class="debug">
             {{ preguntasRealizadas }}<br>
-            {{ NumeroRuletaAleatorio }}<br>
-            {{ NumeroLanzados.sort((a, b) => a - b) }}
+            <!-- {{ randomPreguntaIds() }}<br> -->
+            {{ NumeroLanzados }}
+            {{ mostrarMensaje }}
         </div>
     </div>
 
@@ -100,8 +102,9 @@ import animateCSS from "../../../helpers/animations.js";
 import PreguntasTrivia from "../../../textos/Preguntas.json";
 import Sonidos from '../../../helpers/sounds.js'
 import { useRouter, useRoute } from "vue-router";
-import VentanaInstrucciones from "@/components/VentanaInstrucciones.vue"
 import { useConfigStore } from "../../../stores/config.js";
+import VentanaInstrucciones from "@/components/VentanaInstrucciones.vue"
+import VentanaPuntosFinal from "@/components/VentanaPuntosFinal.vue"
 
 
 const router = useRouter()
@@ -113,7 +116,8 @@ const puntosBuenos = ref(0)
 const puntosMalos = ref(0)
 const acomuladorPuntos = ref(5)
 const mostrarMensaje = ref(false)
-const mostrarDebug = ref(false)
+
+const mostrarDebug = ref(true)
 const audioAplausos = ref(null)
 const audioRuleta = ref(null)
 const audioIncorrecto = ref(null)
@@ -138,9 +142,9 @@ onMounted(() => {
 
 onBeforeMount(() => {
 
-    console.log(preguntasRuletaGeneradas.preguntasAleatoriasSeleccionadas.length)
 
-    if (preguntasRuletaGeneradas.preguntasAleatoriasSeleccionadas.length ==0 ) {
+
+    if (preguntasRuletaGeneradas.preguntasAleatoriasSeleccionadas.length == 0) {
         let temporal = Object.values(PreguntasTrivia.Preguntas)
 
         for (let index = 0; index < 14; index++) {
@@ -160,33 +164,77 @@ onBeforeMount(() => {
         NumeroRuletaAleatorio.value.sort(() => Math.random() - 0.5);
     } else {
 
-        console.log(preguntasRuletaGeneradas.preguntasAleatoriasSeleccionadas)
+        let preguntaCargadas = preguntasRuletaGeneradas.preguntasAleatoriasSeleccionadas
 
-        /* preguntas.value = preguntasRuletaGeneradas.preguntasAleatoriasSeleccionadas
+        let temporal = Object.values(PreguntasTrivia.Preguntas)
 
-        preguntasRuletaGeneradas.setPreguntasAleatorias(Object.values(preguntas.value.map((element) => {
-            return element.id
-        })))
+
+        /*  Object.values(temporal).forEach((idReload, index) => {
+             if (Object.values(temporal).includes(idReload)) {
+                 temporal.splice(index, 1)
+             }
+         }) */
+
+        Object.values(preguntaCargadas).forEach((id) => {
+            console.log(id)
+            const isLargeNumber = (element) => element.id == id;
+            console.log(Object.values(temporal).findIndex(isLargeNumber))
+            temporal.splice(Object.values(temporal).findIndex(isLargeNumber), 1)
+        })
+
+        console.log(Object.values(temporal))
+
+
+        /* temporal.forEach((idReload) => {
+            let pregunta = temporal.filter((element, index) => {
+                const { id } = element
+                id != idReload ? temporal.splice(index, 1) : null
+            })
+            console.log(Object.values(pregunta))
+        }) */
+
+        for (let index = 0; index < 14; index++) {
+            const element = temporal[index];
+            preguntas.value.push(element)
+        }
+
+
+        /* console.log(preguntas.value) */
 
         //Generamos un array de manera aleatoria para los numero de la ruleta.
-        NumeroRuletaAleatorio.value.sort(() => Math.random() - 0.5); */
+        NumeroRuletaAleatorio.value.sort(() => Math.random() - 0.5);
+
     }
 })
 
 
 
+const filtrarPreguntasLoaders = (id) => {
+
+}
+
 
 const continuarActividad = () => {
     btnContinuar.value = false
+    mostrarMensaje.value = false
     document.querySelector('.ruleta').focus()
     girarRuleta()
 }
 
 const randomPregunta = computed(() => {
     let pregunta = preguntas.value[posicionPreguntaActual.value]
+
     preguntasRealizadas.value.push(pregunta.id)
     return pregunta
 })
+
+
+const randomPreguntaIds = () => {
+
+    preguntas.value.forEach((element) => {
+        return element.id
+    })
+}
 
 
 
@@ -210,12 +258,14 @@ const preguntas = ref([
 const continuarTrivia = () => {
     rotate.value.restart()
     posicionPreguntaActual.value = posicionPreguntaActual.value + 1
+    puntosBuenos.value=0
     girarRuleta()
-    mostrarMensaje.value = false
+
 }
 
 
 const girarRuleta = () => {
+
     if (audioRuleta.value == null) {
         audioRuleta.value = new Sonidos('Ruleta_sonido_editado', false)
         audioRuleta.value.playAudio()
@@ -291,7 +341,7 @@ const opcionCorrecta = (correcta, actual, id) => {
                         x: 50, duration: 3, onComplete: () => {
                             posicionPreguntaActual.value = posicionPreguntaActual.value + 1
                             puntosBuenos.value = puntosBuenos.value + 1
-                            if (puntosBuenos.value == 5) {
+                            if (puntosBuenos.value == 1) {
                                 mostrarMensaje.value = true
                                 acomuladorPuntos.value = acomuladorPuntos.value + 5
                             } else {
@@ -325,7 +375,9 @@ const opcionInCorrecta = () => {
 
 }
 
-const volverEscenario = () => {
+const volveraAlEscenario = () => {
+    alert('click')
+    mostrarMensaje.value = false
     router.push("/Escenario")
 }
 
@@ -358,12 +410,6 @@ hr {
     text-align: left;
     font-size: 1.4em;
     line-height: 1.5em;
-}
-
-.mensaje-puntos {
-    z-index: 999999;
-    background-color: white;
-    text-align: center
 }
 
 .contenedor-preguntas {

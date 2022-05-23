@@ -163,9 +163,10 @@ p {
 }
 
 h1 {
-    font-family: 'Publico Headline Bold';
+    font-family: Source Sans Pro;
     font-size: var(--h1-title-size);
-    line-height: var(--h1-title-height)
+    line-height: var(--h1-title-height);
+    margin: 2px;
 }
 
 h2 {
@@ -175,10 +176,35 @@ h2 {
     color: white
 }
 
+h3 {
+    font-family: Source Sans Pro;
+    font-size: 1.3em;
+    color: white
+}
+
 .btn-primary {
     width: 10vw;
     background-color: var(--azul-axa);
     color: var(--blanco);
+    width: auto;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 45px;
+    font-size: 15px;
+    display: inline-block;
+    padding: 0 25px;
+    letter-spacing: 1px;
+    transition: 0.5s;
+    cursor: pointer
+}
+
+
+.btn-primary-vr1 {
+    width: 10vw;
+    background-color: #4976ba;
+    color: var(--blanco);
+    border:2px solid var(--blanco);
     width: auto;
     text-decoration: none;
     text-transform: uppercase;

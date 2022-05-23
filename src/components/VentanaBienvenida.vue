@@ -1,51 +1,44 @@
 
 
 <template>
-  <div
-    class="
+  <div class="
       ventana-usuario
       center-element
       border-axa
       flex-center-elements-column
       animate__animated animate__fadeIn animate__slow animate__delay_5s
-    "
-  >
+    ">
     <div v-if="!sliderActive">
-      <div class="flex-center-elements-column">
+      <div class="contenedor-central flex-center-elements-column gap-3">
         <h1 class="title">
           <slot name="titulo">
-            Eum nemo voluptas nemo ratione. Et quam est officia dolorem quos.
+           <!--  Eum nemo voluptas nemo ratione. Et quam est officia dolorem quos.
             Numquam aut eum deleniti aut quam dolorem. Ratione distinctio
-            dolorem id quia cupiditate eos.
+            dolorem id quia cupiditate eos. -->
           </slot>
         </h1>
-        <p>
+       
           <slot name="texto">
             Eum nemo voluptas nemo ratione. Et quam est officia dolorem quos.
             Numquam aut eum deleniti aut quam dolorem. Ratione distinctio
             dolorem id quia cupiditate eos.
           </slot>
-        </p>
-        <div class="btn-primary auto" @click="hiddenWindow">
-          <slot name="button-ventana"> COMENZAR </slot>
+        
+        <div @click="hiddenWindow">
+          <div class="flex-center-elements-row gap-3">
+            <slot name="button-ventana"> COMENZAR </slot>
+          </div>
         </div>
       </div>
     </div>
     <div v-else>
-      <SliderVentana
-        :sliderActual="slid"
-        v-for="slider in sliders.slider"
-        :key="slider.id"
-      >
+      <SliderVentana :sliderActual="slid" v-for="slider in sliders.slider" :key="slider.id">
         <template #titulo> {{ slider.titulo }} </template>
         <template #texto>
           {{ slider.texto }}
         </template>
       </SliderVentana>
-      <ButtonSliders
-        @someEvent="Botonslider"
-        :numneroBotones="sliders.slider.length"
-      />
+      <ButtonSliders @someEvent="Botonslider" :numneroBotones="sliders.slider.length" />
     </div>
   </div>
 </template>
@@ -65,7 +58,10 @@ const slid = ref(0);
 const sliders = defineProps({
   slider: Array,
   sliderActive: Boolean,
-  ruta:String
+  ruta: {
+    type:String,
+    default:''
+  }
 });
 
 const Botonslider = (id) => {
@@ -74,28 +70,41 @@ const Botonslider = (id) => {
 
 const hiddenWindow = () => {
   animateCSS(".ventana-usuario", "fadeOut").then((message) => {
-    router.push(`/${sliders.ruta}`);
+    if(sliders.ruta!=''){
+       router.push(`/${sliders.ruta}`);
+    }   
     document.querySelector(".ventana-usuario").style.display = "none";
   });
 };
 </script>
 
 <style lang="css" scoped>
+.contenedor-central {
+  width: 801px;
+  height: 61vh;
+  background: transparent url(/src/img/recuadrointro.png) no-repeat center center;
+  background-size: 100% 100%;
+}
+
+
 .ventana-usuario {
-  width: 70vw;
-  height: 70vh;
+  width: 100vw;
+  height: 100vh;
   border-radius: 23px;
   padding: 23px;
-  background-color:rgba(255,255,255,1);
+  background-color: rgba(255, 255, 255, 1);
+  background: transparent url(/src/img/fondoPantallaIntermedias.png) no-repeat center center;
+  background-size: cover;
+
 }
 
 .title {
   widows: 100%;
   text-align: center;
-  color: var(--rojo-colpatria);
+  color: var(--blanco);
 }
 
-p{
+p {
   font-family: 'Publico Banner, SourceSansProLightItalic, Arial, Georgia, Sans Serif, Serif';
 }
 
