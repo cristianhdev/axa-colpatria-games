@@ -1,7 +1,7 @@
 
 <template>
   <div class="container">
-    <VentanaInstrucciones v-if="ocultarVentana" @ocultarVentana="cerrarBienvenida">
+    <VentanaInstrucciones v-if="ocultarVentana" @ocultarVentana="cerrarBienvenida" urlImagenFondo="BienvidaJuegos">
       <template #texto>
         <h3>Son sesiones de actividad física desarrolladas en el entorno laboral, con una
           duración continua mínima de 10 minutos que incluye adaptación física
@@ -133,7 +133,7 @@ const slidersBienvenida = ref([]);
 .animacion-bienvenida {
   width: 99vw;
   height: 100vh;
-  background-image: url('./src/animaciones/axa.gif');
+  background-image: url('../assets/animaciones/axa.gif');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
