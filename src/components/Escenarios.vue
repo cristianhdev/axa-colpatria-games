@@ -1,6 +1,6 @@
 <template>
     <div class="container-escena">
-        <object ref="escena" type="image/svg+xml" data="/assets/svg/hospitl_escena.svg" class="hospital-escena"
+        <object ref="escena" type="image/svg+xml" :data="ImagHospital" class="hospital-escena"
             preserveAspectRatio="none">
 
         </object>
@@ -17,6 +17,7 @@ import { useRouter, useRoute } from "vue-router";
 import { useConfigStore } from "../stores/config.js";
 import { gsap } from "gsap"
 import anime from 'animejs/lib/anime.es.js';
+import ImagHospital from '@/assets/svg/hospitl_escena.svg';
 
 
 
