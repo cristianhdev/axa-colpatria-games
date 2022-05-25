@@ -1,8 +1,6 @@
 <template>
 
     <div :style="styleContenedor" class=" animate__animated animate__ animate__jackInTheBox">
-        {{ imagenFondo }}<br>
-        {{styleContenedor.backgroundImage}}
         <div class="texto-instrucciones center-element">
             <div class="imagen-texto">
                 <div class="texto">
