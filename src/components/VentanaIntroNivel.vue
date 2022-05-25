@@ -105,7 +105,7 @@ onMounted(() => {
     color: #00008f;
     height: inherit;
     font-family: Publico Banner-Bold;
-    background: transparent url(src/assets/img/marco_nivel_numero.png) no-repeat center center;
+    background: transparent url(@/assets/img/marco_nivel_numero.png) no-repeat center center;
     background-size: 80% 80%;
     display: flex;
     justify-content: center;
@@ -115,7 +115,7 @@ onMounted(() => {
 .contenedor-puntos-buenos {
     width: 23vw;
     height: 23vh;
-    background: transparent url(src/assets/img/Puntos.png) no-repeat center center;
+    background: transparent url(@/assets/img/Puntos.png) no-repeat center center;
     background-size: contain;
     position: absolute;
     top: 8%;
@@ -128,7 +128,7 @@ onMounted(() => {
     height: 100vh;
     z-index: 99999999999999;
     text-align: center;
-    background: transparent url(src/assets/img/fondoPantallaFinalPuntos.png) no-repeat center center;
+    background: transparent url(@/assets/img/fondoPantallaFinalPuntos.png) no-repeat center center;
     background-size: 100% 100%;
     position: absolute;
 }
