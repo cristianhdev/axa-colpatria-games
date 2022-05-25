@@ -1,6 +1,8 @@
 <template>
 
     <div :style="styleContenedor" class=" animate__animated animate__ animate__jackInTheBox">
+        {{ imagenFondo }}<br>
+        {{styleContenedor.backgroundImage}}
         <div class="texto-instrucciones center-element">
             <div class="imagen-texto">
                 <div class="texto">
@@ -8,6 +10,7 @@
                         <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus illo odit eos porro
                             consectetur
                             ipsum, unde impedit id consequatur deserunt sint quidem laboriosam voluptatibus doloribus.
+
                         </h2>
                     </slot>
                 </div>
@@ -26,13 +29,27 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onBeforeMount, onMounted } from 'vue'
+import imagenFondoBienvenidaImagen from '@/assets/img/BienvidaJuegos.png'
+import imagenFondoInstruccionesImagen from '@/assets/img/InstruccioneJuegos.png'
 
 const emit = defineEmits(['ocultarVentana'])
+const imagenFondo = ref('')
 
 const continuarActividad = () => {
     emit('ocultarVentana')
 }
+
+onBeforeMount(() => {
+    alert(typeof (opciones.urlImagenFondo))
+    if (opciones.urlImagenFondo === 'BienvidaJuegos') {
+        imagenFondo.value = imagenFondoBienvenidaImagen
+    } else {
+        imagenFondo.value = imagenFondoInstruccionesImagen
+    }
+
+    styleContenedor.backgroundImage=`url(${imagenFondo.value})`
+});
 
 
 const opciones = defineProps({
@@ -43,7 +60,7 @@ const opciones = defineProps({
 });
 
 const styleContenedor = reactive({
-    backgroundImage: `url('src/assets/img/${opciones.urlImagenFondo}.png')`,
+    backgroundImage: `url(${imagenFondo.value}.png)`,
     backgroundRepeat: "no-repeat",
     /* background-size: cover; */
     backgroundPosition: "center",
