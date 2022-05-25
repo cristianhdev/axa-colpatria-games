@@ -21,7 +21,7 @@
       </template>
       <template #btntexto>
         <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center">
-          <button class="btn-primary"> COMENZAR</button>
+          <button class="btn-primary-ghost"> COMENZAR</button>
         </div>
       </template>
 

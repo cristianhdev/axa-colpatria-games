@@ -25,7 +25,7 @@
         </slot>
 
         <div @click="hiddenWindow">
-          <div class=" btn-primary-ghost flex-center-elements-row gap-3">
+          <div class="flex-center-elements-row gap-3">
             <slot name="button-ventana"> COMENZAR </slot>
           </div>
         </div>
