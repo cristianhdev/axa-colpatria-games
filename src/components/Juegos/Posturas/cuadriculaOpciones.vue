@@ -122,7 +122,7 @@
             </div>
 
             <div v-if="visible" class="auto flex-center-elements-row gap-2" style="text-align:center">
-                <button v-if="!continuar" class="btn-primary" @click="continuarActividad">CONTINUAR</button>
+                <button v-if="!continuar" class="btn-primary-ghost" @click="continuarActividad">CONTINUAR</button>
             </div>
         </div>
     </div>

@@ -19,7 +19,7 @@
 
             <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center"
                 @click="continuarActividad">
-                <slot name="btntexto"><button class="btn-primary"> JUGAR</button></slot>
+                <slot name="btntexto"><button class="btn-primary-ghost"> JUGAR</button></slot>
             </div>
 
         </div>
@@ -59,9 +59,7 @@ const opciones = defineProps({
 const styleContenedor = reactive({
     backgroundImage: `url(${imagenFondo.value}.png)`,
     backgroundRepeat: "no-repeat",
-    /* background-size: cover; */
     backgroundPosition: "center",
-    /* background: `transparent url('@/assets/img/${opciones.urlImagenFondo}.png') no-repeat center center`, */
     backgroundSize: "cover",
     backgroundColor: "#18488c",
     width: '100vw',
