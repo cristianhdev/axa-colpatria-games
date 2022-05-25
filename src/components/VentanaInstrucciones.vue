@@ -43,7 +43,11 @@ const opciones = defineProps({
 });
 
 const styleContenedor = reactive({
-    background: `transparent url('/src/assets/img/${opciones.urlImagenFondo}.png') no-repeat center center`,
+    backgroundImage: `url('src/assets/img/${opciones.urlImagenFondo}.png')`,
+    backgroundRepeat: "no-repeat",
+    /* background-size: cover; */
+    backgroundPosition: "center",
+    /* background: `transparent url('@/assets/img/${opciones.urlImagenFondo}.png') no-repeat center center`, */
     backgroundSize: "cover",
     backgroundColor: "#18488c",
     width: '100vw',
