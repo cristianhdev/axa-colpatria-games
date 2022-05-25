@@ -39,7 +39,6 @@ const continuarActividad = () => {
 }
 
 onBeforeMount(() => {
-    alert(typeof (opciones.urlImagenFondo))
     if (opciones.urlImagenFondo === 'BienvidaJuegos') {
         imagenFondo.value = imagenFondoBienvenidaImagen
     } else {
