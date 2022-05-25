@@ -1,6 +1,6 @@
 <template>
     <div class="container-escena">
-        <object ref="escena" type="image/svg+xml" data="src/assets/svg/hospitl_escena.svg" class="hospital-escena"
+        <object ref="escena" type="image/svg+xml" data="/assets/svg/hospitl_escena.svg" class="hospital-escena"
             preserveAspectRatio="none">
 
         </object>
