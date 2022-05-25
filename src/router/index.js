@@ -45,7 +45,7 @@ const router = createRouter({
     {
       path: '/JuegoManos',
       name: 'juegomanos',
-      component: () => import('../views/VentanaJuevoManosView.vue')
+      component: () => import('../views/VentanaJuegoManosView.vue')
     },
     {
       path: '/JuegoRuleta',
@@ -53,24 +53,10 @@ const router = createRouter({
       component: () => import('../views/VentanaJuegoRuletaView.vue')
     },
     {
-      path: '/JuegoAudios',
-      name: 'juegoaudios',
-      component: () => import('../views/VentanaJuegoSonidosView.vue')
-    },
-    {
       path: '/JuegoAudiosPosturas',
       name: 'juegoaudiosPosturas',
       component: () => import('../views/ventanaJuegoAudiosPosturasView.vue')
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    },
-   
+    }
     /*  { path: "*.*", redirect: '/' } */
   ]
 })

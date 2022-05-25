@@ -20,7 +20,7 @@
 <script setup>
 import { ref, computed, reactive, onMounted, onBeforeMount, watch, defineEmits } from 'vue'
 import gsap from "gsap";
-import Sonidos from '../../../helpers/sounds.js'
+import Sonidos from '@/assets/helpers/sounds.js'
 const audioIncorrecto = ref(null)
 const audioCorrecto = ref(null)
 
@@ -46,12 +46,12 @@ onBeforeMount(() => {
 
 
 const imagenes = ref([
-    { imagen: "/src/img/Ejercicio1.png", numero: secuencia.numero },
-    { imagen: "/src/img/Ejercicio2.png", numero: secuencia.numero },
-    { imagen: "/src/img/Ejercicio3.png", numero: secuencia.numero },
-    { imagen: "/src/img/Ejercicio4.png", numero: secuencia.numero },
-    { imagen: "/src/img/Ejercicio5.png", numero: secuencia.numero },
-    { imagen: "/src/img/Ejercicio6.png", numero: secuencia.numero },
+    { imagen: "@/assets/img/Ejercicio1.png", numero: secuencia.numero },
+    { imagen: "@/assets/img/Ejercicio2.png", numero: secuencia.numero },
+    { imagen: "@/assets/img/Ejercicio3.png", numero: secuencia.numero },
+    { imagen: "@/assets/img/Ejercicio4.png", numero: secuencia.numero },
+    { imagen: "@/assets/img/Ejercicio5.png", numero: secuencia.numero },
+    { imagen: "@/assets/img/Ejercicio6.png", numero: secuencia.numero },
 ])
 
 
@@ -208,7 +208,7 @@ const validarClick = (id) => {
 }
 
 .interrogante {
-    background-image: url(/src/img/manos/pregunta.png);
+    background-image: url(@/assets/img/manos/pregunta.png);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;

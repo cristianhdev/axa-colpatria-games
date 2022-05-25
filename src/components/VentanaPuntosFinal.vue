@@ -1,6 +1,7 @@
 <template>
-    <div class="ventana-mensaje-puntos center-element  flex-center-elements-column gap-2 padding-2 animate__animated animate__fadeIn">
-
+    <div
+        class="ventana-mensaje-puntos center-element  flex-center-elements-column gap-2 padding-2 animate__animated animate__fadeIn">
+        <div class="button">Click me!</div>
         <div class="contenedor-mensaje flex-center-elements-column gap-1" id="simulate-click">
             <div class="contenedor-puntos-buenos flex-center-elements-column gap-2">
                 <slot name="puntos-buenos">
@@ -27,12 +28,11 @@
                     </slot>
                 </div>
             </div>
-<!-- comentario para subir archivo actualizado -->
+            <!-- comentario para subir archivo actualizado -->
             <div class="auto flex-center-elements-row gap-2" style="text-align:center">
-                <button class="btn-primary-vr1" @mousemove="confity"  @click="continuarTrivia">CONTINUAR TRIVIA!</button>
-                <button class="btn-primary-vr1" @mousemove="confity"  @click="volverEscenario">VOLVER A EJERCICIOS</button>
-                <button class="btn-primary-vr1" @mousemove="confity"  id="salir">SALIR</button>
+                <slot name="botones">
 
+                </slot>
             </div>
         </div>
     </div>
@@ -48,11 +48,18 @@ const ventanaClick = ref(null)
 
 onMounted(() => {
     //party debug
-   /*  party.settings.debug = true; */
+    /*  party.settings.debug = true; */
     /*  document.querySelector('#simulate-click').addEventListener("mousemove", function (e) {
          e.preventDefault();
          party.confetti(e);
      }); */
+  /*   document.querySelector(".button").addEventListener("click",  (e) => {
+        
+        party.confetti(this);
+    });
+    setInterval(() => {
+        document.querySelector(".button").click();
+    }, 8000); */
 });
 
 
@@ -60,12 +67,11 @@ onMounted(() => {
 
 onBeforeMount(() => {
 
-
 });
 
 
 const confity = (e) => {
-    party.confetti(e);
+    party.confetti(this);
 }
 
 
@@ -88,6 +94,10 @@ const volverEscenario = () => {
 </script>
 
 <style lang="css" scoped>
+.button {
+    visibility: visible
+}
+
 .info-mensaje {
     font-size: 1.8em;
     color: #f0ff93;
@@ -104,7 +114,7 @@ const volverEscenario = () => {
 .contenedor-puntos-buenos {
     width: 23vw;
     height: 23vh;
-    background: transparent url(/src/img/Puntos.png) no-repeat center center;
+    background: transparent url(@/assets/img/Puntos.png) no-repeat center center;
     background-size: contain;
     position: absolute;
     top: 8%;
@@ -117,7 +127,7 @@ const volverEscenario = () => {
     height: 100vh;
     z-index: 99999999999999;
     text-align: center;
-    background: transparent url(/src/img/fondoPantallaFinalPuntos.png) no-repeat center center;
+    background: transparent url(@/assets/img/fondoPantallaFinalPuntos.png) no-repeat center center;
     background-size: 100% 100%;
 }
 
@@ -139,7 +149,7 @@ const volverEscenario = () => {
     flex-direction: column;
     width: 56vw;
     height: 60vh;
-    background: transparent url(/src/img/fondoPuntos.png) no-repeat center center;
+    background: transparent url(@/assets/img/fondoPuntos.png) no-repeat center center;
     background-size: 100% 100%;
 
 }

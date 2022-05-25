@@ -23,7 +23,7 @@
 <script setup>
 import { ref, reactive, onUnmounted, onBeforeMount, defineEmits, watch } from 'vue'
 
-import Sonidos from '../helpers/sounds.js'
+import Sonidos from '@/assets/helpers/sounds.js'
 
 
 const emit = defineEmits(['endTime'])
@@ -68,14 +68,14 @@ const tiempo = defineProps({
     default: 10
   },
   reiniciar: {
-    type:Boolean,
-    default:false
+    type: Boolean,
+    default: false
   }
 })
 
 
-watch(tiempo.reiniciar, (reiniciarTiempoNew,reiniciarTiempoOld) => {
-  console.log(`reiniciarTiempo is ${reiniciarTiempo}`) 
+watch(tiempo.reiniciar, (reiniciarTiempoNew, reiniciarTiempoOld) => {
+  console.log(`reiniciarTiempo is ${reiniciarTiempo}`)
 })
 
 
@@ -92,14 +92,14 @@ const onTimesUp = () => {
 
 const startTimer = () => {
 
-  if (clockAudio.value == null) {
-
-    clockAudio.value = new Sonidos('tictocEditado', true)
-    clockAudio.value.playAudio()
-
-  } else {
-    clockAudio.value.stopAudio()
-  }
+  /*  if (clockAudio.value == null) {
+ 
+     clockAudio.value = new Sonidos('tictocEditado', true)
+     clockAudio.value.playAudio()
+ 
+   } else {
+     clockAudio.value.stopAudio()
+   } */
 
 
 
@@ -176,7 +176,7 @@ onUnmounted(() => {
   if (clockAudio.value != null) {
     clockAudio.value.stopAudio()
     clockAudio.value = null
-  /* document.getElementById("base-timer-label").style.animation = 'none' */
+    /* document.getElementById("base-timer-label").style.animation = 'none' */
   }
 })
 

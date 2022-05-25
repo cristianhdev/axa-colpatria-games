@@ -1,17 +1,17 @@
 <template>
-    <div  v-if="!fintiempo" class="contenedor-audio flex-center-elements-row gap-3" :id="`parlante-${posicionSonidos.posicion}`">
+    <div  v-if="!fintiempo" class="contenedor-audio flex-center-elements-column gap-1" :id="`parlante-${posicionSonidos.posicion}`">
         <div :style="styleParlante" class="animate__animated animate__fadeIn animate__delay-1s animate__faster" @click="playSonido(posicionSonidos.posicion)">
 
         </div>
         <div class="animate__animated animate__fadeIn animate__delay-2s animate__faster">
-            <img :src="srcUrl" width="100" height="120" alt="">
+            <img :src="srcUrl" width="77" height="88" alt="">
         </div>
     </div>
 </template>
 
 <script setup>
 import { ref, computed, onBeforeMount, reactive } from 'vue'
-import Sonidos from '../../../helpers/sounds.js'
+import Sonidos from '@/assets/helpers/sounds.js'
 
 onBeforeMount(() => {
    /*  setTimeout(() => {
@@ -28,12 +28,12 @@ const audio = ref(null)
 
 const styleParlante = reactive({
     backgroundColor: 'silver',
-    width: '43px',
-    height: '45px',
-    backgroundImage: 'url(/src/img/parlanteOn.gif)',
+    width: '26px',
+    height: '27px',
+    backgroundImage: 'url(@/assets/img/parlanteOn.gif)',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center center',
-    backgroundSize: 'auto',
+    backgroundSize: 'contain',
     borderRadius: '100%',
     padding: '3px 3px',
     cursor: 'pointer'

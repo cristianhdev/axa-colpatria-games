@@ -12,7 +12,7 @@
                     </slot>
                 </div>
                 <div class="imagen">
-                    <img src="../img/Personajes.png" alt="" width="500">
+                    <img src="@/assets/img/Personajes.png" alt="" width="500">
                 </div>
             </div>
 
@@ -43,7 +43,7 @@ const opciones = defineProps({
 });
 
 const styleContenedor = reactive({
-    background: `#18488c url(./src/img/${opciones.urlImagenFondo}.png) no-repeat center center`,
+    background: `#18488c url(src/assets/img/${opciones.urlImagenFondo}.png) no-repeat center center`,
     backgroundSize: "cover",
     backgroundColor: "#18488c",
     width: '100vw',

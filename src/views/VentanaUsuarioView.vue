@@ -37,7 +37,7 @@
 <script setup>
 import VentanaBienvenida from "@/components/VentanaBienvenida.vue";
 import { ref, onMounted, computed, watch } from "vue";
-import Sliders from "../textos/Bienvenida.json";
+import Sliders from "@/assets/textos/Bienvenida.json";
 import { useConfigStore } from "../stores/config.js";
 
 onMounted(() => {

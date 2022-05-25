@@ -31,15 +31,15 @@ const emit = defineEmits(['finSeleccionTemas'])
 
 
 const imagenes = ref([
-    { imagen: "./src/img/banano.png", tipo: "fruta" },
-    { imagen: "./src/img/ani1.png", tipo: "animal" },
-    { imagen: "./src/img/fresa.png", tipo: "fruta" },
-    { imagen: "./src/img/ani2.png", tipo: "animal" },
-    { imagen: "./src/img/naranja.png", tipo: "fruta" },
-    { imagen: "./src/img/ani3.png", tipo: "animal" },
-    { imagen: "./src/img/libros.png", tipo: "oficina" },
-    { imagen: "./src/img/calculadora.png", tipo: "oficina" },
-    { imagen: "./src/img/pc.png", tipo: "oficina" }
+    { imagen: "@/assets/img/banano.png", tipo: "fruta" },
+    { imagen: "@/assets/img/ani1.png", tipo: "animal" },
+    { imagen: "@/assets/img/fresa.png", tipo: "fruta" },
+    { imagen: "@/assets/img/ani2.png", tipo: "animal" },
+    { imagen: "@/assets/img/naranja.png", tipo: "fruta" },
+    { imagen: "@/assets/img/ani3.png", tipo: "animal" },
+    { imagen: "@/assets/img/libros.png", tipo: "oficina" },
+    { imagen: "@/assets/img/calculadora.png", tipo: "oficina" },
+    { imagen: "@/assets/img/pc.png", tipo: "oficina" }
 ]);
 
 

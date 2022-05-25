@@ -16,7 +16,7 @@
 <script setup>
 
 import { ref, reactive, watch, onMounted, computed } from 'vue'
-import animateCSS from "../../../helpers/animations.js";
+import animateCSS from "@/assets/helpers/animations.js";
 import gsap from "gsap";
 
 const sliderActual = ref(0)
@@ -50,12 +50,12 @@ const copiaArrayValidacion = ref([])
 
 
 const imagenes = ref([
-    { src: './src/img/manos/pregunta.png', isVisible: true, id: 0 },
-    { src: './src/img/manos/mano1.png', isVisible: true, id: 1 },
-    { src: './src/img/manos/mano2.png', isVisible: true, id: 2 },
-    { src: './src/img/manos/mano3.png', isVisible: true, id: 3 },
-    { src: './src/img/manos/mano4.png', isVisible: true, id: 4 },
-    { src: './src/img/manos/mano5.png', isVisible: true, id: 5 }
+    { src: '@/assets/img/manos/pregunta.png', isVisible: true, id: 0 },
+    { src: '@/assets/img/manos/mano1.png', isVisible: true, id: 1 },
+    { src: '@/assets/img/manos/mano2.png', isVisible: true, id: 2 },
+    { src: '@/assets/img/manos/mano3.png', isVisible: true, id: 3 },
+    { src: '@/assets/img/manos/mano4.png', isVisible: true, id: 4 },
+    { src: '@/assets/img/manos/mano5.png', isVisible: true, id: 5 }
 ])
 
 
@@ -66,7 +66,7 @@ const imagenes = ref([
 const styleObjectNext = reactive({
     cursor: "default",
     zIndex: "9999",
-    background: "#959595ee",
+    background: "#f0ff93",
     padding: "5px",
     borderRadius: "100%",
     filter: 'opacity(0.5)',
@@ -77,7 +77,7 @@ const styleObjectPrev = reactive({
     cursor: "pointer",
     zIndex: "9999",
     filter: "grayscale(1)",
-    background: "#959595ee",
+    background: "#f0ff93",
     padding: "5px",
     borderRadius: "100%",
     pointerEvents: 'all'
@@ -85,7 +85,7 @@ const styleObjectPrev = reactive({
 
 
 const styleObjectContenedor = reactive({
-    width: "200px",
+    width: "150px",
     display: "flex",
     flexDirection: "row",
     gridGap: "32px",
@@ -154,7 +154,7 @@ const prev = () => {
         if (finAnimacionSlider.value != true) {
             finAnimacionSlider.value = true
             gsap.to(`.contenedor-imagenes-${imagen.id}`, {
-                x: '+=-232px'
+                x: '+=-183px'
                 , onComplete: () => {
                     finAnimacionSlider.value = false
                     sliderActual.value++
@@ -178,7 +178,7 @@ const next = () => {
         if (finAnimacionSlider.value != true) {
             finAnimacionSlider.value = true
             gsap.to(`.contenedor-imagenes-${imagen.id}`, {
-                x: '+=232px', ease: 'Power.easeInOut', onComplete: () => {
+                x: '+=183px', ease: 'Power.easeInOut', onComplete: () => {
                     finAnimacionSlider.value = false
                     sliderActual.value--
                     /*  opcinesValidacion.posicionSlider = (imagen.id - 1)
@@ -228,10 +228,11 @@ const navegacion = () => {
 }
 
 .sliders-order img {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     box-shadow: -1px -1px 16px inset black;
     border-radius: 12px;
+    background: var(--blanco);
 
 }
 

@@ -1,8 +1,8 @@
 <template>
     <div class="contenedor-actividad">
-        <div class="contendor-interrogante">
-            <div v-if="camaraReady">
-                <img id="imagen-pregunta" src="../../../img/manos/pregunta.png" width="150" height="150" alt="">
+        <div v-if="!camaraReady" class="contendor-interrogante">
+            <div >
+                <img id="imagen-pregunta" src="@/assets/img/manos/pregunta.png" width="150" height="150" alt="">
             </div>
         </div>
         <div class="parlante-pregunta flex-center-elements-column">
@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="contenedor-parlantes  center-element">
-            <div v-if="!continuar" style="text-align:center">
+            <div v-if="!continuar" class="titulo">
                 <h2>Escucha cada uno de los audios y relacionalo con las imagenes, cuando estes listo da
                     click en continuar.</h2>
             </div>
@@ -83,7 +83,7 @@ import { ref, onBeforeMount, computed, reactive } from 'vue'
 import Parlante from '../PosturasSonidos/Parlante.vue'
 import Cronometro from '../../Cronometro.vue'
 import CaramaWeb from '../../Camaraweb/CamaraWeb.vue'
-import Sonidos from '../../../helpers/sounds.js'
+import Sonidos from '@/assets/helpers/sounds.js'
 import { useConfigStore } from "../../../stores/config.js";
 import { useRouter, useRoute } from "vue-router";
 
@@ -112,10 +112,7 @@ const posicionAudioAleatorio = ref(0)
 
 
 onBeforeMount(() => {
-
     generarSonidosAleatorios()
-
-
 })
 
 
@@ -134,7 +131,7 @@ const styleParlante = reactive({
     backgroundColor: 'silver',
     width: '43px',
     height: '45px',
-    backgroundImage: 'url(/src/img/parlanteOn.gif)',
+    backgroundImage: 'url(src/assets/img/parlanteOn.gif)',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center center',
     backgroundSize: 'auto',
@@ -144,12 +141,12 @@ const styleParlante = reactive({
 });
 
 const imagenes = ref([
-    { imagen: "/src/img/Ejercicio1.png", id: 1, finalizado: false },
-    { imagen: "/src/img/Ejercicio2.png", id: 2, finalizado: false },
-    { imagen: "/src/img/Ejercicio3.png", id: 3, finalizado: false },
-    { imagen: "/src/img/Ejercicio4.png", id: 4, finalizado: false },
-    { imagen: "/src/img/Ejercicio5.png", id: 5, finalizado: false },
-    { imagen: "/src/img/Ejercicio6.png", id: 6, finalizado: false },
+    { imagen: "src/assets/img/Ejercicio1.png", id: 1, finalizado: false },
+    { imagen: "src/assets/img/Ejercicio2.png", id: 2, finalizado: false },
+    { imagen: "src/assets/img/Ejercicio3.png", id: 3, finalizado: false },
+    { imagen: "src/assets/img/Ejercicio4.png", id: 4, finalizado: false },
+    { imagen: "src/assets/img/Ejercicio5.png", id: 5, finalizado: false },
+    { imagen: "src/assets/img/Ejercicio6.png", id: 6, finalizado: false },
 ])
 
 const sonidos = ref([
@@ -257,7 +254,7 @@ const comprobarRespuesta = () => {
 
 const reiniciarInterrogante = () => {
     mostrarCamaraCalentamiento.value = false
-    document.querySelector(`#imagen-pregunta`).setAttribute('src', '/src/img/manos/pregunta.png')
+    document.querySelector(`#imagen-pregunta`).setAttribute('src', '@/assets/img/manos/pregunta.png')
     document.querySelector(`#imagen-pregunta`).style.border = 'none';
     cronometroMostrarPausaActiva.value = false
 }
@@ -273,10 +270,14 @@ const volverEscena = () => {
 .
 
 <style lang="css" scoped>
+.titulo {
+    width: 50vw;
+}
+
 .contenedor-actividad {
     width: 100vw;
     height: 100vh;
-    background-image: url('/src/img/fondoEscenario.png');
+    background-image: url('@/assets/img/fondoPantallaIntermedias.png');
     background-size: 100% 100%
 }
 
@@ -291,7 +292,7 @@ const volverEscena = () => {
     left: 50%;
     transform: translate(-50%, -225%);
     z-index: 999999;
-    background-image: url(/src/img/interrogante.png);
+    background-image: url(@/assets/img/interrogante.png);
     background-size: contain;
     background-repeat: no-repeat;
     width: 230px;
@@ -301,23 +302,23 @@ const volverEscena = () => {
 
 
 .contenedor-parlantes {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     place-items: center;
-    width: 90%;
+    width: 69%;
     height: 80vh;
-    grid-gap: 9px;
+    grid-gap: 24px;
     padding: 12px 0px;
-    background-image: url(/src/img/fonto.png);
+    background-image: url(@/assets/img/fonto.png);
     background-repeat: no-repeat;
-    background-size: 80% 100%;
+    background-size: 100% 112%;
     background-position: center center;
 }
 
 .contenedor-parlantes .parlantes {
     display: flex;
     flex-direction: column;
-    grid-gap:6vh;
+    grid-gap: 2vh;
     place-content: center;
     text-align: center;
     flex-wrap: wrap;
@@ -333,7 +334,8 @@ const volverEscena = () => {
 .contenedor-audio {
     border: 2px solid white;
     padding: 8px;
-    width: 240px;
+    width: 150px;
+    height: 140px;
 }
 
 

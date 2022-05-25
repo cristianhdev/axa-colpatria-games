@@ -1,11 +1,11 @@
 <template>
     <div class="container-escena">
-        <object ref="escena" type="image/svg+xml" data="./src/svg/hospitl_escena.svg" class="hospital-escena"
+        <object ref="escena" type="image/svg+xml" data="src/assets/svg/hospitl_escena.svg" class="hospital-escena"
             preserveAspectRatio="none">
 
         </object>
         <div id="personaje" :style="stylePersonaje">
-            <img src="../img/personaje.png" alt="">
+            <img src="@/assets/img/personaje.png" alt="">
         </div>
     </div>
 </template>
@@ -23,7 +23,7 @@ import anime from 'animejs/lib/anime.es.js';
 const router = useRouter()
 const escena = ref(null)
 const escenaCojines = ref([])
-const rutasActividad = ref(['/JuegoOjos', '/JuegoPosturas', '/JuegoRuleta', '/JuegoRuleta', '/JuegoPosturas', '/JuegoOjos', '/JuegoPosturas', '/JuegoRuleta', '/JuegoPosturas', '/JuegoRuleta'])
+const rutasActividad = ref(['/JuegoPosturas', '/JuegoOjos', '/JuegoRuleta', '/JuegoManos', '/JuegoPosturas', '/JuegoOjos', '/JuegoPosturas', '/JuegoRuleta', '/JuegoPosturas', '/JuegoRuleta'])
 const config = useConfigStore();
 const animacionAvancePersonaje = ref(null)
 
@@ -108,6 +108,7 @@ const animarPuntos = () => {
         config.setPosicionActualUsuario(posicionActual)
         animacionAvancePersonaje.value.pause()
         setTimeout(() => {
+            config.setActividadActual(rutasActividad.value[posicionActual-1])
             router.push(rutasActividad.value[posicionActual - 1])
         }, 1500);
 
@@ -117,13 +118,15 @@ const animarPuntos = () => {
 
         setTimeout(() => {
             if (posicionActual == 0) {
+                config.setActividadActual(rutasActividad.value[posicionActual])
                 router.push(rutasActividad.value[posicionActual])
             } else {
+                config.setActividadActual(rutasActividad.value[posicionActual - 1])
                 router.push(rutasActividad.value[posicionActual - 1])
             }
         }, 1500)
 
-https://codepen.io/mediapipe/pen/RwGWYJw
+        https://codepen.io/mediapipe/pen/RwGWYJw
 
         posicionActual++
         config.setPosicionActualUsuario(posicionActual)

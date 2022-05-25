@@ -1,1 +1,0 @@
-import{_ as s,d as e,e as t,f as n,i as r}from"./index.1ad58cbd.js";const _={},a=n("div",null," hola ",-1),d=[a];function l(c,o){return e(),t("div",null,d)}var i=s(_,[["render",l]]);const p={setup(c){return(o,u)=>(e(),t("div",null,[r(i)]))}};export{p as default};

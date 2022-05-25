@@ -8,10 +8,10 @@ import { RouterLink, RouterView } from "vue-router";
 </template>
 
 <style>
-@import "@/assets/base.css";
-@import "@/assets/styles.css";
-@import "@/assets/style-axa.css";
-@import "@/assets/help.css";
-@import "@/assets/animate.min.css";
+@import "@/assets/css/base.css";
+@import "@/assets/css/styles.css";
+@import "@/assets/css/style-axa.css";
+@import "@/assets/css/help.css";
+@import "@/assets/css/animate.min.css";
 
 </style>

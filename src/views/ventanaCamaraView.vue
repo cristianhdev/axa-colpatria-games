@@ -3,14 +3,18 @@
 
         <VentanaBienvenida v-if="ocultarVentana" :sliderActive="false">
             <template #titulo>
-                <img v-if="!camaraReady" src="/src/img/camarawebImagen.png" alt="" width="240">
+                <img v-if="!camaraReady" src="@/assets/img/camarawebImagen.png" alt="" width="240">
             </template>
             <template #texto>
 
                 <div class="contenedor-camara" v-if="camaraReady">
-                    <div id="camara">
-                        <CaramaWeb :width="200" :height="200"  />
+
+                    <div>
+                        <CaramaWeb :width="200" :height="200" @camaraLoad="finLoadCamara" />
                     </div>
+                    <!--  <div v-else>
+                        <h2>Cargando camara...</h2>
+                    </div> -->
 
                 </div>
                 <div v-else>
@@ -25,7 +29,8 @@
                     <div class="btn-primary-vr1" @click="config.inhabilitarCamara()">NO</div>
                 </div>
                 <div v-else>
-                    <div class="btn-primary-vr1 flex-center-elements-row gap-3" @click="habilitahabilitarCamaraWebrcamaraweb">
+                    <div :class="{ 'disable-button': !camaraWebCargada }"
+                        class="btn-primary-vr1 flex-center-elements-row gap-3" @click="habilitarCamara">
                         CONTINUAR
                     </div>
                 </div>
@@ -40,10 +45,18 @@ import VentanaBienvenida from "@/components/VentanaBienvenida.vue";
 import { ref, onMounted, onBeforeMount, computed } from "vue";
 import { useConfigStore } from "../stores/config.js";
 import party from "party-js";
-import CaramaWeb from '../components/Camaraweb/CamaraWeb.vue'
-import animateCSS from "../helpers/animations.js";
+import CaramaWeb from '@/components/Camaraweb/CamaraWeb.vue'
+import animateCSS from "@/assets/helpers/animations.js";
 import { useRouter, useRoute } from "vue-router";
 
+
+const camaraWebCargada = ref(false)
+
+const ocultarVentana = ref(true);
+
+const config = useConfigStore();
+
+const camaraReady = computed(() => config.isCamara)
 
 const router = useRouter()
 
@@ -57,10 +70,9 @@ onBeforeMount(() => {
 })
 
 onMounted(() => {
-    setTimeout((e) => {
+    /* setTimeout((e) => {
         party.confetti(this);
-    }
-        , 1000)
+    }, 1000) */
 
 
     // From anywhere
@@ -93,29 +105,29 @@ onMounted(() => {
 });
 
 
+const finLoadCamara = () => {
 
-const habilitahabilitarCamaraWebrcamaraweb = () => {
+    camaraWebCargada.value = true
+}
+
+
+const habilitarCamara = () => {
 
     animateCSS(".ventana-usuario", "fadeOut").then((message) => {
+
         router.push('/Escenario')
         document.querySelector(".ventana-usuario").style.display = "none";
     });
 }
 
 
-const ocultarVentana = ref(true);
-
-const config = useConfigStore();
-
-const camaraReady = computed(() => config.isCamara)
 
 /* const now = computed(() => Date.now()) */
 </script>
 
 <style lang="css" scoped>
-.container {
-    /* display: none */
+.disable-button {
+    pointer-events: none;
+    filter: grayscale(1)
 }
-
-.contenedor-camara {}
 </style>

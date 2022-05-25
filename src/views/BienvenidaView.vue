@@ -3,17 +3,18 @@
   <div class="container">
     <VentanaInstrucciones v-if="ocultarVentana" @ocultarVentana="cerrarBienvenida" urlImagenFondo="BienvidaJuegos">
       <template #texto>
+        <h3>
+          Las pausas activas son una forma de promover la actividad física, como habito
+          de vida saludable, por lo cual se deben desarrollar programas educativos sobre
+          la importancia y los beneficios de la actividad física regular.
+        </h3>
         <h3>Son sesiones de actividad física desarrolladas en el entorno laboral, con una
           duración continua mínima de 10 minutos que incluye adaptación física
           cardiovascular, fortalecimiento muscular y mejoramiento de la flexibilidad
           buscando reducir el riesgo cardiovascular y las lesiones musculares por sobreuso asociados al desempeño
           laboral.
         </h3>
-        <h3>
-          Las Pausas Activas son una forma de promover la actividad física, como habito
-          de vida saludable, por lo cual se deben desarrollar programas educativos sobre
-          la importancia y los beneficios de la actividad física regular.
-        </h3>
+        
 
 
 
@@ -63,11 +64,11 @@
 import VentanaBienvenida from "@/components/VentanaBienvenida.vue";
 import VentanaInstrucciones from "@/components/VentanaInstrucciones.vue";
 import { ref, reactive, onMounted, computed } from "vue";
-import Sliders from "../textos/Bienvenida.json";
+import Sliders from "@/assets/textos/Bienvenida.json";
 import { useLocalStorage, useMouse, usePreferredDark } from '@vueuse/core'
 import { useConfigStore } from "../stores/config.js";
 import { useRouter, useRoute } from "vue-router";
-import animateCSS from "../helpers/animations.js";
+import animateCSS from "@/assets/helpers/animations.js";
 const router = useRouter()
 
 const ocultarVentana = ref(false);
@@ -133,7 +134,7 @@ const slidersBienvenida = ref([]);
 .animacion-bienvenida {
   width: 99vw;
   height: 100vh;
-  background-image: url('../assets/animaciones/axa.gif');
+  background-image: url('@/assets/animaciones/axa.gif');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

@@ -1,12 +1,19 @@
 <template>
-  <VentanaInstrucciones v-if="ocultarInstrucciones" @ocultarVentana="ocultarInstrucciones = !ocultarInstrucciones">
+  <VentanaIntroNivel v-if="ocultarIntroNivel" @finAnimacionIntroNivel="finAnimacionIntro"
+    urlImagenFondo="marco_nivel_1">
+    <template #mensaje-nivel>
+      1
+    </template>
+  </VentanaIntroNivel>
+  <VentanaInstrucciones v-if="ocultarInstrucciones" @ocultarVentana="ocultarVentanaInstrucciones">
     <template #texto>
-      <h2>Para este ejercicio, mantenga la cabeza recta. La idea es que mueva los ojos hacia todas las direcciones (arriba,
-      abajo, derecha e izquierda).
+      <h2>Para este ejercicio, mantenga la cabeza recta. La idea es que mueva los ojos hacia todas las direcciones
+        (arriba,
+        abajo, derecha e izquierda).
 
-      Para lograr esto, debe seguir con la vista los elementos que aparecerán en la pantalla, y de acuerdo al tema que
-      le salga en el juego (ej: animales), debe dar clic sobre estos, siempre siguiendo de forma concentrada los
-      elementos que vayan apareciendo.</h2>
+        Para lograr esto, debe seguir con la vista los elementos que aparecerán en la pantalla, y de acuerdo al tema que
+        le salga en el juego (ej: animales), debe dar clic sobre estos, siempre siguiendo de forma concentrada los
+        elementos que vayan apareciendo.</h2>
 
     </template>
   </VentanaInstrucciones>
@@ -33,7 +40,29 @@
         CONTINUAR
       </template>
     </VentanaBienvenida> -->
-  <div v-if="mostrarMensajeFinal"
+  <VentanaPuntosFinal v-if="mostrarMensajeFinal" @continuarTriviaEvent="continuarTrivia"
+    @volverEscenarioEvent="volverEscenario">
+    <template #puntos-buenos>
+      {{ puntos_correctos }}
+    </template>
+    <template #mensaje-respuestas>
+      <span>RESPUESTAS SEGUIDAS</span>
+    </template>
+    <template #mensaje-opcion>
+      <div v-if="puntos_correctos < 0">
+        <span>¡GENIAL!</span>
+      </div>
+      <div v-else>
+        <span>¡LO SENTIMOS!</span>
+      </div>
+    </template>
+    <template #botones>
+      <!-- <button class="btn-primary-vr1" @mousemove="confity" @click="continuarTrivia">CONTINUAR TRIVIA!</button> -->
+      <button class="btn-primary-vr1" @mousemove="confity" @click="volverEscenario">VOLVER A EJERCICIOS</button>
+     <!--  <button class="btn-primary-vr1" @mousemove="confity" id="salir">SALIR</button> -->
+    </template>
+  </VentanaPuntosFinal>
+  <!--  <div v-if="mostrarMensajeFinal"
     class="mensaje-puntos center-element flex-center-elements-column gap-2 border-axa padding-2 animate__animated animate__fadeIn">
     <div>
       <h1>
@@ -41,10 +70,10 @@
       </h1>
     </div>
     <div class="auto flex-center-elements-row gap-2" style="text-align:center">
-      <!-- <button class="btn-primary" @click="continuarTrivia">CONTINUAR</button> -->
+      <button class="btn-primary" @click="continuarTrivia">CONTINUAR</button>
       <button class="btn-primary" @click="volverEscenario">VOLVER AL ESCENARIO</button>
     </div>
-  </div>
+  </div> -->
   <div class="container-ojos">
     <div v-if="!isTemasRandomVisible" class="puntos flex-center-elements-row gap-2">
       <div>
@@ -63,7 +92,7 @@
       ${ajusteAleatorio}
       gap-3`">
         <!--  @finTemas="animarElementsoAleatorios" -->
-        <div>
+        <div v-if="cargarActividad">
           <RandomTemas :cantidadTemas="numerodeTemas" :opciones="temas"
             @finSeleccionTemasAleatorios="temasSeleccionados" :class="`${ajusteAleatorio} gap-3`" />
           <div v-show="btnContinuar" class="auto flex-center-elements-row gap-2" style="text-align:center">
@@ -114,6 +143,8 @@ import Cronometro from '../../../components/Cronometro.vue'
 import { useRouter, useRoute } from "vue-router";
 import VentanaInstrucciones from "@/components/VentanaInstrucciones.vue"
 /* import VentanaBienvenida from "@/components/VentanaBienvenida.vue"; */
+import VentanaPuntosFinal from "@/components/VentanaPuntosFinal.vue"
+import VentanaIntroNivel from "@/components/VentanaIntroNivel.vue"
 const router = useRouter()
 
 
@@ -134,8 +165,22 @@ const btnContinuar = ref(false)
 const InstruccionesVisible = ref(false)
 const tiempoElemenos = ref(2500)
 const ocultarInstrucciones = ref(true)
+const ocultarIntroNivel = ref(false)
+const cargarActividad = ref(false)
 const mostrarMensajeFinal = ref(false)
 const temas = ref(["animal", "colores", "oficina", "paises"]);
+
+
+const ocultarVentanaInstrucciones = () => {
+  ocultarInstrucciones.value = !ocultarInstrucciones.value
+  ocultarIntroNivel.value = true
+}
+
+const finAnimacionIntro = () => {
+  ocultarIntroNivel.value = false
+  cargarActividad.value= true
+  inicioActividad()
+}
 
 
 const imagenes = reactive({
@@ -150,23 +195,23 @@ const imagenes = reactive({
     { animacion: "backInUp", classFlecha: ".flecha-top" },
   ],
   imagen: [
-    { imagen: "./src/img/banano.png", tipo: "fruta" },
-    { imagen: "./src/img/fresa.png", tipo: "fruta" },
-    { imagen: "./src/img/uvas.png", tipo: "fruta" },
-    { imagen: "./src/img/banano.png", tipo: "fruta" },
-    { imagen: "./src/img/naranja.png", tipo: "fruta" },
-    { imagen: "./src/img/fresa.png", tipo: "fruta" },
-    { imagen: "./src/img/ani1.png", tipo: "animal" },
-    { imagen: "./src/img/ani2.png", tipo: "animal" },
-    { imagen: "./src/img/ani3.png", tipo: "animal" },
-    { imagen: "./src/img/ani1.png", tipo: "animal" },
-    { imagen: "./src/img/ani2.png", tipo: "animal" },
-    { imagen: "./src/img/libros.png", tipo: "oficina" },
-    { imagen: "./src/img/calculadora.png", tipo: "oficina" },
-    { imagen: "./src/img/pc.png", tipo: "oficina" },
-    { imagen: "./src/img/libros.png", tipo: "oficina" },
-    { imagen: "./src/img/calculadora.png", tipo: "oficina" },
-    { imagen: "./src/img/pc.png", tipo: "oficina" }
+    { imagen: "@/assets/img/banano.png", tipo: "fruta" },
+    { imagen: "@/assets/img/fresa.png", tipo: "fruta" },
+    { imagen: "@/assets/img/uvas.png", tipo: "fruta" },
+    { imagen: "@/assets/img/banano.png", tipo: "fruta" },
+    { imagen: "@/assets/img/naranja.png", tipo: "fruta" },
+    { imagen: "@/assets/img/fresa.png", tipo: "fruta" },
+    { imagen: "@/assets/img/ani1.png", tipo: "animal" },
+    { imagen: "@/assets/img/ani2.png", tipo: "animal" },
+    { imagen: "@/assets/img/ani3.png", tipo: "animal" },
+    { imagen: "@/assets/img/ani1.png", tipo: "animal" },
+    { imagen: "@/assets/img/ani2.png", tipo: "animal" },
+    { imagen: "@/assets/img/libros.png", tipo: "oficina" },
+    { imagen: "@/assets/img/calculadora.png", tipo: "oficina" },
+    { imagen: "@/assets/img/pc.png", tipo: "oficina" },
+    { imagen: "@/assets/img/libros.png", tipo: "oficina" },
+    { imagen: "@/assets/img/calculadora.png", tipo: "oficina" },
+    { imagen: "@/assets/img/pc.png", tipo: "oficina" }
   ],
 });
 
@@ -215,19 +260,22 @@ const styleObjectPositionIzquierda = reactive({
 });
 
 
-
-
 onMounted(() => {
+
+
+})
+
+onBeforeMount(() => {
+
+});
+
+const inicioActividad = () => {
   objetos1.value = document.querySelectorAll('.objetos-actividad-1')
   objetos2.value = document.querySelectorAll('.objetos-actividad-2')
   objetos3.value = document.querySelectorAll('.objetos-actividad-3')
   objetos4.value = document.querySelectorAll('.objetos-actividad-4')
 
-  /*  setTimeout(() => {
-     InstruccionesVisible.value = true
-   }, 3400) */
-
-})
+}
 
 
 const continuarActividad = () => {
@@ -268,9 +316,7 @@ const animarElementsoAleatorios = () => {
 }
 
 
-onBeforeMount(() => {
 
-});
 
 
 const validarClick = (elemento, id) => {

@@ -18,6 +18,13 @@
             <template #mensaje-opcion>
                 <span>¡GENIAL!</span>
             </template>
+            <template #botones>
+                <button class="btn-primary-vr1" @mousemove="confity" @click="continuarTrivia">CONTINUAR TRIVIA!</button>
+                <button class="btn-primary-vr1" @mousemove="confity" @click="volveraAlEscenario">VOLVER A
+                    EJERCICIOS</button>
+                <button class="btn-primary-vr1" @mousemove="confity" id="salir">SALIR</button>
+            </template>
+
         </VentanaPuntosFinal>
 
         <div>
@@ -29,12 +36,12 @@
             <div class="center-element">
 
                 <div class="ruleta-completa">
-                    <object type="image/svg+xml" data="./src/svg/ruleta.svg" class="ruleta">
+                    <object type="image/svg+xml" data="src/assets/svg/ruleta.svg" class="ruleta">
 
                     </object>
                     <div>
 
-                        <object type="image/svg+xml" data="./src/svg/indicador.svg" class="indicador">
+                        <object type="image/svg+xml" data="src/assets/svg/indicador.svg" class="indicador">
 
                         </object>
                     </div>
@@ -64,10 +71,14 @@
 
 
                 <div class="opciones-pregunta  gap-1">
+
                     <div class="opcion flex-center-elements-row animate__animated  animate__delay-1s animate__zoomIn"
                         v-for="(opcion, index) in randomPregunta.opciones" :key="`opciones-${index}`"
                         :id="`opciones-${index}`"
                         @click="opcionCorrecta(randomPregunta.correcta, String.fromCharCode(`6${index + 5}`).toLocaleLowerCase(), `opciones-${index}`)">
+                        <div :id="`opciones-${index}-awswer`" :style="StyleAwser">
+
+                        </div>
                         <div class="opcion-border-rigth  opcion-normal">
                             {{ String.fromCharCode(`6${index + 5}`) }}
                         </div>
@@ -98,9 +109,9 @@
 <script setup>
 import { ref, onMounted, onBeforeMount, computed, reactive } from "vue";
 import gsap from "gsap";
-import animateCSS from "../../../helpers/animations.js";
-import PreguntasTrivia from "../../../textos/Preguntas.json";
-import Sonidos from '../../../helpers/sounds.js'
+import animateCSS from "@/assets/helpers/animations.js";
+import PreguntasTrivia from "@/assets/textos/Preguntas.json";
+import Sonidos from '@/assets/helpers/sounds.js'
 import { useRouter, useRoute } from "vue-router";
 import { useConfigStore } from "../../../stores/config.js";
 import VentanaInstrucciones from "@/components/VentanaInstrucciones.vue"
@@ -134,11 +145,20 @@ const preguntasRealizadas = ref([])
 
 
 onMounted(() => {
-
     loading.value = false
-
-
 })
+
+const StyleAwser = reactive({
+    visibility: "hidden",
+    background: `transparent url(src/assets/img/check_awert.png) no-repeat center center`,
+    backgroundSize: "contain",
+    position: "absolute",
+    top: "4px",
+    right: "0px",
+    width: "3vw",
+    height: "3vh"
+})
+
 
 onBeforeMount(() => {
 
@@ -176,14 +196,11 @@ onBeforeMount(() => {
          }) */
 
         Object.values(preguntaCargadas).forEach((id) => {
-            console.log(id)
+
             const isLargeNumber = (element) => element.id == id;
-            console.log(Object.values(temporal).findIndex(isLargeNumber))
+
             temporal.splice(Object.values(temporal).findIndex(isLargeNumber), 1)
         })
-
-        console.log(Object.values(temporal))
-
 
         /* temporal.forEach((idReload) => {
             let pregunta = temporal.filter((element, index) => {
@@ -258,7 +275,8 @@ const preguntas = ref([
 const continuarTrivia = () => {
     rotate.value.restart()
     posicionPreguntaActual.value = posicionPreguntaActual.value + 1
-    puntosBuenos.value=0
+    mostrarMensaje.value = !mostrarMensaje.value
+    puntosBuenos.value = 0
     girarRuleta()
 
 }
@@ -329,7 +347,10 @@ const detenerRuleta = () => {
 const opcionCorrecta = (correcta, actual, id) => {
 
     if (correcta == actual) {
+
         document.querySelector(`#${id}`).classList.add('opcion-correcto')
+        document.querySelector(`#${id}-awswer`).style.visibility = "visible"
+        StyleAwser.background = `transparent url(src/assets/img/check_awert.png) no-repeat center center`
         if (audioAplausos.value == null) {
             audioAplausos.value = new Sonidos('aplausos', false)
             audioAplausos.value.playAudio(() => {
@@ -354,10 +375,12 @@ const opcionCorrecta = (correcta, actual, id) => {
                 });
             })
         } else {
+
             audioAplausos.value.stopAudio()
         }
 
     } else {
+
         if (audioIncorrecto.value == null) {
 
             audioIncorrecto.value = new Sonidos('incorrecto', false)
@@ -368,6 +391,8 @@ const opcionCorrecta = (correcta, actual, id) => {
         }
         puntosMalos.value = puntosMalos.value + 1
         document.querySelector(`#${id}`).classList.add('opcion-incorrecto')
+        document.querySelector(`#${id}-awswer`).style.visibility = "visible"
+        StyleAwser.background = `transparent url(src/assets/img/check_wrong.png) no-repeat center center`
     }
 }
 
@@ -376,7 +401,6 @@ const opcionInCorrecta = () => {
 }
 
 const volveraAlEscenario = () => {
-    alert('click')
     mostrarMensaje.value = false
     router.push("/Escenario")
 }
@@ -417,7 +441,7 @@ hr {
     height: 95vh;
     margin: 0px 9vh;
     background-color: #004E54;
-    background: transparent url(/src/img/fonto.png) no-repeat center center;
+    background: transparent url(src/assets/img/fonto.png) no-repeat center center;
     background-size: 105% 82%;
     z-index: 999999;
 }
@@ -431,7 +455,7 @@ hr {
     height: 25vh;
     margin: 0px 9vh;
     background-color: #004E54;
-    background: transparent url(/src/img/BarrasAfter-Before.png) no-repeat center center;
+    background: transparent url(src/assets/img/BarrasAfter-Before.png) no-repeat center center;
     background-size: 105% 82%;
 }
 
@@ -444,7 +468,7 @@ hr {
     height: 25vh;
     margin: 0px 9vh;
     background-color: #004E54;
-    background: transparent url(/src/img/BarrasAfter-Before.png) no-repeat center center;
+    background: transparent url(src/assets/img/BarrasAfter-Before.png) no-repeat center center;
     background-size: 105% 82%;
 }
 
@@ -485,6 +509,9 @@ hr {
     grid-template-columns: 1fr 3fr;
     padding: 8px
 }
+
+
+.awswer {}
 
 .opcion-border-rigth {
     /*     background: var(--info-mensaje); */

@@ -1,8 +1,9 @@
 <template>
     <div>
-        <div id="video" class="video-wrap">
+        <div  id="video" class="video-wrap">
             <video ref="video" id="video" playsinline autoplay></video>
         </div>
+        
         <div>
             <!--   <canvas id="canvas" width="640" height="480"></canvas> -->
         </div>
@@ -16,6 +17,7 @@ import Handsfree from 'handsfree'
 const handsfree = ref(null)
 
 const video = ref(null)
+const videoReady = ref(false)
 
 
 const emit = defineEmits(['camaraLoad'])
@@ -118,6 +120,7 @@ const init = async () => {
     try {
         const stream = await navigator.mediaDevices.getUserMedia(constraints.value);
         handleSuccess(stream);
+
     } catch (e) {
         //errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
         console.log(`navigator.getUserMedia error:${e.toString()}`)
@@ -127,11 +130,8 @@ const init = async () => {
 const handleSuccess = (stream) => {
     window.stream = stream;
     video.value.srcObject = stream;
-
+    videoReady.value = true
     emit('camaraLoad')
-
-
-
 }
 
 onMounted(() => {

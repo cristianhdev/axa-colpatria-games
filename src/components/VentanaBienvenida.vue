@@ -12,18 +12,18 @@
       <div class="contenedor-central flex-center-elements-column gap-3">
         <h1 class="title">
           <slot name="titulo">
-           <!--  Eum nemo voluptas nemo ratione. Et quam est officia dolorem quos.
+            <!--  Eum nemo voluptas nemo ratione. Et quam est officia dolorem quos.
             Numquam aut eum deleniti aut quam dolorem. Ratione distinctio
             dolorem id quia cupiditate eos. -->
           </slot>
         </h1>
-       
-          <slot name="texto">
-            Eum nemo voluptas nemo ratione. Et quam est officia dolorem quos.
-            Numquam aut eum deleniti aut quam dolorem. Ratione distinctio
-            dolorem id quia cupiditate eos.
-          </slot>
-        
+
+        <slot name="texto">
+          Eum nemo voluptas nemo ratione. Et quam est officia dolorem quos.
+          Numquam aut eum deleniti aut quam dolorem. Ratione distinctio
+          dolorem id quia cupiditate eos.
+        </slot>
+
         <div @click="hiddenWindow">
           <div class="flex-center-elements-row gap-3">
             <slot name="button-ventana"> COMENZAR </slot>
@@ -49,7 +49,7 @@
 import { ref } from "vue";
 import SliderVentana from "./sliderVentana.vue";
 import ButtonSliders from "../components/buttonsSliders/botonsSliders.vue";
-import animateCSS from "../helpers/animations.js";
+import animateCSS from "@/assets/helpers/animations.js";
 import { useRouter, useRoute } from "vue-router";
 
 const router = useRouter()
@@ -59,8 +59,8 @@ const sliders = defineProps({
   slider: Array,
   sliderActive: Boolean,
   ruta: {
-    type:String,
-    default:''
+    type: String,
+    default: ''
   }
 });
 
@@ -69,12 +69,15 @@ const Botonslider = (id) => {
 };
 
 const hiddenWindow = () => {
-  animateCSS(".ventana-usuario", "fadeOut").then((message) => {
-    if(sliders.ruta!=''){
-       router.push(`/${sliders.ruta}`);
-    }   
-    document.querySelector(".ventana-usuario").style.display = "none";
-  });
+  if (sliders.ruta != '') {
+    animateCSS(".ventana-usuario", "fadeOut").then((message) => {
+      console.log("sliders.ruta", sliders.ruta)
+      router.push(`/${sliders.ruta}`);
+
+
+      document.querySelector(".ventana-usuario").style.display = "none";
+    });
+  }
 };
 </script>
 
@@ -82,7 +85,7 @@ const hiddenWindow = () => {
 .contenedor-central {
   width: 801px;
   height: 61vh;
-  background: transparent url(/src/img/recuadrointro.png) no-repeat center center;
+  background: transparent url(@/assets/img/recuadrointro.png) no-repeat center center;
   background-size: 100% 100%;
 }
 
@@ -93,7 +96,7 @@ const hiddenWindow = () => {
   border-radius: 23px;
   padding: 23px;
   background-color: rgba(255, 255, 255, 1);
-  background: transparent url(/src/img/fondoPantallaIntermedias.png) no-repeat center center;
+  background: transparent url(@/assets/img/fondoPantallaIntermedias.png) no-repeat center center;
   background-size: cover;
 
 }
