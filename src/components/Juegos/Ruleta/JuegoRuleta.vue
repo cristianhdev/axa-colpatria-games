@@ -449,7 +449,7 @@ hr {
     height: 95vh;
     margin: 0px 9vh;
     background-color: #004E54;
-    background: transparent url(src/assets/img/fonto.png) no-repeat center center;
+    background: transparent url(@/assets/img/fonto.png) no-repeat center center;
     background-size: 105% 82%;
     z-index: 999999;
 }
@@ -463,7 +463,7 @@ hr {
     height: 25vh;
     margin: 0px 9vh;
     background-color: #004E54;
-    background: transparent url(src/assets/img/BarrasAfter-Before.png) no-repeat center center;
+    background: transparent url(@/assets/img/BarrasAfter-Before.png) no-repeat center center;
     background-size: 105% 82%;
 }
 
@@ -476,7 +476,7 @@ hr {
     height: 25vh;
     margin: 0px 9vh;
     background-color: #004E54;
-    background: transparent url(src/assets/img/BarrasAfter-Before.png) no-repeat center center;
+    background: transparent url(@/assets/img/BarrasAfter-Before.png) no-repeat center center;
     background-size: 105% 82%;
 }
 
