@@ -36,19 +36,19 @@
             <div class="center-element">
 
                 <div class="ruleta-completa">
-                    <object type="image/svg+xml" data="src/assets/svg/ruleta.svg" class="ruleta">
+                    <object type="image/svg+xml" :data="Ruleta" class="ruleta responsive">
 
                     </object>
                     <div>
 
-                        <object type="image/svg+xml" data="src/assets/svg/indicador.svg" class="indicador">
+                        <object type="image/svg+xml" :data="IndicadorRuleta" class="indicador">
 
                         </object>
                     </div>
 
                 </div>
                 <div v-if="btnContinuar" class="auto flex-center-elements-row gap-2" style="text-align:center">
-                    <button class="btn-primary" @click="continuarActividad">GIRAR</button>
+                    <button class="btn-primary-ghost " @click="continuarActividad">GIRAR</button>
                 </div>
 
             </div>
@@ -116,6 +116,8 @@ import { useRouter, useRoute } from "vue-router";
 import { useConfigStore } from "../../../stores/config.js";
 import VentanaInstrucciones from "@/components/VentanaInstrucciones.vue"
 import VentanaPuntosFinal from "@/components/VentanaPuntosFinal.vue"
+import Ruleta from '@/assets/svg/ruleta.svg'
+import IndicadorRuleta from '@/assets/svg/indicador.svg'
 
 
 const router = useRouter()
@@ -415,6 +417,12 @@ const volveraAlEscenario = () => {
     left: 0px
 }
 
+
+.responsive {
+    width: 100%;
+    height: auto
+}
+
 .container-ruleta {
     width: 100vw;
     height: 100vh;
@@ -432,7 +440,7 @@ hr {
     color: var(--blanco);
     width: 83%;
     text-align: left;
-    font-size: 1.4em;
+    font-size: 1rem;
     line-height: 1.5em;
 }
 
@@ -474,8 +482,8 @@ hr {
 
 
 .ruleta {
-    width: 70vw;
-    height: 50vw;
+    width: 53rem;
+    height: 35rem;
 }
 
 .indicador {
