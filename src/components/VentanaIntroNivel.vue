@@ -1,7 +1,8 @@
 <template>
     <div class="ventana-mensaje-puntos flex-center-elements-column gap-2 padding-2">
 
-        <div :style="styleContenedorMensaje" class=" flex-center-elements-column gap-1 animate__animated animate__heartBeat animate__slow animate__delay-2s"
+        <div :style="styleContenedorMensaje"
+            class=" flex-center-elements-column gap-1 animate__animated animate__heartBeat animate__slow animate__delay-2s"
             id="simulate-click">
 
             <div :style="styleContenedor">
@@ -25,9 +26,23 @@
 <script setup >
 
 import animateCSS from "@/assets/helpers/animations.js";
-import { onBeforeMount, onMounted, reactive } from 'vue';
+import { ref,onBeforeMount, onMounted, reactive } from 'vue';
 import { useConfigStore } from "../stores/config.js";
+import imagenFondoNivel1 from '@/assets/img/marco_nivel_1.png'
+import imagenFondoNivel2 from '@/assets/img/marco_nivel_2.png'
 
+
+const imagenFondo= ref('')
+
+onBeforeMount(() => {
+    if (opciones.urlImagenFondo === 'marco_nivel_1') {
+        imagenFondo.value = imagenFondoNivel1
+    } else {
+        imagenFondo.value = imagenFondoNivel2
+    }
+
+    styleContenedorMensaje.backgroundImage = `url(${imagenFondo.value})`
+});
 
 const opciones = defineProps({
     urlImagenFondo: {
@@ -52,7 +67,10 @@ const styleContenedorMensaje = reactive({
     flexDirection: "column",
     width: "56vw",
     height: "49vh",
-    background: `transparent url(src/assets/img/${opciones.urlImagenFondo}.png) no-repeat center center`,
+    backgroundImage: `url(${imagenFondo.value}.png)`,
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    /* background: `transparent url(src/assets/img/${opciones.urlImagenFondo}.png) no-repeat center center`, */
     backgroundSize: "100% 100%"
 })
 
@@ -114,8 +132,4 @@ onMounted(() => {
     background-size: 100% 100%;
     position: absolute;
 }
-
-
-
-
 </style>

@@ -138,6 +138,12 @@ import CaramaWeb from '@/components/Camaraweb/CamaraWeb.vue'
 import { ref, computed, onBeforeMount, reactive } from 'vue'
 import { useRouter, useRoute } from "vue-router";
 import { useConfigStore } from "../../../stores/config.js";
+import Imagen1Figuras from '@/assets/img/Ejercicio1.png'
+import Imagen2Figuras from '@/assets/img/Ejercicio2.png'
+import Imagen3Figuras from '@/assets/img/Ejercicio3.png'
+import Imagen4Figuras from '@/assets/img/Ejercicio4.png'
+import Imagen5Figuras from '@/assets/img/Ejercicio5.png'
+import Imagen6Figuras from '@/assets/img/Ejercicio6.png'
 
 const router = useRouter()
 const numeracionCuadricula = ref(0)
@@ -188,18 +194,18 @@ const configActividad = reactive({
 { imagen: "@/assets/img/Ejercicio6.png", valorCheck: 6 }*/
 
 const imagenesReferenciaRandom = ref([
-    { imagen: "src/assets/img/Ejercicio1.png", valorCheck: 1 },
-    { imagen: "src/assets/img/Ejercicio2.png", valorCheck: 2 },
-    { imagen: "src/assets/img/Ejercicio3.png", valorCheck: 3 },
-    { imagen: "src/assets/img/Ejercicio4.png", valorCheck: 4 }
+    { imagen: Imagen1Figuras, valorCheck: 1 },
+    { imagen: Imagen2Figuras, valorCheck: 2 },
+    { imagen: Imagen3Figuras, valorCheck: 3 },
+    { imagen: Imagen4Figuras, valorCheck: 4 }
 
 ])
 
 const imagenesReferencia = ref([
-    { imagen: "src/assets/img/Ejercicio1.png", valorCheck: 1 },
-    { imagen: "src/assets/img/Ejercicio2.png", valorCheck: 2 },
-    { imagen: "src/assets/img/Ejercicio3.png", valorCheck: 3 },
-    { imagen: "src/assets/img/Ejercicio4.png", valorCheck: 4 }
+    { imagen: Imagen1Figuras, valorCheck: 1 },
+    { imagen: Imagen2Figuras, valorCheck: 2 },
+    { imagen: Imagen3Figuras, valorCheck: 3 },
+    { imagen: Imagen4Figuras, valorCheck: 4 }
 
 ])
 
