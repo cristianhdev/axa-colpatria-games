@@ -3,7 +3,7 @@
         <!-- <object ref="escena" type="image/svg+xml" :data="ImagHospital" class="hospital-escena">
 
         </object> -->
-        <img :src="ImagHospital" alt="">
+        <!-- <img :src="ImagHospital" alt=""> -->
         <div id="personaje" :style="stylePersonaje">
             <img src="@/assets/img/personaje.png" alt="">
         </div>
@@ -173,6 +173,10 @@ const stylePersonaje = reactive({
 .container-escena {
     width: 100vw;
     height: 100vh;
+    background-image: url('@/assets/svg/hospitl_escena.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 
 
@@ -190,7 +194,7 @@ const stylePersonaje = reactive({
         border: 4px solid BLUE
     }
 
-    
+
 }
 
 
@@ -199,7 +203,7 @@ const stylePersonaje = reactive({
         border: 1px solid red
     }
 
-   /*  .hospital-escena {
+    /*  .hospital-escena {
         width: 100vw;
         object-fit: contain;
         height: -webkit-fill-available;
@@ -207,8 +211,8 @@ const stylePersonaje = reactive({
 }
 
 svg {
-  width: 100%;
-  height: 100%
+    width: 100%;
+    height: 100%
 }
 
 #personaje img {

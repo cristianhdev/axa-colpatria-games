@@ -461,14 +461,7 @@ h3 {
     flex-direction: column;
 }
 
-.container {
-    width: 99vw;
-    height: 100vh;
-    background-image: url('@/assets/svg/hospitl_escena.svg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-}
+
 
 
 .spiner {
