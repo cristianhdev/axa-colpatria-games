@@ -1,9 +1,9 @@
 <template>
     <div class="container-escena">
-        <object ref="escena" type="image/svg+xml" :data="ImagHospital" class="hospital-escena"
-            preserveAspectRatio="none">
+        <!-- <object ref="escena" type="image/svg+xml" :data="ImagHospital" class="hospital-escena">
 
-        </object>
+        </object> -->
+        <img :src="ImagHospital" alt="">
         <div id="personaje" :style="stylePersonaje">
             <img src="@/assets/img/personaje.png" alt="">
         </div>
@@ -24,7 +24,7 @@ import ImagHospital from '@/assets/svg/hospitl_escena.svg';
 const router = useRouter()
 const escena = ref(null)
 const escenaCojines = ref([])
-const rutasActividad = ref(['/JuegoPosturas', '/JuegoOjos', '/JuegoRuleta', '/JuegoManos', '/JuegoPosturas', '/JuegoOjos', '/JuegoPosturas', '/JuegoRuleta', '/JuegoPosturas', '/JuegoRuleta'])
+const rutasActividad = ref(['/JuegoPosturas', '/JuegoManos', '/JuegoRuleta', '/JuegoOjos', '/JuegoRuleta', '/JuegoOjos', '/JuegoPosturas', '/JuegoRuleta', '/JuegoPosturas', '/JuegoRuleta'])
 const config = useConfigStore();
 const animacionAvancePersonaje = ref(null)
 
@@ -64,7 +64,7 @@ onBeforeMount(() => {
 })
 
 const cargaEscenario = () => {
-    let elementosSvgEscenario = document.querySelector('.hospital-escena')
+    /* let elementosSvgEscenario = document.querySelector('.hospital-escena')
     elementosSvgEscenario.addEventListener('load', () => {
         let documentoMapa = elementosSvgEscenario.getSVGDocument()
         let elementosDomSvgMapa = documentoMapa.querySelectorAll('svg g')
@@ -83,7 +83,7 @@ const cargaEscenario = () => {
         })
         reiniciarPosiciones()
         animarEscenaPersonaje()
-    })
+    }) */
 }
 
 
@@ -108,24 +108,24 @@ const animarPuntos = () => {
         posicionActual++
         config.setPosicionActualUsuario(posicionActual)
         animacionAvancePersonaje.value.pause()
-        setTimeout(() => {
+        /* setTimeout(() => {
             config.setActividadActual(rutasActividad.value[posicionActual-1])
             router.push(rutasActividad.value[posicionActual - 1])
-        }, 1500);
+        }, 1500); */
 
 
 
     } else {
 
-        setTimeout(() => {
-            if (posicionActual == 0) {
-                config.setActividadActual(rutasActividad.value[posicionActual])
-                router.push(rutasActividad.value[posicionActual])
-            } else {
-                config.setActividadActual(rutasActividad.value[posicionActual - 1])
-                router.push(rutasActividad.value[posicionActual - 1])
-            }
-        }, 1500)
+        /*  setTimeout(() => {
+             if (posicionActual == 0) {
+                 config.setActividadActual(rutasActividad.value[posicionActual])
+                 router.push(rutasActividad.value[posicionActual])
+             } else {
+                 config.setActividadActual(rutasActividad.value[posicionActual - 1])
+                 router.push(rutasActividad.value[posicionActual - 1])
+             }
+         }, 1500) */
 
         https://codepen.io/mediapipe/pen/RwGWYJw
 
@@ -190,11 +190,7 @@ const stylePersonaje = reactive({
         border: 4px solid BLUE
     }
 
-    .hospital-escena {
-        width: 100vw;
-        height: 100vh;
-        transform: scaleX(1.4);
-    }
+    
 }
 
 
@@ -203,11 +199,16 @@ const stylePersonaje = reactive({
         border: 1px solid red
     }
 
-    .hospital-escena {
+   /*  .hospital-escena {
         width: 100vw;
-        height: 100vh;
-        transform: scaleX(1.2);
-    }
+        object-fit: contain;
+        height: -webkit-fill-available;
+    } */
+}
+
+svg {
+  width: 100%;
+  height: 100%
 }
 
 #personaje img {

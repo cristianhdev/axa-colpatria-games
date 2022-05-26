@@ -45,7 +45,7 @@
 </style>
 <g id="CLINICA">
 	<g id="BACK">
-		<rect y="0" class="st0" width="1680" height="1050"/>
+		<rect class="st0" width="1680" height="1050"/>
 		<line class="st1" x1="1677.3" y1="319.8" x2="1117.3" y2="0.2"/>
 		<polygon class="st2" points="658.6,80.3 1015.6,286.9 1015,148.1 757.4,0 657.4,0 		"/>
 		<polygon class="st2" points="1677.6,670 1321.9,463.4 1321.9,326.6 1675.7,527.7 		"/>

@@ -84,6 +84,10 @@
     grid-gap:32px ;
 }
 
+.gap-4{
+    grid-gap:42px ;
+}
+
 
 .btn-disable{
     filter:grayscale(1)

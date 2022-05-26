@@ -82,10 +82,16 @@
 import { ref, onBeforeMount, computed, reactive } from 'vue'
 import Parlante from '../PosturasSonidos/Parlante.vue'
 import Cronometro from '../../Cronometro.vue'
-import CaramaWeb from '../../Camaraweb/CamaraWeb.vue'
+import CaramaWeb from '@/components/Camaraweb/CamaraWeb.vue'
 import Sonidos from '@/assets/helpers/sounds.js'
 import { useConfigStore } from "../../../stores/config.js";
 import { useRouter, useRoute } from "vue-router";
+import ImagenEjercicio1 from '@/assets/img/Ejercicio1.png'
+import ImagenEjercicio2 from '@/assets/img/Ejercicio2.png'
+import ImagenEjercicio3 from '@/assets/img/Ejercicio3.png'
+import ImagenEjercicio4 from '@/assets/img/Ejercicio4.png'
+import ImagenEjercicio5 from '@/assets/img/Ejercicio5.png'
+import ImagenEjercicio6 from '@/assets/img/Ejercicio6.png'
 
 const router = useRouter()
 
@@ -131,7 +137,7 @@ const styleParlante = reactive({
     backgroundColor: 'silver',
     width: '43px',
     height: '45px',
-    backgroundImage: 'url(src/assets/img/parlanteOn.gif)',
+    backgroundImage: 'url(@/assets/img/parlanteOn.gif)',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center center',
     backgroundSize: 'auto',
@@ -141,12 +147,12 @@ const styleParlante = reactive({
 });
 
 const imagenes = ref([
-    { imagen: "src/assets/img/Ejercicio1.png", id: 1, finalizado: false },
-    { imagen: "src/assets/img/Ejercicio2.png", id: 2, finalizado: false },
-    { imagen: "src/assets/img/Ejercicio3.png", id: 3, finalizado: false },
-    { imagen: "src/assets/img/Ejercicio4.png", id: 4, finalizado: false },
-    { imagen: "src/assets/img/Ejercicio5.png", id: 5, finalizado: false },
-    { imagen: "src/assets/img/Ejercicio6.png", id: 6, finalizado: false },
+    { imagen: ImagenEjercicio1, id: 1, finalizado: false },
+    { imagen: ImagenEjercicio2, id: 2, finalizado: false },
+    { imagen: ImagenEjercicio3, id: 3, finalizado: false },
+    { imagen: ImagenEjercicio4, id: 4, finalizado: false },
+    { imagen: ImagenEjercicio5, id: 5, finalizado: false },
+    { imagen: ImagenEjercicio6, id: 6, finalizado: false },
 ])
 
 const sonidos = ref([

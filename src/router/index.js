@@ -56,8 +56,13 @@ const router = createRouter({
       path: '/JuegoAudiosPosturas',
       name: 'juegoaudiosPosturas',
       component: () => import('../views/ventanaJuegoAudiosPosturasView.vue')
-    }
-    /*  { path: "*.*", redirect: '/' } */
+    },
+    {
+      path: '/VentanaFinal',
+      name: 'ventanafinal',
+      component: () => import('../views/VentanaFinalJuegoView.vue')
+    },
+    { path: '/:pathMatch(.*)*', redirect: '/' }
   ]
 })
 

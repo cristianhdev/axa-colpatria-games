@@ -84,18 +84,13 @@
 
     /* Font Publico Banner */
 
-    @font-face {
-        font-family: 'Publico Banner';
+  /*   @font-face {
+        font-family: 'PublicoBannerBold';
         src: url('@/assets/fonts/Publico-Banner-Bold.ttf');
-        font-family: 'Publico Banner';
-        src: url('PublicoBanner-Bold.woff2') format('woff2'),
-            url('PublicoBanner-Bold.woff') format('woff');
-        font-weight: bold;
-        font-style: normal;
     }
+ */
 
-
-    /* Font Publico Banner */
+    /* SourceSansPro */
 
     @font-face {
         font-family: 'SourceSansPro';
@@ -134,6 +129,8 @@
         font-weight: 300;
     }
 }
+
+
 
 html {
     margin: 0px !important;

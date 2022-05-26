@@ -1,4 +1,10 @@
 <template>
+    <div class="emulate-confetti-1">
+
+    </div>
+    <div class="emulate-confetti-2">
+
+    </div>
     <VentanaInstrucciones v-if="ocultarInstrucciones" @ocultarVentana="ocultarInstrucciones = !ocultarInstrucciones">
         <template #texto>
             <h2>Gira la ruleta y pon a prueba los conocimientos sobre pausas activas, recuerda completar todas las
@@ -118,7 +124,7 @@ import VentanaInstrucciones from "@/components/VentanaInstrucciones.vue"
 import VentanaPuntosFinal from "@/components/VentanaPuntosFinal.vue"
 import Ruleta from '@/assets/svg/ruleta.svg'
 import IndicadorRuleta from '@/assets/svg/indicador.svg'
-
+import party from "party-js";
 
 const router = useRouter()
 const animacionRuletaFin = ref(false)
@@ -147,6 +153,22 @@ const preguntasRealizadas = ref([])
 
 
 onMounted(() => {
+    document.querySelector(".emulate-confetti-1").addEventListener("click", (e) => {
+
+        party.confetti(e.target);
+    });
+
+    document.querySelector(".emulate-confetti-2").addEventListener("click", (e) => {
+        party.confetti(e.target);
+    });
+
+    /* setInterval(() => {
+        document.querySelector(".emulate-confetti-1").click();
+    }, 4500);
+
+    setInterval(() => {
+        document.querySelector(".emulate-confetti-2").click();
+    }, 4500); */
     loading.value = false
 })
 
@@ -355,6 +377,8 @@ const opcionCorrecta = (correcta, actual, id) => {
         StyleAwser.background = `transparent url(src/assets/img/check_awert.png) no-repeat center center`
         if (audioAplausos.value == null) {
             audioAplausos.value = new Sonidos('aplausos', false)
+            document.querySelector(".emulate-confetti-1").click();
+            document.querySelector(".emulate-confetti-2").click();
             audioAplausos.value.playAudio(() => {
 
                 animateCSS(".contenedor-preguntas", "fadeOut").then((message) => {
@@ -411,6 +435,19 @@ const volveraAlEscenario = () => {
 </script>
 
 <style lang="css" scoped>
+.emulate-confetti-1 {
+    position: absolute;
+    top: 10px;
+    border: 2px solid red
+}
+
+.emulate-confetti-2 {
+    position: absolute;
+    top: 10px;
+    right: 0px;
+    border: 2px solid red
+}
+
 .debug {
     position: absolute;
     top: 0px;
@@ -487,11 +524,11 @@ hr {
 }
 
 .indicador {
-    width: 17vw;
+    width: 15vw;
     height: 17vw;
     position: absolute;
-    top: 31%;
-    left: 128px;
+    top: 29%;
+    left: 124px;
     box-shadow: 3px 3px solid black
 }
 
@@ -573,5 +610,92 @@ hr {
     font-size: 4em;
     padding-right: 9px;
     font-family: 'Publico Headline Bold';
+}
+
+/* 
+  ##Device = Desktops
+  ##Screen = 1281px to higher resolution desktops
+*/
+
+@media (min-width: 1281px) {
+
+    /* CSS */
+    .container-ruleta {
+        border: 4px solid rgb(20, 196, 49)
+    }
+
+    .ruleta {
+        width: 53rem;
+        height: 36rem;
+    }
+
+}
+
+/* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+
+    /* CSS */
+    .container-ruleta {
+        border: 3px solid blue
+    }
+}
+
+/* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+    /* CSS */
+    .container-ruleta {
+        border: 3px solid red
+    }
+}
+
+/* 
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
+    /* CSS */
+    .container-ruleta {
+        border: 3px solid orange
+    }
+
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+
+    /* CSS */
+    .container-ruleta {
+        border: 3px solid purple
+    }
+
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media (min-width: 320px) and (max-width: 480px) {
+
+    /* CSS */
+    .container-ruleta {
+        border: 3px solid teal
+    }
+
 }
 </style>

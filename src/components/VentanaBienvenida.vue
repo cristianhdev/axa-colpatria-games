@@ -9,7 +9,7 @@
       animate__animated animate__fadeIn animate__slow animate__delay_5s
     ">
     <div v-if="!sliderActive">
-      <div class="contenedor-central flex-center-elements-column gap-3">
+      <div class="contenedor-central flex-center-elements-column gap-2">
         <h1 class="title">
           <slot name="titulo">
             <!--  Eum nemo voluptas nemo ratione. Et quam est officia dolorem quos.
@@ -84,7 +84,7 @@ const hiddenWindow = () => {
 <style lang="css" scoped>
 .contenedor-central {
   width: 801px;
-  height: 61vh;
+  height: 67vh;
   background: transparent url(@/assets/img/recuadrointro.png) no-repeat center center;
   background-size: 100% 100%;
 }
