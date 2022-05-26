@@ -435,7 +435,7 @@ h3 {
 
 
 .container {
-    width: 10vw;
+    width: 100vw;
     height: 100vh;
     background-image: url('@/assets/svg/hospitl_escena.svg');
     background-repeat: no-repeat;
