@@ -1,12 +1,12 @@
 
 <template>
   <div class="container">
-    <div class="puntos-avance">
+    <!-- <div class="puntos-avance">
 
       <object ref="escena" type="image/svg+xml" :data="PuntosEscenario" class="puntos-escena">
 
       </object>
-    </div>
+    </div> -->
     <VentanaInstrucciones v-if="ocultarVentana" @ocultarVentana="cerrarBienvenida" urlImagenFondo="BienvidaJuegos"
       :ocultarBotones="ocultarBotones">
       <template #texto>

@@ -2,12 +2,12 @@
 
 <template>
   <div class="container">
-    <div class="puntos-avance">
+    <!-- <div class="puntos-avance">
 
       <object ref="escena" type="image/svg+xml" :data="PuntosEscenario" class="puntos-escena">
 
       </object>
-    </div>
+    </div> -->
     <!-- <VentanaBienvenida :sliderActive="true" :slider="slidersBienvenida" /> -->
     <VentanaBienvenida v-if="ocultarVentana" :sliderActive="false" ruta="webcamera">
       <template #titulo>

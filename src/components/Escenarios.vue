@@ -41,19 +41,19 @@ const animacionAvancePersonaje = ref(null)
 /* const camaraReady = computed(() => ) */
 
 const coordenadasAnimacionPersonaje = ref([
-    { 'x': '-29', 'y': 14 },
-    { 'x': -36, 'y': 6.5 },
-    { 'x': -36, 'y': -1.3 },
-    { 'x': -29, 'y': -5 },
-    { 'x': -29, 'y': -5 },
-    { 'x': -22.4, 'y': -13 },
-    { 'x': -12.4, 'y': -15 },
-    { 'x': -5.9, 'y': -7.2 },
-    { 'x': 8, 'y': -7.2 },
-    { 'x': 7.9, 'y': 0.8 },
-    { 'x': 20.9, 'y': -3.2 },
-    { 'x': 20.9, 'y': 8.6 },
-    { 'x': 30.9, 'y': 14.3 }
+    { 'x': '-31', 'y': 17 },
+    { 'x': -38, 'y': 9 },
+    { 'x': -38, 'y': 1 },
+    { 'x': -31, 'y': -3 },
+    { 'x': -24, 'y': -12 },
+    { 'x': -13, 'y': -14 },
+    { 'x': -6, 'y': -6 },
+    { 'x': 8.6, 'y': -5.6 },
+    { 'x': 8.4, 'y': 3 },
+    { 'x': 22.9, 'y': -1.2 },
+    { 'x': 22.9, 'y': 10.8 },
+    { 'x': 33.9, 'y': 10.8 },
+    { 'x': '-31', 'y': 17 }
 ])
 
 onMounted(() => {
@@ -114,7 +114,7 @@ const animarPuntos = () => {
 
     reiniciarPosiciones()
 
-    escenaCojines.value[posicionActual].style.fill = '#EDFF91'
+   /*  escenaCojines.value[posicionActual].style.fill = '#EDFF91' */
 
 
     if (posicionActual == 4 || posicionActual == 8 || posicionActual == 12) {
@@ -151,7 +151,8 @@ const animarPuntos = () => {
     }
 
     animarEscenaPersonaje()
-    if (posicionActual >= escenaCojines.value.length) {
+    console.log(posicionActual)
+    if (posicionActual == escenaCojines.value.length) {
         posicionActual = 0
         config.setPosicionActualUsuario(posicionActual)
     } else {
@@ -197,10 +198,12 @@ const styleOvalo = reactive({
 </script>
 
 <style lang="css" scoped>
+/*Referenia para la posicion de los puntos*/
 .puntos-avance {
     width: 99vw;
     height: 91vh;
     position: absolute;
+    visibility: hidden
 }
 
 
@@ -262,7 +265,7 @@ const styleOvalo = reactive({
         border: 4px solid rgb(196, 20, 152)
     } */
 
-  
+
 
 }
 
@@ -274,7 +277,7 @@ const styleOvalo = reactive({
 @media (min-width: 1025px) and (max-width: 1280px) {
 
     /* CSS */
-   /*  .puntos-avance {
+    /*  .puntos-avance {
         border: 3px solid blue
     } */
 }
@@ -287,7 +290,7 @@ const styleOvalo = reactive({
 @media (min-width: 768px) and (max-width: 1024px) {
 
     /* CSS */
-   /*  .puntos-avance {
+    /*  .puntos-avance {
         border: 3px solid red
     } */
 }
@@ -300,7 +303,7 @@ const styleOvalo = reactive({
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
 
     /* CSS */
-   /*  .puntos-avance {
+    /*  .puntos-avance {
         border: 3px solid orange
     }
  */
@@ -314,7 +317,7 @@ const styleOvalo = reactive({
 @media (min-width: 481px) and (max-width: 767px) {
 
     /* CSS */
-  /*   .puntos-avance {
+    /*   .puntos-avance {
         border: 3px solid purple
     } */
 
@@ -328,7 +331,7 @@ const styleOvalo = reactive({
 @media (min-width: 320px) and (max-width: 480px) {
 
     /* CSS */
-   /*  .puntos-avance {
+    /*  .puntos-avance {
         border: 3px solid teal
     } */
 
