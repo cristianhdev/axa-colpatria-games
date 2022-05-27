@@ -1,7 +1,7 @@
 
 <template>
   <div class="container">
-    <VentanaInstrucciones v-if="ocultarVentana" @ocultarVentana="cerrarBienvenida" urlImagenFondo="BienvidaJuegos">
+    <VentanaInstrucciones v-if="ocultarVentana" @ocultarVentana="cerrarBienvenida" urlImagenFondo="BienvidaJuegos" :ocultarBotones="ocultarBotones">
       <template #texto>
         <h3>
           Las pausas activas son una forma de promover la actividad física, como habito
@@ -14,15 +14,15 @@
           buscando reducir el riesgo cardiovascular y las lesiones musculares por sobreuso asociados al desempeño
           laboral.
         </h3>
-        
 
+        <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center" @click="cerrarBienvenida">
+          <button class="btn-primary-ghost"> COMENZAR</button>
+        </div>
 
 
       </template>
       <template #btntexto>
-        <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center">
-          <button class="btn-primary-ghost"> COMENZAR</button>
-        </div>
+
       </template>
 
     </VentanaInstrucciones>
@@ -72,6 +72,7 @@ import animateCSS from "@/assets/helpers/animations.js";
 const router = useRouter()
 
 const ocultarVentana = ref(false);
+const ocultarBotones = ref(false);
 const countert = ref(null);
 
 
@@ -82,12 +83,12 @@ const texto = reactive({
 
 const cerrarBienvenida = () => {
   ocultarVentana.value = false
-   router.push(`/Usuario`);
- /*  animateCSS(".contenedor-instrucciones", "fadeOut").then((message) => {
-
-
-   
-  }); */
+  router.push(`/Usuario`);
+  /*  animateCSS(".contenedor-instrucciones", "fadeOut").then((message) => {
+ 
+ 
+    
+   }); */
 }
 
 onMounted(() => {

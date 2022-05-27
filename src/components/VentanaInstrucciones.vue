@@ -18,8 +18,8 @@
             </div>
 
             <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center"
-                @click="continuarActividad">
-                <slot name="btntexto"><button class="btn-primary-ghost"> JUGAR</button></slot>
+                @click="continuarActividad" >
+                <slot v-if="opciones.ocultarBotones" name="btntexto"><button class="btn-primary-ghost"> {{opciones.ocultarBotones}}JUGAR</button></slot>
             </div>
 
         </div>
@@ -53,6 +53,10 @@ const opciones = defineProps({
     urlImagenFondo: {
         type: String,
         default: 'InstruccioneJuegos'
+    },
+    ocultarBotones:{
+        type:Boolean,
+        default:false
     }
 });
 

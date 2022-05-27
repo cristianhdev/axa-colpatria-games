@@ -5,11 +5,15 @@
     <div class="emulate-confetti-2">
 
     </div>
-    <VentanaInstrucciones v-if="ocultarInstrucciones" @ocultarVentana="ocultarInstrucciones = !ocultarInstrucciones">
+    <VentanaInstrucciones v-if="ocultarInstrucciones" >
         <template #texto>
             <h2>Gira la ruleta y pon a prueba los conocimientos sobre pausas activas, recuerda completar todas las
                 opciones,
                 así podrás aplicar lo aprendido en  tu jornada laboral, estás listo.</h2>
+            <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center"
+                @click="ocultarInstrucciones = !ocultarInstrucciones">
+                <button class="btn-primary-ghost"> CONTINUAR</button>
+            </div>
         </template>
     </VentanaInstrucciones>
     <div class="container-ruleta">
@@ -438,14 +442,12 @@ const volveraAlEscenario = () => {
 .emulate-confetti-1 {
     position: absolute;
     top: 10px;
-    border: 2px solid red
 }
 
 .emulate-confetti-2 {
     position: absolute;
     top: 10px;
     right: 0px;
-    border: 2px solid red
 }
 
 .debug {
@@ -611,7 +613,6 @@ hr {
     padding-right: 9px;
     font-family: 'Publico Headline Bold';
 }
-
 /* 
   ##Device = Desktops
   ##Screen = 1281px to higher resolution desktops
@@ -698,4 +699,5 @@ hr {
     }
 
 }
+
 </style>

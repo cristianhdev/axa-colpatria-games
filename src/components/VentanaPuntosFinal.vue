@@ -118,7 +118,7 @@ onBeforeUnmount(() => {
 
 <style lang="css" scoped>
 .button {
-    visibility: visible
+    visibility: hidden
 }
 
 .info-mensaje {
