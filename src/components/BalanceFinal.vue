@@ -87,7 +87,7 @@ import party from "party-js";
 
 onMounted(() => {
     gsap.fromTo('.icono-energia', 1.4, { marginLeft: '13%' }, { marginLeft: '80%', repeat: -1, repeatDelay: 1.3, yoyo: true, transformOrigin: 'center center' });
-    gsap.fromTo('.icono-salud', 2.4, { marginLeft: '13%' }, { marginLeft: '80%', repeat: -1, repeatDelay: 1.3, yoyo: true, transformOrigin: 'center center' });
+    gsap.fromTo('.icono-salud', 2.4, { marginLeft: '11%' }, { marginLeft: '80%', repeat: -1, repeatDelay: 1.3, yoyo: true, transformOrigin: 'center center' });
     gsap.fromTo('.icono-estres', 1.8, { marginLeft: '13.5%' }, { marginLeft: '80%', repeat: -1, repeatDelay: 1.3, yoyo: true, transformOrigin: 'center center' });
 
     document.querySelector(".emulate-confetti-1").addEventListener("click", (e) => {
