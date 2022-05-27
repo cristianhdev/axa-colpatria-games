@@ -13,6 +13,10 @@
                 Entrelace los dedos de sus manos atrás de su espalda (como se muestra en el ejemplo), realice
                 respiraciones profundas llevando los codos hacia atrás al igual que los hombros.
             </h2>
+            <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center"
+                @click="ocultarVentanaInstrucciones">
+                <button class="btn-primary-ghost"> CONTINUAR</button>
+            </div>
 
         </template>
     </VentanaInstrucciones>

@@ -32,7 +32,7 @@ import PuntosEscenario from '@/assets/svg/puntos_fondo.svg';
 const router = useRouter()
 const escena = ref(null)
 const escenaCojines = ref([])
-const rutasActividad = ref(['/JuegoPosturas', '/JuegoManos', '/JuegoRuleta', '/JuegoOjos', '/JuegoRuleta', '/JuegoOjos', '/JuegoPosturas', '/JuegoRuleta', '/JuegoPosturas', '/JuegoRuleta'])
+const rutasActividad = ref(['/JuegoPosturas', '/JuegoManos', '/JuegoRuleta', '/JuegoOjos', '/JuegoRuleta', '/JuegoPosturas', '/JuegoManos', '/VentanaFinal'])
 const config = useConfigStore();
 const animacionAvancePersonaje = ref(null)
 
@@ -44,15 +44,15 @@ const coordenadasAnimacionPersonaje = ref([
     { 'x': '-31', 'y': 17 },
     { 'x': -38, 'y': 9 },
     { 'x': -38, 'y': 1 },
-    { 'x': -31, 'y': -3 },
-    { 'x': -24, 'y': -12 },
-    { 'x': -13, 'y': -14 },
-    { 'x': -6, 'y': -6 },
-    { 'x': 8.6, 'y': -5.6 },
-    { 'x': 8.4, 'y': 3 },
-    { 'x': 22.9, 'y': -1.2 },
+    { 'x': -27.3, 'y': -5 },
+    { 'x': -15, 'y': -9 },
+    { 'x': -3, 'y': -7.4 },
+    { 'x': -3.5, 'y': 0.6 },
+    { 'x': 8.5, 'y': -5.4 },
+    { 'x': 8.5, 'y': 2.6 },
+    { 'x': 22.9, 'y': 1.8 },
     { 'x': 22.9, 'y': 10.8 },
-    { 'x': 33.9, 'y': 10.8 },
+    { 'x': 31.9, 'y': 15.8 },
     { 'x': '-31', 'y': 17 }
 ])
 
@@ -123,16 +123,16 @@ const animarPuntos = () => {
         posicionActual++
         config.setPosicionActualUsuario(posicionActual)
         animacionAvancePersonaje.value.pause()
-        /* setTimeout(() => {
+        setTimeout(() => {
             config.setActividadActual(rutasActividad.value[posicionActual-1])
             router.push(rutasActividad.value[posicionActual - 1])
-        }, 1500); */
+        }, 1500);
 
 
 
     } else {
 
-        /*  setTimeout(() => {
+         setTimeout(() => {
              if (posicionActual == 0) {
                  config.setActividadActual(rutasActividad.value[posicionActual])
                  router.push(rutasActividad.value[posicionActual])
@@ -140,7 +140,7 @@ const animarPuntos = () => {
                  config.setActividadActual(rutasActividad.value[posicionActual - 1])
                  router.push(rutasActividad.value[posicionActual - 1])
              }
-         }, 1500) */
+         }, 1500)
 
 
 
@@ -150,8 +150,8 @@ const animarPuntos = () => {
 
     }
 
-    animarEscenaPersonaje()
-    console.log(posicionActual)
+    /* animarEscenaPersonaje() */
+    /* console.log(posicionActual) */
     if (posicionActual == escenaCojines.value.length) {
         posicionActual = 0
         config.setPosicionActualUsuario(posicionActual)

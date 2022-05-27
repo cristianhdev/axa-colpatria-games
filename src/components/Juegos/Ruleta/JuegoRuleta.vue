@@ -5,7 +5,7 @@
     <div class="emulate-confetti-2">
 
     </div>
-    <VentanaInstrucciones v-if="ocultarInstrucciones" >
+    <VentanaInstrucciones v-if="ocultarInstrucciones">
         <template #texto>
             <h2>Gira la ruleta y pon a prueba los conocimientos sobre pausas activas, recuerda completar todas las
                 opciones,
@@ -32,7 +32,7 @@
                 <button class="btn-primary-vr1" @mousemove="confity" @click="continuarTrivia">CONTINUAR TRIVIA!</button>
                 <button class="btn-primary-vr1" @mousemove="confity" @click="volveraAlEscenario">VOLVER A
                     EJERCICIOS</button>
-                <button class="btn-primary-vr1" @mousemove="confity" id="salir">SALIR</button>
+                <button class="btn-primary-vr1" @mousemove="confity" @click="salirActividad" @id="salir">SALIR</button>
             </template>
 
         </VentanaPuntosFinal>
@@ -283,7 +283,20 @@ const randomPreguntaIds = () => {
 
 
 
-
+const salirActividad = () => {
+    if (confirm("Desea salir de la actividad!")) {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+       /*  close(); */
+    }
+}
 
 
 const randomNumeroAleatorioPregunta = () => {
@@ -613,6 +626,7 @@ hr {
     padding-right: 9px;
     font-family: 'Publico Headline Bold';
 }
+
 /* 
   ##Device = Desktops
   ##Screen = 1281px to higher resolution desktops
@@ -640,7 +654,7 @@ hr {
 @media (min-width: 1025px) and (max-width: 1280px) {
 
     /* CSS */
-  /*   .container-ruleta {
+    /*   .container-ruleta {
         border: 3px solid blue
     } */
 }
@@ -653,7 +667,7 @@ hr {
 @media (min-width: 768px) and (max-width: 1024px) {
 
     /* CSS */
-  /*   .container-ruleta {
+    /*   .container-ruleta {
         border: 3px solid red
     } */
 }
@@ -666,7 +680,7 @@ hr {
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
 
     /* CSS */
-   /*  .container-ruleta {
+    /*  .container-ruleta {
         border: 3px solid orange
     } */
 
@@ -680,7 +694,7 @@ hr {
 @media (min-width: 481px) and (max-width: 767px) {
 
     /* CSS */
-   /*  .container-ruleta {
+    /*  .container-ruleta {
         border: 3px solid purple
     } */
 
@@ -699,5 +713,4 @@ hr {
     } */
 
 }
-
 </style>

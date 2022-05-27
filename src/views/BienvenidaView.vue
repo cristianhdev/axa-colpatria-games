@@ -22,7 +22,7 @@
           laboral.
         </h3>
 
-        <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center" @click="cerrarBienvenida">
+        <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center" @click="openFullscreen">
           <button class="btn-primary-ghost"> COMENZAR</button>
         </div>
 
@@ -83,6 +83,29 @@ const ocultarVentana = ref(false);
 const ocultarBotones = ref(false);
 const countert = ref(null);
 
+onMounted(() => {
+
+
+})
+
+const openFullscreen = () => {
+  ocultarVentana.value = false
+  router.push(`/Usuario`);
+  var targetelement = document.documentElement;
+
+  if (targetelement.requestFullscreen) {
+    targetelement.requestFullscreen();
+  }
+  if (targetelement.webkitRequestFullscreen) {
+    targetelement.webkitRequestFullscreen();
+  }
+  if (targetelement.mozRequestFullScreen) {
+    targetelement.mozRequestFullScreen();
+  }
+  if (targetelement.msRequestFullscreen) {
+    targetelement.msRequestFullscreen();
+  }
+}
 
 const texto = reactive({
   titulo: computed(() => { config.titulo })

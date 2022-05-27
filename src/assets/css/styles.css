@@ -186,7 +186,6 @@ h3 {
 }
 
 .btn-primary {
-    width: 10vw;
     background-color: var(--azul-axa);
     color: var(--blanco);
     width: auto;
@@ -232,7 +231,6 @@ h3 {
 /* ghost */
 
 .btn-primary-ghost {
-    width: 10vw;
     background: none;
     border: 2.5px solid #00008f;
     color: #fff;

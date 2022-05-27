@@ -5,7 +5,7 @@
       1
     </template>
   </VentanaIntroNivel>
-  <VentanaInstrucciones v-if="ocultarInstrucciones" @ocultarVentana="ocultarVentanaInstrucciones">
+  <VentanaInstrucciones v-if="ocultarInstrucciones" >
     <template #texto>
       <h2>Para este ejercicio, mantenga la cabeza recta. La idea es que mueva los ojos hacia todas las direcciones
         (arriba,
@@ -14,7 +14,10 @@
         Para lograr esto, debe seguir con la vista los elementos que aparecerán en la pantalla, y de acuerdo al tema que
         le salga en el juego (ej: animales), debe dar clic sobre estos, siempre siguiendo de forma concentrada los
         elementos que vayan apareciendo.</h2>
-
+      <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center"
+        @click="ocultarVentanaInstrucciones">
+        <button class="btn-primary-ghost"> CONTINUAR</button>
+      </div>
     </template>
   </VentanaInstrucciones>
   <!--  <VentanaBienvenida  :sliderActive="false" ruta="webcamera">
@@ -59,7 +62,7 @@
     <template #botones>
       <!-- <button class="btn-primary-vr1" @mousemove="confity" @click="continuarTrivia">CONTINUAR TRIVIA!</button> -->
       <button class="btn-primary-vr1" @mousemove="confity" @click="volverEscenario">VOLVER A EJERCICIOS</button>
-     <!--  <button class="btn-primary-vr1" @mousemove="confity" id="salir">SALIR</button> -->
+      <!--  <button class="btn-primary-vr1" @mousemove="confity" id="salir">SALIR</button> -->
     </template>
   </VentanaPuntosFinal>
   <!--  <div v-if="mostrarMensajeFinal"
@@ -145,6 +148,18 @@ import VentanaInstrucciones from "@/components/VentanaInstrucciones.vue"
 /* import VentanaBienvenida from "@/components/VentanaBienvenida.vue"; */
 import VentanaPuntosFinal from "@/components/VentanaPuntosFinal.vue"
 import VentanaIntroNivel from "@/components/VentanaIntroNivel.vue"
+import ImagenBanano from '@/assets/img/banano.png';
+import ImagenFresa from '@/assets/img/fresa.png';
+import ImagenUvas from '@/assets/img/uvas.png';
+import ImagenNaranja from '@/assets/img/naranja.png';
+import ImagenAni1 from '@/assets/img/ani1.png';
+import ImagenAni2 from '@/assets/img/ani2.png';
+import ImagenAni3 from '@/assets/img/ani3.png';
+import ImagenCalculadora from '@/assets/img/calculadora.png';
+import ImagenPc from '@/assets/img/pc.png';
+import ImagenLibro from '@/assets/img/libros.png';
+
+
 const router = useRouter()
 
 
@@ -178,7 +193,7 @@ const ocultarVentanaInstrucciones = () => {
 
 const finAnimacionIntro = () => {
   ocultarIntroNivel.value = false
-  cargarActividad.value= true
+  cargarActividad.value = true
   inicioActividad()
 }
 
@@ -195,23 +210,23 @@ const imagenes = reactive({
     { animacion: "backInUp", classFlecha: ".flecha-top" },
   ],
   imagen: [
-    { imagen: "require(@/assets/img/banano.png)", tipo: "fruta" },
-    { imagen: "require(@/assets/img/fresa.png)", tipo: "fruta" },
-    { imagen: "require(@/assets/img/uvas.png)", tipo: "fruta" },
-    { imagen: "require(@/assets/img/banano.png)", tipo: "fruta" },
-    { imagen: "require(@/assets/img/naranja.png)", tipo: "fruta" },
-    { imagen: "require(@/assets/img/fresa.png)", tipo: "fruta" },
-    { imagen: "require(@/assets/img/ani1.png)", tipo: "animal" },
-    { imagen: "require(@/assets/img/ani2.png)", tipo: "animal" },
-    { imagen: "require(@/assets/img/ani3.png)", tipo: "animal" },
-    { imagen: "require(@/assets/img/ani1.png)", tipo: "animal" },
-    { imagen: "require(@/assets/img/ani2.png)", tipo: "animal" },
-    { imagen: "require(@/assets/img/libros.png)", tipo: "oficina" },
-    { imagen: "require(@/assets/img/calculadora.png)", tipo: "oficina" },
-    { imagen: "require(@/assets/img/pc.png)", tipo: "oficina" },
-    { imagen: "require(@/assets/img/libros.png)", tipo: "oficina" },
-    { imagen: "require(@/assets/img/calculadora.png)", tipo: "oficina" },
-    { imagen: "require(@/assets/img/pc.png)", tipo: "oficina" }
+    { imagen: ImagenBanano, tipo: "fruta" },
+    { imagen: ImagenFresa, tipo: "fruta" },
+    { imagen: ImagenUvas, tipo: "fruta" },
+    { imagen: ImagenBanano, tipo: "fruta" },
+    { imagen: ImagenNaranja, tipo: "fruta" },
+    { imagen: ImagenFresa, tipo: "fruta" },
+    { imagen: ImagenAni1, tipo: "animal" },
+    { imagen: ImagenAni2, tipo: "animal" },
+    { imagen: ImagenAni3, tipo: "animal" },
+    { imagen: ImagenAni1, tipo: "animal" },
+    { imagen: ImagenAni2, tipo: "animal" },
+    { imagen: ImagenCalculadora, tipo: "oficina" },
+    { imagen: ImagenPc, tipo: "oficina" },
+    { imagen: ImagenLibro, tipo: "oficina" },
+    { imagen: ImagenCalculadora, tipo: "oficina" },
+    { imagen: ImagenLibro, tipo: "oficina" },
+    { imagen: ImagenPc, tipo: "oficina" }
   ],
 });
 

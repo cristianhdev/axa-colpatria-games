@@ -6,13 +6,16 @@
             <!--    {{ configActividad.nivel }} -->
         </template>
     </VentanaIntroNivel>
-    <VentanaInstrucciones v-if="ocultarInstrucciones" @ocultarVentana="ocultarVentanaInstrucciones">
+    <VentanaInstrucciones v-if="ocultarInstrucciones" >
         <template #texto>
             <h2>Para este ejercicio, con la mano derecha debe agarrar los dedos de la mano izquierda y llevarlos
                 suavemente hacia atrás como se muestra en la imagen para realizar ejercicios de estiramiento (cambiamos
                 con la otra mano), Mantenemos esta postura por 10 segundos cada una.
-
             </h2>
+            <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center"
+                @click="ocultarVentanaInstrucciones">
+                <button class="btn-primary-ghost"> CONTINUAR</button>
+            </div>
 
         </template>
     </VentanaInstrucciones>
@@ -22,7 +25,7 @@
 
         <div class="contenedor-mensaje flex-center-elements-column gap-3">
             <div v-if="mostrarCamara" class="flex-center-elements-column gap-1">
-                <div class="titulo auto" >
+                <div class="titulo auto">
                     <h2>Instrucciones
                     </h2>
                 </div>
@@ -38,7 +41,7 @@
                 </div>
             </div>
             <div v-if="!mostrarCamara">
-                <div  class="titulo auto" v-if="!continuarActividad">
+                <div class="titulo auto" v-if="!continuarActividad">
                     <h2>Memoriza las siguientes posiciones con tus manos, cuando ya estes listo da clic en
                         continuar.
                     </h2>
@@ -59,16 +62,16 @@
                 </div>
                 <div v-if="!continuarActividad">
                     <div class="auto" style="text-align:center">
-                        <button class="btn-primary" @click="continuar">CONTINUAR</button>
+                        <button class="btn-primary-ghost" @click="continuar">CONTINUAR</button>
                     </div>
                 </div>
                 <div>
                     <div class="auto flex-center-elements-row gap-2" style="text-align:center">
 
-                        <button v-if="activarBotonComprobar" class="btn-primary"
+                        <button v-if="activarBotonComprobar" class="btn-primary-ghost"
                             @click="comprobarRespuesta">COMPROBAR</button>
-                        <button v-if="activarBotonRepetir" class="btn-primary" @click="repetirOpciones">REPETIR</button>
-                         <button v-if="mostrarCamara" class="btn-primary" @click="volverEscenario">CONTINUAR</button>
+                        <button v-if="activarBotonRepetir" class="btn-primary-ghost" @click="repetirOpciones">REPETIR</button>
+                        <button v-if="mostrarCamara" class="btn-primary-ghost" @click="volverEscenario">VOLVER AL ESCENARIO</button>
                     </div>
                 </div>
             </div>
@@ -130,6 +133,7 @@ const activarNavegacionSliders = () => {
 }
 
 const repetirOpciones = () => {
+    activarBotonRepetir.value=false
     activarBotonComprobar.value = false
     activarCronometro.value = true
     finTiempoCronometro.value = false
@@ -148,6 +152,7 @@ const validarRespuesta = (comprobar) => {
 const comprobarRespuesta = () => {
     let puntos = 0
     activarCronometro.value = false
+    activarBotonRepetir.value = true
     opcinesValidacion.orderArray.forEach(element => {
         if (element.posicion == element.respuesta) {
             correcto.value = true
@@ -167,11 +172,10 @@ const comprobarRespuesta = () => {
 
     if (puntos == opcinesValidacion.orderArray.length) {
         activarBotonRepetir.value = false
-        mostrarCamara.value= true
-        activarBotonComprobar.value= false
-    } else {
-        activarBotonRepetir.value = true
-    }
+        mostrarCamara.value = true
+        activarBotonComprobar.value = false
+      
+    } 
 
 
 }

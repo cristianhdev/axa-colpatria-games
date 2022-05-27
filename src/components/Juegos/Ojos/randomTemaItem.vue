@@ -22,6 +22,16 @@
 
 <script setup>
 import { ref, reactive, watch, onBeforeMount, onMounted, computed } from "vue";
+import ImagenBanano from '@/assets/img/banano.png';
+import ImagenFresa from '@/assets/img/fresa.png';
+import ImagenUvas from '@/assets/img/uvas.png';
+import ImagenNaranja from '@/assets/img/naranja.png';
+import ImagenAni1 from '@/assets/img/ani1.png';
+import ImagenAni2 from '@/assets/img/ani2.png';
+import ImagenAni3 from '@/assets/img/ani3.png';
+import ImagenCalculadora from '@/assets/img/calculadora.png';
+import ImagenPc from '@/assets/img/pc.png';
+import ImagenLibro from '@/assets/img/libros.png';
 const temas = ref(["animal", "oficina", "fruta"]);
 const tema = ref("")
 const temaSeleccionado = ref("")
@@ -31,15 +41,15 @@ const emit = defineEmits(['finSeleccionTemas'])
 
 
 const imagenes = ref([
-    { imagen: "@/assets/img/banano.png", tipo: "fruta" },
-    { imagen: "@/assets/img/ani1.png", tipo: "animal" },
-    { imagen: "@/assets/img/fresa.png", tipo: "fruta" },
-    { imagen: "@/assets/img/ani2.png", tipo: "animal" },
-    { imagen: "@/assets/img/naranja.png", tipo: "fruta" },
-    { imagen: "@/assets/img/ani3.png", tipo: "animal" },
-    { imagen: "@/assets/img/libros.png", tipo: "oficina" },
-    { imagen: "@/assets/img/calculadora.png", tipo: "oficina" },
-    { imagen: "@/assets/img/pc.png", tipo: "oficina" }
+    { imagen: ImagenBanano, tipo: "fruta" },
+    { imagen: ImagenAni1, tipo: "animal" },
+    { imagen: ImagenFresa, tipo: "fruta" },
+    { imagen: ImagenAni2, tipo: "animal" },
+    { imagen: ImagenNaranja, tipo: "fruta" },
+    { imagen: ImagenAni3, tipo: "animal" },
+    { imagen: ImagenLibro, tipo: "oficina" },
+    { imagen: ImagenCalculadora, tipo: "oficina" },
+    { imagen: ImagenPc, tipo: "oficina" }
 ]);
 
 

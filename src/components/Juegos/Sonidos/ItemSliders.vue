@@ -19,6 +19,14 @@ import { ref, reactive, watch, onMounted, computed } from 'vue'
 import animateCSS from "@/assets/helpers/animations.js";
 import gsap from "gsap";
 
+import ImagenPregunta from '@/assets/img/manos/pregunta.png';
+import ImagenMano1 from '@/assets/img/manos/mano1.png';
+import ImagenMano2 from '@/assets/img/manos/mano2.png';
+import ImagenMano3 from '@/assets/img/manos/mano3.png';
+import ImagenMano4 from '@/assets/img/manos/mano4.png';
+import ImagenMano5 from '@/assets/img/manos/mano5.png';
+
+
 const sliderActual = ref(0)
 
 const isVIsibleTime = ref(false)
@@ -50,12 +58,12 @@ const copiaArrayValidacion = ref([])
 
 
 const imagenes = ref([
-    { src: '@/assets/img/manos/pregunta.png', isVisible: true, id: 0 },
-    { src: '@/assets/img/manos/mano1.png', isVisible: true, id: 1 },
-    { src: '@/assets/img/manos/mano2.png', isVisible: true, id: 2 },
-    { src: '@/assets/img/manos/mano3.png', isVisible: true, id: 3 },
-    { src: '@/assets/img/manos/mano4.png', isVisible: true, id: 4 },
-    { src: '@/assets/img/manos/mano5.png', isVisible: true, id: 5 }
+    { src: ImagenPregunta, isVisible: true, id: 0 },
+    { src: ImagenMano1, isVisible: true, id: 1 },
+    { src: ImagenMano2, isVisible: true, id: 2 },
+    { src: ImagenMano3, isVisible: true, id: 3 },
+    { src: ImagenMano4, isVisible: true, id: 4 },
+    { src: ImagenMano5, isVisible: true, id: 5 }
 ])
 
 
