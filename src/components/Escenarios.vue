@@ -41,7 +41,6 @@ const animacionAvancePersonaje = ref(null)
 /* const camaraReady = computed(() => ) */
 
 const coordenadasAnimacionPersonaje = ref([
-    { 'x': '-49', 'y': "24.5" },
     { 'x': '-29', 'y': 14 },
     { 'x': -36, 'y': 6.5 },
     { 'x': -36, 'y': -1.3 },
@@ -189,7 +188,7 @@ const styleOvalo = reactive({
     position: "fixed",
     bottom: "50%",
     left: "50%",
-    transform: "translate(-36vw, 6.5vw)"
+    transform: "translate(-49vw, 24.5vw)"
 });
 
 </script>
