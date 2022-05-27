@@ -1,11 +1,6 @@
 <template>
     <div class="container">
-        <div class="puntos-avance">
-
-            <object ref="escena" type="image/svg+xml" :data="PuntosEscenario" class="puntos-escena">
-
-            </object>
-        </div>
+       
         <VentanaBienvenida v-if="ocultarVentana" :sliderActive="false">
             <template #titulo>
                 <img v-if="!camaraReady" src="@/assets/img/camarawebImagen.png" alt="" width="240">
@@ -46,7 +41,7 @@
 </template>
 
 <script setup>
-import PuntosEscenario from '@/assets/svg/puntos_fondo.svg';
+
 import VentanaBienvenida from "@/components/VentanaBienvenida.vue";
 import { ref, onMounted, onBeforeMount, computed } from "vue";
 import { useConfigStore } from "../stores/config.js";
