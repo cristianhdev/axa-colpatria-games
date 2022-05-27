@@ -44,14 +44,16 @@ const coordenadasAnimacionPersonaje = ref([
     { 'x': '-29', 'y': 14 },
     { 'x': -36, 'y': 6.5 },
     { 'x': -36, 'y': -1.3 },
-    { 'x': 336, 'y': -488 },
-    { 'x': 493, 'y': -517 },
-    { 'x': 593, 'y': -417 },
-    { 'x': 803, 'y': -417 },
-    { 'x': 803, 'y': -317 },
-    { 'x': 1011, 'y': -367 },
-    { 'x': 1017, 'y': -212 },
-    { 'x': 1170, 'y': -139 },
+    { 'x': -29, 'y': -5 },
+    { 'x': -29, 'y': -5 },
+    { 'x': -22.4, 'y': -13 },
+    { 'x': -12.4, 'y': -15 },
+    { 'x': -5.9, 'y': -7.2 },
+    { 'x': 8, 'y': -7.2 },
+    { 'x': 7.9, 'y': 0.8 },
+    { 'x': 20.9, 'y': -3.2 },
+    { 'x': 20.9, 'y': 8.6 },
+    { 'x': 30.9, 'y': 14.3 }
 ])
 
 onMounted(() => {
@@ -140,13 +142,15 @@ const animarPuntos = () => {
              }
          }, 1500) */
 
-        https://codepen.io/mediapipe/pen/RwGWYJw
+
 
         posicionActual++
         config.setPosicionActualUsuario(posicionActual)
         animacionAvancePersonaje.value.pause()
 
     }
+
+    animarEscenaPersonaje()
     if (posicionActual >= escenaCojines.value.length) {
         posicionActual = 0
         config.setPosicionActualUsuario(posicionActual)
@@ -184,7 +188,6 @@ const styleOvalo = reactive({
     width: "3vw",
     height: "3vh",
     borderRadius: "100%",
-    border: "3px solid red",
     position: "fixed",
     bottom: "50%",
     left: "50%",
@@ -213,7 +216,6 @@ const styleOvalo = reactive({
 #posicion-1 {
     width: 6vw;
     height: 10vh;
-    border: 3px solid red;
     position: absolute;
     bottom: 95px;
     left: 254px
@@ -260,14 +262,7 @@ const styleOvalo = reactive({
         border: 4px solid rgb(196, 20, 152)
     } */
 
-    #posicion-1 {
-        width: 6vw;
-        height: 10vh;
-        border: 3px solid red;
-        position: absolute;
-        bottom: 55px;
-        left: 235px;
-    }
+  
 
 }
 
@@ -279,9 +274,9 @@ const styleOvalo = reactive({
 @media (min-width: 1025px) and (max-width: 1280px) {
 
     /* CSS */
-    .puntos-avance {
+   /*  .puntos-avance {
         border: 3px solid blue
-    }
+    } */
 }
 
 /* 
@@ -292,9 +287,9 @@ const styleOvalo = reactive({
 @media (min-width: 768px) and (max-width: 1024px) {
 
     /* CSS */
-    .puntos-avance {
+   /*  .puntos-avance {
         border: 3px solid red
-    }
+    } */
 }
 
 /* 
@@ -305,10 +300,10 @@ const styleOvalo = reactive({
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
 
     /* CSS */
-    .puntos-avance {
+   /*  .puntos-avance {
         border: 3px solid orange
     }
-
+ */
 }
 
 /* 
@@ -319,9 +314,9 @@ const styleOvalo = reactive({
 @media (min-width: 481px) and (max-width: 767px) {
 
     /* CSS */
-    .puntos-avance {
+  /*   .puntos-avance {
         border: 3px solid purple
-    }
+    } */
 
 }
 
@@ -333,9 +328,9 @@ const styleOvalo = reactive({
 @media (min-width: 320px) and (max-width: 480px) {
 
     /* CSS */
-    .puntos-avance {
+   /*  .puntos-avance {
         border: 3px solid teal
-    }
+    } */
 
 }
 </style>

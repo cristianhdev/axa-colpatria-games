@@ -2,6 +2,12 @@
 
 <template>
   <div class="container">
+    <div class="puntos-avance">
+
+      <object ref="escena" type="image/svg+xml" :data="PuntosEscenario" class="puntos-escena">
+
+      </object>
+    </div>
     <!-- <VentanaBienvenida :sliderActive="true" :slider="slidersBienvenida" /> -->
     <VentanaBienvenida v-if="ocultarVentana" :sliderActive="false" ruta="webcamera">
       <template #titulo>
@@ -22,7 +28,8 @@
         </div>
       </template>
       <template #button-ventana>
-        <div v-if="config.nombreUsuario==null" class="btn-primary-vr1 flex-center-elements-row gap-3" @click="guardar = !guardar">
+        <div v-if="config.nombreUsuario == null" class="btn-primary-vr1 flex-center-elements-row gap-3"
+          @click="guardar = !guardar">
           GUARDAR
         </div>
         <div class="btn-primary-vr1 flex-center-elements-row gap-3">
@@ -35,6 +42,7 @@
 
 
 <script setup>
+import PuntosEscenario from '@/assets/svg/puntos_fondo.svg';
 import VentanaBienvenida from "@/components/VentanaBienvenida.vue";
 import { ref, onMounted, computed, watch } from "vue";
 import Sliders from "@/assets/textos/Bienvenida.json";
@@ -93,5 +101,15 @@ input#usuarionombre[type=text] {
   text-transform: capitalize;
   background-color: #f0ff93;
   border-radius: 12px;
+}
+
+
+.puntos-escena {
+  width: 94vw;
+  height: 910px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>

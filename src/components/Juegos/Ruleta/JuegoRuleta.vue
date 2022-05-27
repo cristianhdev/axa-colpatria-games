@@ -621,9 +621,9 @@ hr {
 @media (min-width: 1281px) {
 
     /* CSS */
-    .container-ruleta {
+    /* .container-ruleta {
         border: 4px solid rgb(20, 196, 49)
-    }
+    } */
 
     .ruleta {
         width: 53rem;
@@ -640,9 +640,9 @@ hr {
 @media (min-width: 1025px) and (max-width: 1280px) {
 
     /* CSS */
-    .container-ruleta {
+  /*   .container-ruleta {
         border: 3px solid blue
-    }
+    } */
 }
 
 /* 
@@ -653,9 +653,9 @@ hr {
 @media (min-width: 768px) and (max-width: 1024px) {
 
     /* CSS */
-    .container-ruleta {
+  /*   .container-ruleta {
         border: 3px solid red
-    }
+    } */
 }
 
 /* 
@@ -666,9 +666,9 @@ hr {
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
 
     /* CSS */
-    .container-ruleta {
+   /*  .container-ruleta {
         border: 3px solid orange
-    }
+    } */
 
 }
 
@@ -680,9 +680,9 @@ hr {
 @media (min-width: 481px) and (max-width: 767px) {
 
     /* CSS */
-    .container-ruleta {
+   /*  .container-ruleta {
         border: 3px solid purple
-    }
+    } */
 
 }
 
@@ -694,9 +694,9 @@ hr {
 @media (min-width: 320px) and (max-width: 480px) {
 
     /* CSS */
-    .container-ruleta {
+    /* .container-ruleta {
         border: 3px solid teal
-    }
+    } */
 
 }
 

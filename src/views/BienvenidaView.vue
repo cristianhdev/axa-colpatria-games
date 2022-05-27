@@ -1,7 +1,14 @@
 
 <template>
   <div class="container">
-    <VentanaInstrucciones v-if="ocultarVentana" @ocultarVentana="cerrarBienvenida" urlImagenFondo="BienvidaJuegos" :ocultarBotones="ocultarBotones">
+    <div class="puntos-avance">
+
+      <object ref="escena" type="image/svg+xml" :data="PuntosEscenario" class="puntos-escena">
+
+      </object>
+    </div>
+    <VentanaInstrucciones v-if="ocultarVentana" @ocultarVentana="cerrarBienvenida" urlImagenFondo="BienvidaJuegos"
+      :ocultarBotones="ocultarBotones">
       <template #texto>
         <h3>
           Las pausas activas son una forma de promover la actividad física, como habito
@@ -61,6 +68,7 @@
 </template>
 
 <script setup>
+import PuntosEscenario from '@/assets/svg/puntos_fondo.svg';
 import VentanaBienvenida from "@/components/VentanaBienvenida.vue";
 import VentanaInstrucciones from "@/components/VentanaInstrucciones.vue";
 import { ref, reactive, onMounted, computed } from "vue";
@@ -139,5 +147,14 @@ const slidersBienvenida = ref([]);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+}
+
+.puntos-escena {
+  width: 94vw;
+  height: 910px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>
