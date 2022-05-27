@@ -551,7 +551,7 @@ hr {
 
 .opciones-pregunta {
     display: flex;
-    width: fit-content;
+    width: max-content;
     place-items: center;
     grid-gap: 2vh;
     padding: 32px;
@@ -560,7 +560,7 @@ hr {
 
 .opciones-pregunta .opcion {
     font-family: 'SourceSansPro, Arial, Georgia, Sans Serif, Serif';
-    width: 32vh;
+    width: 27vh;
     height: 19vh;
     text-align: justify;
     border: 3px solid var(--bg-igloo);

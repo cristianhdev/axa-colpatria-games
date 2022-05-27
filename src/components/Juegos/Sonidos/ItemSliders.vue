@@ -144,7 +144,7 @@ const arrayAleatorio = computed(() => {
         porsionImagenes = imagenes.value.slice(0, imagenes.value.length)
     } else {
         porsionImagenes = imagenes.value.slice(1, imagenes.value.length).sort(() => Math.random() - 0.5)
-        /*  console.log(porsionImagenes[0]) */
+        
         copiaArrayValidacion.value.push(porsionImagenes[0])
     }
 

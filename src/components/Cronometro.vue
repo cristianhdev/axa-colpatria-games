@@ -75,7 +75,7 @@ const tiempo = defineProps({
 
 
 watch(tiempo.reiniciar, (reiniciarTiempoNew, reiniciarTiempoOld) => {
-  console.log(`reiniciarTiempo is ${reiniciarTiempo}`)
+ 
 })
 
 
@@ -171,7 +171,6 @@ const setCircleDasharray = () => {
 
 
 onUnmounted(() => {
-  console.log("limpiamos componente")
   clearInterval(timerInterval.value);
   if (clockAudio.value != null) {
     clockAudio.value.stopAudio()

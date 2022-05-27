@@ -12,7 +12,7 @@ export const useConfigStore = defineStore({
     isCamaraHabilitada: useStorage('isCamaraHabilitada', false),
     usuario: useStorage('usuario', ''),
     preguntasAleatorias: useStorage('opciones', []),
-    actividad: useStorage('actividadActual', '')
+    actividad: useStorage('actividadActual', [])
   }),
   getters: {
     preguntasAleatoriasSeleccionadas: (state) => state.preguntasAleatorias,
@@ -42,7 +42,10 @@ export const useConfigStore = defineStore({
       this.preguntasAleatorias = preguntas
     },
     setActividadActual(infoActividad) {
-      this.actividad = infoActividad
+      if (!this.actividad.includes(infoActividad)) {
+        this.actividad.push(infoActividad)
+      }
+
     }
   },
   persist: {

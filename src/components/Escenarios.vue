@@ -32,7 +32,7 @@ import PuntosEscenario from '@/assets/svg/puntos_fondo.svg';
 const router = useRouter()
 const escena = ref(null)
 const escenaCojines = ref([])
-const rutasActividad = ref(['/JuegoPosturas', '/JuegoManos', '/JuegoRuleta', '/JuegoOjos', '/JuegoRuleta', '/JuegoPosturas', '/JuegoManos', '/VentanaFinal'])
+const rutasActividad = ref(['/JuegoPosturas', '/JuegoManos', '/JuegoRuleta', '/JuegoOjos', '/JuegoPosturas', '/JuegoRuleta', '/JuegoManos', '/JuegoOjos','/JuegoRuleta','/JuegoPosturaAudios','/VentanaFinal'])
 const config = useConfigStore();
 const animacionAvancePersonaje = ref(null)
 
@@ -88,7 +88,7 @@ const cargaEscenario = () => {
 
         //Sacamos los g atribute del los cojines del svg 
         escenaCojines.value = Object.values(niveles).filter((element, index) => {
-            console.log(niveles[index].id)
+
             if (element.id != 'undefined') {
                 return element.id
             }
@@ -114,17 +114,14 @@ const animarPuntos = () => {
 
     reiniciarPosiciones()
 
-   /*  escenaCojines.value[posicionActual].style.fill = '#EDFF91' */
+    /*  escenaCojines.value[posicionActual].style.fill = '#EDFF91' */
 
 
     if (posicionActual == 4 || posicionActual == 8 || posicionActual == 12) {
-
-        console.log(posicionActual)
         posicionActual++
         config.setPosicionActualUsuario(posicionActual)
         animacionAvancePersonaje.value.pause()
         setTimeout(() => {
-            config.setActividadActual(rutasActividad.value[posicionActual-1])
             router.push(rutasActividad.value[posicionActual - 1])
         }, 1500);
 
@@ -132,15 +129,13 @@ const animarPuntos = () => {
 
     } else {
 
-         setTimeout(() => {
-             if (posicionActual == 0) {
-                 config.setActividadActual(rutasActividad.value[posicionActual])
-                 router.push(rutasActividad.value[posicionActual])
-             } else {
-                 config.setActividadActual(rutasActividad.value[posicionActual - 1])
-                 router.push(rutasActividad.value[posicionActual - 1])
-             }
-         }, 1500)
+        setTimeout(() => {
+            if (posicionActual == 0) {
+                router.push(rutasActividad.value[posicionActual])
+            } else {
+                router.push(rutasActividad.value[posicionActual - 1])
+            }
+        }, 1500)
 
 
 
@@ -151,7 +146,7 @@ const animarPuntos = () => {
     }
 
     /* animarEscenaPersonaje() */
-    /* console.log(posicionActual) */
+
     if (posicionActual == escenaCojines.value.length) {
         posicionActual = 0
         config.setPosicionActualUsuario(posicionActual)

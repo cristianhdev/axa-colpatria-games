@@ -15,7 +15,7 @@
                 </div>
                 <div class="mensaje-opcion">
                     <slot name="mensaje-nivel">
-                        1
+                        {{ nivel }}
                     </slot>
                 </div>
             </div>
@@ -26,21 +26,43 @@
 <script setup >
 
 import animateCSS from "@/assets/helpers/animations.js";
-import { ref,onBeforeMount, onMounted, reactive } from 'vue';
+import { ref, onBeforeMount, onMounted, reactive } from 'vue';
 import { useConfigStore } from "../stores/config.js";
 import imagenFondoNivel1 from '@/assets/img/marco_nivel_1.png'
 import imagenFondoNivel2 from '@/assets/img/marco_nivel_2.png'
+import { useRouter, useRoute } from "vue-router";
+const router = useRouter()
+
+const config = useConfigStore();
+const nivel = ref(0)
+
+const imagenFondo = ref('')
 
 
-const imagenFondo= ref('')
+const emit = defineEmits(['finAnimacionIntroNivel', 'configuraActividad'])
+
+onMounted(() => {
+    animateCSS(".ventana-mensaje-puntos", "jackInTheBox").then((message) => {
+
+        setTimeout(() => {
+            animateCSS(".ventana-mensaje-puntos", "bounceOutRight").then((message) => {
+                emit('finAnimacionIntroNivel')
+            });
+        }, 2400)
+    });
+})
 
 onBeforeMount(() => {
-    if (opciones.urlImagenFondo === 'marco_nivel_1') {
-        imagenFondo.value = imagenFondoNivel1
-    } else {
+ 
+    if (config.actividadActual.includes(router.currentRoute.value.path)) {
+        nivel.value = 2
         imagenFondo.value = imagenFondoNivel2
+        emit('configuraActividad', 2)
+    } else {
+        nivel.value = 1
+        imagenFondo.value = imagenFondoNivel1
+        emit('configuraActividad', 1)
     }
-
     styleContenedorMensaje.backgroundImage = `url(${imagenFondo.value})`
 });
 
@@ -76,18 +98,6 @@ const styleContenedorMensaje = reactive({
 
 
 
-const emit = defineEmits(['finAnimacionIntroNivel'])
-
-onMounted(() => {
-    animateCSS(".ventana-mensaje-puntos", "jackInTheBox").then((message) => {
-
-        setTimeout(() => {
-            animateCSS(".ventana-mensaje-puntos", "bounceOutRight").then((message) => {
-                emit('finAnimacionIntroNivel')
-            });
-        }, 2400)
-    });
-})
 
 
 
@@ -104,7 +114,7 @@ onMounted(() => {
     font-size: 6em;
     color: #00008f;
     height: inherit;
-    font-family: Publico Banner-Bold;
+    font-family: Publico Banner;
     background: transparent url(@/assets/img/marco_nivel_numero.png) no-repeat center center;
     background-size: 80% 80%;
     display: flex;

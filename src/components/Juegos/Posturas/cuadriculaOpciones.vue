@@ -1,10 +1,10 @@
 <template>
     <VentanaIntroNivel v-if="ocultarIntroNivel" @finAnimacionIntroNivel="finAnimacionIntro"
-        :urlImagenFondo="marco_nivel_1">
-        <template #mensaje-nivel>
+        @configuraActividad="configurarActividad" :urlImagenFondo="marco_nivel_1">
+        <!-- <template #mensaje-nivel>
             1
-            <!--    {{ configActividad.nivel }} -->
-        </template>
+            
+        </template> -->
     </VentanaIntroNivel>
     <VentanaInstrucciones v-if="ocultarInstrucciones" @ocultarVentana="ocultarVentanaInstrucciones">
         <template #texto>
@@ -82,7 +82,7 @@
                     <h2>Visualiza y memoriza las siguientes posiciones</h2>
                 </div>
             </div>
-            <div v-if="!opcionCorrecta" class="cuadricula  gap-2">
+            <div v-if="!opcionCorrecta" :style="styleCuadricula" id="cuadricula" class="gap-2">
                 <div v-for="(imagen, index) in getRamdomimagen" :key="`cuadrado-${index}`">
                     <!-- v-for="i in filas" :key="i" -->
                     <div class="contenedor-opciones   border-axa animate__animated animate__fadeIn  animate__zoomIn"
@@ -139,7 +139,7 @@ import VentanaInstrucciones from "@/components/VentanaInstrucciones.vue"
 import VentanaPuntosFinal from "@/components/VentanaPuntosFinal.vue"
 import VentanaIntroNivel from "@/components/VentanaIntroNivel.vue"
 import CaramaWeb from '@/components/Camaraweb/CamaraWeb.vue'
-import { ref, computed, onBeforeMount, reactive } from 'vue'
+import { ref, computed, onBeforeMount, onMounted, reactive } from 'vue'
 import { useRouter, useRoute } from "vue-router";
 import { useConfigStore } from "../../../stores/config.js";
 import Imagen1Figuras from '@/assets/img/Ejercicio1.png'
@@ -167,11 +167,11 @@ const config = useConfigStore();
 const camaraReady = computed(() => config.isCamara)
 
 onBeforeMount(() => {
-    console.log(config.actividadActual)
-    console.log(router.currentRoute.value.path)
-    if (config.actividadActual == router.currentRoute.value.path) {
-        configActividad.nivel = configActividad.nivel + 1
-    }
+
+})
+
+onMounted(() => {
+
 })
 
 const configActividad = reactive({
@@ -197,21 +197,11 @@ const configActividad = reactive({
 { imagen: "@/assets/img/Ejercicio5.png", valorCheck: 5 },
 { imagen: "@/assets/img/Ejercicio6.png", valorCheck: 6 }*/
 
-const imagenesReferenciaRandom = ref([
-    { imagen: Imagen1Figuras, valorCheck: 1 },
-    { imagen: Imagen2Figuras, valorCheck: 2 },
-    { imagen: Imagen3Figuras, valorCheck: 3 },
-    { imagen: Imagen4Figuras, valorCheck: 4 }
+const imagenesReferenciaRandom = ref([])
 
-])
+const imagenesReferencia = ref([])
 
-const imagenesReferencia = ref([
-    { imagen: Imagen1Figuras, valorCheck: 1 },
-    { imagen: Imagen2Figuras, valorCheck: 2 },
-    { imagen: Imagen3Figuras, valorCheck: 3 },
-    { imagen: Imagen4Figuras, valorCheck: 4 }
 
-])
 
 
 const finTiempo = ref(false)
@@ -220,7 +210,56 @@ const continuar = ref(false)
 const mostrarCronometro = ref(false)
 const opcionSeleccionada = ref(null)
 
+const styleCuadricula = reactive({
+    width: "70%",
+    height: "40vh",
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(30vw, 1fr))",
+    placeItems: "center",
+    alignItems: "center"
+})
 
+
+const configurarActividad = (valor) => {
+
+    if (valor == 1) {
+        imagenesReferenciaRandom.value = [
+            { imagen: Imagen1Figuras, valorCheck: 1 },
+            { imagen: Imagen2Figuras, valorCheck: 2 },
+            { imagen: Imagen3Figuras, valorCheck: 3 },
+            { imagen: Imagen4Figuras, valorCheck: 4 }
+        ]
+
+        imagenesReferencia.value = [
+            { imagen: Imagen1Figuras, valorCheck: 1 },
+            { imagen: Imagen2Figuras, valorCheck: 2 },
+            { imagen: Imagen3Figuras, valorCheck: 3 },
+            { imagen: Imagen4Figuras, valorCheck: 4 }
+        ]
+
+        styleCuadricula.gridTemplateColumns = "repeat(auto-fill, minmax(30vw, 1fr))"
+
+    } else {
+        imagenesReferenciaRandom.value = [
+            { imagen: Imagen1Figuras, valorCheck: 1 },
+            { imagen: Imagen2Figuras, valorCheck: 2 },
+            { imagen: Imagen3Figuras, valorCheck: 3 },
+            { imagen: Imagen4Figuras, valorCheck: 4 },
+            { imagen: Imagen5Figuras, valorCheck: 5 },
+            { imagen: Imagen6Figuras, valorCheck: 6 }
+        ]
+
+        imagenesReferencia.value = [
+            { imagen: Imagen1Figuras, valorCheck: 1 },
+            { imagen: Imagen2Figuras, valorCheck: 2 },
+            { imagen: Imagen3Figuras, valorCheck: 3 },
+            { imagen: Imagen4Figuras, valorCheck: 4 },
+            { imagen: Imagen5Figuras, valorCheck: 5 },
+            { imagen: Imagen6Figuras, valorCheck: 6 }
+        ]
+        styleCuadricula.gridTemplateColumns = "repeat(auto-fill, minmax(16vw, 1fr))"
+    }
+}
 
 const ocultarVentanaInstrucciones = () => {
     ocultarInstrucciones.value = !ocultarInstrucciones.value
@@ -264,9 +303,7 @@ const opcionSiguiente = () => {
     /* continuar.value = !continuar.value */
     imagenRamdom.value = !imagenRamdom.value
     puntosBuenos.value = puntosBuenos.value + 1
-    console.log("puntosBuenos", puntosBuenos.value)
-    console.log("imagenesReferencia.value.lenght", Object.values(imagenesReferencia.value).length)
-    if (puntosBuenos.value == 4) {
+    if (puntosBuenos.value == 1) {
         mensajeFinal.value = true
     } else {
         getRamdomimagenInterrogante()
@@ -276,7 +313,6 @@ const opcionSiguiente = () => {
 }
 
 const getRamdomimagenInterrogante = () => {
-    console.log(Object.values(imagenesReferenciaRandom.value).length - 1)
     if ((Object.values(imagenesReferenciaRandom.value).length - 1) == 0) {
 
 
@@ -325,14 +361,13 @@ const finAnimacionFlip = () => {
 
 const finAnimacion = () => {
     visible.value = false
-
-
 }
 
 const volverEscenario = () => {
-
-    router.push('/Escenario')
+    config.setActividadActual(router.currentRoute.value.path)
     puntosBuenos.value = 0
+    ocultarInstrucciones.value = false
+    router.push('/Escenario')
 }
 
 </script>
@@ -395,14 +430,7 @@ const volverEscenario = () => {
 
 }
 
-.cuadricula {
-    width: 70%;
-    height: 40vh;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(30vw, 1fr));
-    place-items: center;
-    align-items: center;
-}
+
 
 .contenedor-opciones {
     width: 218px;

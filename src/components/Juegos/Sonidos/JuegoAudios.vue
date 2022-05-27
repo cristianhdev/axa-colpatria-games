@@ -1,12 +1,8 @@
 <template>
     <VentanaIntroNivel v-if="ocultarIntroNivel" @finAnimacionIntroNivel="finAnimacionIntro"
-        :urlImagenFondo="marco_nivel_1">
-        <template #mensaje-nivel>
-            1
-            <!--    {{ configActividad.nivel }} -->
-        </template>
+        @configuraActividad="configurarActividad" :urlImagenFondo="marco_nivel_1">
     </VentanaIntroNivel>
-    <VentanaInstrucciones v-if="ocultarInstrucciones" >
+    <VentanaInstrucciones v-if="ocultarInstrucciones">
         <template #texto>
             <h2>Para este ejercicio, con la mano derecha debe agarrar los dedos de la mano izquierda y llevarlos
                 suavemente hacia atrás como se muestra en la imagen para realizar ejercicios de estiramiento (cambiamos
@@ -20,8 +16,8 @@
         </template>
     </VentanaInstrucciones>
     <div class="contenedor-actividad gap-2 ">
-
-        <Cronometro v-if="activarCronometro" :segundos="15" @endTime="activarNavegacionSliders" />
+        <!-- @endTime="activarNavegacionSliders" -->
+        <Cronometro v-if="activarCronometro" :segundos="15"  @endTime="activarNavegacionSliders" />
 
         <div class="contenedor-mensaje flex-center-elements-column gap-3">
             <div v-if="mostrarCamara" class="flex-center-elements-column gap-1">
@@ -50,13 +46,17 @@
                     <h2>Ahora organiza la secuencia</h2>
                 </div>
             </div>
-            <div class="contenedor-opciones flex-center-elements-column gap-3">
+            <div class="contenedor-opciones flex-center-elements-column gap-4">
+                <div class="contenedor-opciones-items">
+                    <div class=" flex-center-elements-row gap-3">
+                        <div :style="styleCuadricula" class="gap-1">
 
-                <div class=" flex-center-elements-row gap-3">
-                    <div class="flex-center-elements-row gap-1">
-                        <div v-for="i in cantidadItemSliders" :key="`_${i}`">
-                            <ItemSliders :finTime="navegacionsEstado" :ocultarNavegacion="!finTiempoCronometro" :id="i"
-                                @validarOpciones="validarRespuesta" :comprobar="false" />
+                            <div v-for="i in cantidadItemSliders" :key="`_${i}`">
+                                <ItemSliders :finTime="navegacionsEstado" :ocultarNavegacion="!finTiempoCronometro"
+                                    :id="i" @validarOpciones="validarRespuesta" :comprobar="false" />
+                            </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -70,8 +70,10 @@
 
                         <button v-if="activarBotonComprobar" class="btn-primary-ghost"
                             @click="comprobarRespuesta">COMPROBAR</button>
-                        <button v-if="activarBotonRepetir" class="btn-primary-ghost" @click="repetirOpciones">REPETIR</button>
-                        <button v-if="mostrarCamara" class="btn-primary-ghost" @click="volverEscenario">VOLVER AL ESCENARIO</button>
+                        <button v-if="activarBotonRepetir" class="btn-primary-ghost"
+                            @click="repetirOpciones">REPETIR</button>
+                        <button v-if="mostrarCamara" class="btn-primary-ghost" @click="volverEscenario">VOLVER AL
+                            ESCENARIO</button>
                     </div>
                 </div>
             </div>
@@ -82,7 +84,7 @@
 
 <script setup>
 import { useConfigStore } from "../../../stores/config.js";
-import { ref, computed, reactive } from 'vue'
+import { ref, computed, reactive, onMounted, onBeforeMount } from 'vue'
 import SliderParent from '../Sonidos/SlidersParent.vue'
 import ItemSliders from './ItemSliders.vue'
 import Cronometro from '../../Cronometro.vue'
@@ -99,7 +101,7 @@ const router = useRouter()
 
 
 const cantidadSliders = ref(4)
-const cantidadItemSliders = ref(4)
+const cantidadItemSliders = ref(null)
 const navegacionsEstado = ref(false)
 const continuarActividad = ref(false)
 const activarBotonComprobar = ref(false)
@@ -112,6 +114,28 @@ const mostrarCamara = ref(false)
 const activarCronometro = ref(false)
 const correcto = ref(false)
 
+onMounted(() => {
+
+})
+
+
+const styleCuadricula = reactive({
+    margin: "0px auto",
+    display: "grid",
+    gridTemplateColumns: "repeat(4,1fr)",
+    gridGap: "12px 20px"
+})
+
+const configurarActividad = (valor) => {
+
+    if (valor == 1) {
+        cantidadItemSliders.value = 4
+        styleCuadricula.gridTemplateColumns = "repeat(4,1fr)"
+    } else {
+        cantidadItemSliders.value = 6
+        styleCuadricula.gridTemplateColumns = "repeat(3,1fr)"
+    }
+}
 //Guardamos las opciones actuales antes de validar
 const opcinesValidacion = reactive({
     posicionSlider: null,
@@ -133,7 +157,7 @@ const activarNavegacionSliders = () => {
 }
 
 const repetirOpciones = () => {
-    activarBotonRepetir.value=false
+    activarBotonRepetir.value = false
     activarBotonComprobar.value = false
     activarCronometro.value = true
     finTiempoCronometro.value = false
@@ -146,7 +170,6 @@ const validarRespuesta = (comprobar) => {
     opcinesValidacion.actual = comprobar.actual.value
     opcinesValidacion.respuesta = comprobar.validacionArray.value
     opcinesValidacion.orderArray[comprobar.posicionSlider] = { slider: comprobar.posicionSlider, posicion: opcinesValidacion.actual, respuesta: opcinesValidacion.respuesta[0].id }
-    console.log(opcinesValidacion.orderArray)
 }
 
 const comprobarRespuesta = () => {
@@ -174,8 +197,8 @@ const comprobarRespuesta = () => {
         activarBotonRepetir.value = false
         mostrarCamara.value = true
         activarBotonComprobar.value = false
-      
-    } 
+
+    }
 
 
 }
@@ -195,6 +218,8 @@ const finAnimacionIntro = () => {
 
 
 const volverEscenario = () => {
+    console.log(router.currentRoute.value.path)
+    config.setActividadActual(router.currentRoute.value.path)
     router.push("/escenario")
 }
 
@@ -228,7 +253,20 @@ h1 {
 
 
 .contenedor-opciones {
-    width: 90vw;
+    width: 65vw;
+
+}
+
+.contenedor-opciones-items {
+   /*  grid-template-columns: repeat(auto-fill, minmax(30vw, 1fr));
+    display: grid; */
+}
+
+.contenedor-items {
+    margin: 0px auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 12px 20px;
 }
 
 .titulo {

@@ -72,19 +72,14 @@ const secuencia = defineProps({
 }) */
 
 watch(() => secuencia.correcto, (newCorrecto, oldCorrecto) => {
-    console.log(
-        "Watch props.selected function called with args:",
-        newCorrecto,
-        oldCorrecto
-    );
     newCorrecto ? respuestacorecta.value = !respuestacorecta.value : respuestacorecta.value
 });
 
 watch(() => secuencia.girarOpciones, (newGiroOpcion, oldGiroOpcion) => {
 
     if (newGiroOpcion == true) {
-        let clientWidth = document.querySelector('.cuadricula').clientWidth;
-        let clientHeight = document.querySelector('.cuadricula').clientHeight;
+        let clientWidth = document.querySelector('#cuadricula').clientWidth;
+        let clientHeight = document.querySelector('#cuadricula').clientHeight;
         mostrarNumero.value = true
         gsap.to(`.contenedor-opciones`, {
             alpha: 1,

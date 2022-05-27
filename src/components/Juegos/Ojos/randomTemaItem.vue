@@ -103,7 +103,7 @@ const generarPosicionaleatoria = () => {
 
 
 const filtrarImagenes = computed(() => {
-    console.log(tema.value)
+    
     return Object.values(imagenes.value).filter((element) => {
         return element.tipo == tema.value.toLocaleLowerCase()
     })

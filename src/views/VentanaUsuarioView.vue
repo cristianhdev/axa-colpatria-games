@@ -68,10 +68,6 @@ const guardar = ref(true);
 
 const slidersBienvenida = ref([]);
 
-
-console.log(config.nombreUsuario)
-
-
 // watch works directly on a ref
 watch(usuario, (newQuestion, oldQuestion) => {
   config.setNombreUsuario(newQuestion)

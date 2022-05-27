@@ -82,8 +82,17 @@ const router = useRouter()
 const ocultarVentana = ref(false);
 const ocultarBotones = ref(false);
 const countert = ref(null);
+const config = useConfigStore();
 
 onMounted(() => {
+  if (config.posicionactualEscenarioJuego>0) {
+    if (confirm("Continuar en la ultimo punto guardado?")) {
+      router.push(`/Escenario`);
+    } else {
+      config.setPosicionActualUsuario(0)
+    }
+  }
+
 
 
 })
@@ -138,7 +147,7 @@ onMounted(() => {
       },
     ) */
 
-  const config = useConfigStore();
+
 
   countert.value = config.titulo
 

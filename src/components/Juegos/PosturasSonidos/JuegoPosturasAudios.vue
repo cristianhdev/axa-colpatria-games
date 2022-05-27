@@ -266,6 +266,7 @@ const reiniciarInterrogante = () => {
 }
 
 const volverEscena = () => {
+    config.setActividadActual(router.currentRoute.value.path)
     router.push('/')
 }
 

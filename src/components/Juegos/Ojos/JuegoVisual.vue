@@ -158,11 +158,12 @@ import ImagenAni3 from '@/assets/img/ani3.png';
 import ImagenCalculadora from '@/assets/img/calculadora.png';
 import ImagenPc from '@/assets/img/pc.png';
 import ImagenLibro from '@/assets/img/libros.png';
+import { useConfigStore } from "../../../stores/config.js";
+
 
 
 const router = useRouter()
-
-
+const config = useConfigStore();
 const isTemasRandomVisible = ref(true)
 
 
@@ -336,8 +337,6 @@ const animarElementsoAleatorios = () => {
 
 const validarClick = (elemento, id) => {
   let busqueda = Object.values(temasSeleccionadosArray.value)
-  console.log(busqueda[0])
-  console.log(elemento)
   if (busqueda[0].toLowerCase() == elemento.toLowerCase()) {
     document.getElementById(`${id}`).style.filter = "drop-shadow(2px 4px 6px green)";
     puntos_correctos.value = puntos_correctos.value + 1
@@ -486,6 +485,7 @@ const ajusteAleatorio = computed(() => {
 
 
 const volverEscenario = () => {
+  config.setActividadActual(router.currentRoute.value.path)
   router.push('/Escenario')
 }
 

@@ -71,7 +71,7 @@ const Botonslider = (id) => {
 const hiddenWindow = () => {
   if (sliders.ruta != '') {
     animateCSS(".ventana-usuario", "fadeOut").then((message) => {
-      console.log("sliders.ruta", sliders.ruta)
+
       router.push(`/${sliders.ruta}`);
 
 
