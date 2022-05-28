@@ -19,8 +19,9 @@
 
                 </div>
                 <div class="flex-center-elements-column">
+                    
                     <div>
-                        <h2>Tu balance</h2>
+                        <h2>Tu balance {{usuario.nombreUsuario.toUpperCase()}}</h2>
                     </div>
                     <div class="flex-center-elements-column gap-4">
                         <div class="contenedor-iconos  gap-2">
@@ -84,6 +85,8 @@
 import gsap from "gsap";
 import { ref, onMounted, onBeforeMount, computed, reactive } from "vue";
 import party from "party-js";
+import { useConfigStore } from "../stores/config.js";
+const usuario = useConfigStore();
 
 onMounted(() => {
     gsap.fromTo('.icono-energia', 1.4, { marginLeft: '7pc' }, { marginLeft: '80%', repeat: -1, repeatDelay: 1.3, yoyo: true, transformOrigin: 'center center' });
@@ -229,7 +232,7 @@ onMounted(() => {
     width: 100%;
     height: 4vh;
     background: transparent url(@/assets/img/barraSalud.png) repeat-x center;
-    background-size: contain;
+    background-size: cover;
 }
 
 
@@ -237,14 +240,14 @@ onMounted(() => {
     width: 100%;
     height: 4vh;
     background: transparent url(@/assets/img/barraEstres.png) repeat-x center;
-    background-size: contain;
+    background-size: cover;
 }
 
 .barra-energia {
     width: 100%;
     height: 4vh;
     background: transparent url(@/assets/img/barraEnergia.png) repeat-x center;
-    background-size: contain;
+    background-size: cover;
 }
 
 

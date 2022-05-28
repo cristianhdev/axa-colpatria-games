@@ -1,22 +1,43 @@
 <template>
+    <VentanaIntroNivel v-if="ocultarIntroNivel" @finAnimacionIntroNivel="finAnimacionIntro"
+        @configuraActividad="configurarActividad" urlImagenFondo="marco_nivel_1">
+        <!-- <template #mensaje-nivel>
+      1
+    </template> -->
+    </VentanaIntroNivel>
+    <VentanaInstrucciones v-if="ocultarInstrucciones" @ocultarVentana="ocultarVentanaInstrucciones">
+        <template #texto>
+            <h2>Para este ejercicio, debe estar de pie y en posición erguida.
+
+                Entrelace los dedos de sus manos atrás de su espalda (como se muestra en el ejemplo), realice
+                respiraciones profundas llevando los codos hacia atrás al igual que los hombros.
+            </h2>
+            <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center"
+                @click="ocultarVentanaInstrucciones">
+                <button class="btn-primary-ghost"> CONTINUAR</button>
+            </div>
+
+        </template>
+    </VentanaInstrucciones>
     <div class="contenedor-actividad">
 
+        <Cronometro v-if="habilitarCronometro" :segundos="tiempoActividad" @endTime="activarNavegacionSliders" />
 
         <div class="contenedor-parlantes  center-element">
-            <div v-if="!continuar" class="contenedor-opciones flex-center-elements-column gap-3">
+            <div v-if="!continuar" class="contenedor-opciones flex-center-elements-column gap-1">
                 <div v-if="!continuar" class="titulo">
                     <h2>Escucha cada uno de los audios y relacionalo con las imagenes, cuando estes listo da
                         click en continuar.</h2>
 
                 </div>
-                <Cronometro v-if="cronometroMostrarOpciones" :segundos="tiempoActividad"
-                    @endTime="activarNavegacionSliders" />
+
                 <div class="parlantes">
                     <div class="parlante-item">
                         <div v-for="(imagen, index) in imagenes.slice(0, 3)" :key="imagen + '-' + index">
 
                             <Parlante :srcUrl="imagen.imagen" :id="`figura-${index + 1}`"
-                                :posicion="`${parseInt(index) + 1}`" :fintiempo="continuar" />
+                                :posicion="(parseInt(imagen.id)-1)" :fintiempo="continuar"
+                                 />
                         </div>
                     </div>
 
@@ -24,7 +45,9 @@
 
                         <div v-for="(imagen, index) in imagenes.slice(3, 6)" :key="imagen + '-' + index">
                             <Parlante :srcUrl="imagen.imagen" :id="`figura-${index + 1}`"
-                                :posicion="`${parseInt(index) + 1}`" :fintiempo="continuar" />
+                                :posicion="(parseInt(imagen.id)-1)" :fintiempo="continuar"
+                                
+                                 />
                         </div>
 
                     </div>
@@ -74,14 +97,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div  class="auto flex-center-elements-row gap-2" style="text-align:center">
+                        <div class="auto flex-center-elements-row gap-2" style="text-align:center">
                             <!-- <button class="btn-primary-ghost" @click="continuar = !continuar">CONTINUAR</button> -->
-                            <button v-if="mostrarCamaraCalentamiento" class="btn-primary-ghost" @click="volverEscena">VOLVER A EJERCICIOS</button>
+                            <button v-if="finTime" class="btn-primary-ghost" @click="volverEscena">VOLVER A
+                                EJERCICIOS</button>
                         </div>
                     </div>
                 </div>
                 <div v-if="cronometroMostrarOpciones">
-                    <div class="imagenes-opciones flex-center-elements-row gap-3">
+                    <div class="imagenes-opciones flex-center-elements-row gap-1">
                         <div :class="{ 'imagenes-opciones-click': opcionClicked }" v-for="img in imagenes"
                             :key="`img-${img.id}`" :id="`figura-click-${img.id}`" @click="validar(img.id)">
                             <img :src="img.imagen" width="130" height="150" alt="">
@@ -90,7 +114,7 @@
                     <br>
                     <div class="auto flex-center-elements-row gap-2" style="text-align:center">
                         <button class="btn-primary-ghost" @click="comprobarRespuesta">COMPROBAR</button>
-                       <!--  <button class="btn-primary-ghost">REPETIR</button> -->
+                        <!--  <button class="btn-primary-ghost">REPETIR</button> -->
                     </div>
                 </div>
 
@@ -105,6 +129,10 @@ import { ref, onBeforeMount, computed, reactive } from 'vue'
 import Parlante from '../PosturasSonidos/Parlante.vue'
 import Cronometro from '../../Cronometro.vue'
 import CaramaWeb from '@/components/Camaraweb/CamaraWeb.vue'
+import VentanaInstrucciones from "@/components/VentanaInstrucciones.vue"
+import VentanaPuntosFinal from "@/components/VentanaPuntosFinal.vue"
+import VentanaIntroNivel from "@/components/VentanaIntroNivel.vue"
+
 import Sonidos from '@/assets/helpers/sounds.js'
 import { useConfigStore } from "../../../stores/config.js";
 import { useRouter, useRoute } from "vue-router";
@@ -130,10 +158,11 @@ const router = useRouter()
 const config = useConfigStore();
 
 const camaraReady = computed(() => config.isCamara)
-
+const ocultarIntroNivel = ref(false)
+const ocultarInstrucciones = ref(true)
 const finTime = ref(false)
 const reiniciarCronometro = ref(false)
-const tiempoActividad = ref(20)
+const tiempoActividad = ref(10)
 const audio = ref(null)
 const audioAplausos = ref(null)
 const audioIncorrecto = ref(null)
@@ -142,6 +171,8 @@ const opcionSeleccionada = ref()
 const opcionClicked = ref(false)
 const continuar = ref(false)
 const cronometroMostrarOpciones = ref(false)
+const habilitarCronometro = ref(false)
+
 const repetirAudio = ref(false)
 const mostrarCamaraCalentamiento = ref(false)
 const imagenCorrecta = ref(null)
@@ -154,6 +185,70 @@ onBeforeMount(() => {
     generarSonidosAleatorios()
 })
 
+
+const imagenes = ref([])
+
+const sonidos = ref([])
+
+
+const configurarActividad = (valor) => {
+
+    if (valor == 1) {
+        imagenes.value = [
+            { imagen: ImagenEjercicio1, id: 1, finalizado: false, audio: Soundlife },
+            { imagen: ImagenEjercicio2, id: 2, finalizado: false, audio: Soundcoin },
+            { imagen: ImagenEjercicio3, id: 3, finalizado: false, audio: Soundjump }
+
+        ]
+
+        imagenes.value = imagenes.value.sort(() => Math.random() - 0.5)
+
+        /* sonidos.value = ref([
+            Soundlife,
+            Soundcoin,
+            Soundjump
+        ]) */
+
+
+
+        //styleCuadricula.gridTemplateColumns = "repeat(auto-fill, minmax(30vw, 1fr))"
+
+    } else {
+        imagenes.value = [
+            { imagen: ImagenEjercicio1, id: 1, finalizado: false, audio: Soundlife },
+            { imagen: ImagenEjercicio2, id: 2, finalizado: false, audio: Soundcoin },
+            { imagen: ImagenEjercicio3, id: 3, finalizado: false, audio: Soundjump },
+            { imagen: ImagenEjercicio4, id: 4, finalizado: false, audio: Soundcartoon1 },
+            { imagen: ImagenEjercicio5, id: 5, finalizado: false, audio: Soundcartoon2 },
+            { imagen: ImagenEjercicio6, id: 6, finalizado: false, audio: Soundcartoon3 }
+        ]
+
+
+        imagenes.value = imagenes.value.sort(() => Math.random() - 0.5)
+
+        /*   sonidos.value = ref([
+              Soundlife,
+              Soundcoin,
+              Soundjump,
+              Soundcartoon1,
+              Soundcartoon2,
+              Soundcartoon3
+          ]) */
+
+
+        //styleCuadricula.gridTemplateColumns = "repeat(auto-fill, minmax(16vw, 1fr))"
+    }
+}
+
+const finAnimacionIntro = () => {
+    ocultarIntroNivel.value = false
+
+}
+
+const ocultarVentanaInstrucciones = () => {
+    ocultarInstrucciones.value = !ocultarInstrucciones.value
+    ocultarIntroNivel.value = true
+}
 
 const generarSonidosAleatorios = () => {
     let sonidosArray = []
@@ -179,31 +274,13 @@ const styleParlante = reactive({
     cursor: 'pointer'
 });
 
-/* { imagen: ImagenEjercicio4, id: 4, finalizado: false },
-{ imagen: ImagenEjercicio5, id: 5, finalizado: false },
-{ imagen: ImagenEjercicio6, id: 6, finalizado: false }, */
 
-const imagenes = ref([
-    { imagen: ImagenEjercicio1, id: 1, finalizado: false },
-    { imagen: ImagenEjercicio2, id: 2, finalizado: false },
-    { imagen: ImagenEjercicio3, id: 3, finalizado: false }
-
-])
-
-const sonidos = ref([
-    Soundlife,
-    Soundcoin,
-    Soundjump,
-    Soundcartoon1,
-    Soundcartoon2,
-    Soundcartoon3
-
-])
 
 const activarNavegacionSliders = () => {
     finTime.value = true
     cronometroMostrarOpciones.value = false
     repetirAudio.value = false
+    habilitarCronometro.value = false
 }
 
 
@@ -212,7 +289,7 @@ const playSonidoAleatorio = () => {
 
     if (aleatorioSonidos.value.length !== 0) {
         if (audio.value == null) {
-            audio.value = new Audio(sonidos.value[aleatorioSonidos.value[posicionAudioAleatorio.value]])
+            audio.value = new Audio(imagenes.value[aleatorioSonidos.value[posicionAudioAleatorio.value]].audio)
             audio.value.play()
             audio.value.addEventListener("ended", () => {
                 cronometroMostrarOpciones.value = true
@@ -272,6 +349,7 @@ const comprobarRespuesta = () => {
             audioAplausos.value = new Sonidos('aplausos', false)
 
             audioAplausos.value.playAudio(() => {
+                habilitarCronometro.value = true
                 cronometroMostrarOpciones.value = false
                 mostrarCamaraCalentamiento.value = true
             })
@@ -368,7 +446,7 @@ const volverEscena = () => {
     flex-direction: column;
     place-items: center;
     width: 69%;
-    height: 72vh;
+    height: 78vh;
     grid-gap: 24px;
     padding: 20px 0px;
     background-image: url(@/assets/img/fonto.png);
@@ -397,7 +475,7 @@ const volverEscena = () => {
     border: 2px solid white;
     padding: 8px;
     width: 150px;
-    height: 28vh;
+    height: 21vh;
 }
 
 
@@ -432,7 +510,7 @@ const volverEscena = () => {
 
 #imagen-pregunta-ejercicio {
     width: 18vw;
-    height: 40vh;
+    height: 15pc;
 }
 
 .parlante-pregunta {

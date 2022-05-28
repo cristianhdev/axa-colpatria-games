@@ -19,7 +19,7 @@
 
 <script setup>
 
-import { onMounted, onBeforeMount, ref, reactive } from 'vue';
+import { onMounted, onBeforeMount, onBeforeUnmount, ref, reactive } from 'vue';
 import { useRouter, useRoute } from "vue-router";
 import { useConfigStore } from "../stores/config.js";
 import { gsap } from "gsap"
@@ -32,9 +32,10 @@ import PuntosEscenario from '@/assets/svg/puntos_fondo.svg';
 const router = useRouter()
 const escena = ref(null)
 const escenaCojines = ref([])
-const rutasActividad = ref(['/JuegoAudiosPosturas', '/JuegoManos', '/JuegoOjos', '/JuegoPosturas', '/JuegoManos', '/JuegoOjos','/JuegoAudiosPosturas','/JuegoPosturaAudios','/VentanaFinal'])
+const rutasActividad = ref(['/JuegoAudiosPosturas', '/JuegoManos', '/JuegoOjos', '/JuegoPosturas', '/JuegoManos', '/JuegoOjos', '/JuegoAudiosPosturas', '/JuegoPosturaAudios'])
 const config = useConfigStore();
 const animacionAvancePersonaje = ref(null)
+const cleanTimeAvance = ref(null)
 
 /* '/JuegoAudiosPosturas' */
 
@@ -56,13 +57,29 @@ const coordenadasAnimacionPersonaje = ref([
     { 'x': '-31', 'y': 17 }
 ])
 
+
+const stylePersonaje = reactive({
+    position: "absolute",
+    left: "-14px",
+    bottom: "-4vh",
+    transform: "translate(0px, 0px)"
+});
+
+const styleOvalo = reactive({
+    width: "3vw",
+    height: "3vh",
+    borderRadius: "100%",
+    position: "fixed",
+    bottom: "50%",
+    left: "50%",
+    transform: "translate(-49vw, 24.5vw)"
+});
+
 onMounted(() => {
-
+    let temporal = rutasActividad.value.sort(() => Math.random() - 0.5)
+    rutasActividad.value = temporal
+    console.log(rutasActividad.value)
     cargaEscenario()
-
-
-
-
 })
 
 
@@ -116,36 +133,38 @@ const animarPuntos = () => {
 
     /*  escenaCojines.value[posicionActual].style.fill = '#EDFF91' */
 
-
-    if (posicionActual == 2 || posicionActual == 8 || posicionActual == 12) {
+    console.log(posicionActual)
+    if (posicionActual == 2 || posicionActual == 5 || posicionActual == 8) {
         posicionActual++
         config.setPosicionActualUsuario(posicionActual)
         animacionAvancePersonaje.value.pause()
-        setTimeout(() => {
+        cleanTimeAvance.value = setTimeout(() => {
             router.push('/JuegoRuleta')
         }, 1500);
 
 
 
+    } else if (posicionActual == 11) {
+        router.push('/VentanaFinal')
     } else {
-
-        setTimeout(() => {
-            if (posicionActual == 0) {
-                router.push(rutasActividad.value[posicionActual])
-            } else {
-                router.push(rutasActividad.value[posicionActual - 1])
-            }
-        }, 1500)
+         setTimeout(() => {
+             if (posicionActual == 0) {
+                 router.push(rutasActividad.value[posicionActual])
+             } else {
+                 router.push(rutasActividad.value[posicionActual - 1])
+             }
+         }, 1500)
 
 
 
         posicionActual++
         config.setPosicionActualUsuario(posicionActual)
         animacionAvancePersonaje.value.pause()
-
     }
 
     /* animarEscenaPersonaje() */
+
+    animacionAvancePersonaje.value.pause()
 
     if (posicionActual == escenaCojines.value.length) {
         posicionActual = 0
@@ -173,22 +192,10 @@ const reiniciarPosiciones = () => {
 
 
 
-const stylePersonaje = reactive({
-    position: "absolute",
-    left: "-14px",
-    bottom: "-4vh",
-    transform: "translate(0px, 0px)"
-});
 
-const styleOvalo = reactive({
-    width: "3vw",
-    height: "3vh",
-    borderRadius: "100%",
-    position: "fixed",
-    bottom: "50%",
-    left: "50%",
-    transform: "translate(-49vw, 24.5vw)"
-});
+onBeforeUnmount(() => {
+    clearTimeout(cleanTimeAvance.value)
+})
 
 </script>
 

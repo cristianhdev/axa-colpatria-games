@@ -3,7 +3,7 @@
         :id="`parlante-${posicionSonidos.posicion}`">
         <div :style="styleParlante" class="animate__animated animate__fadeIn animate__delay-1s animate__faster"
             @click="playSonido(posicionSonidos.posicion)">
-
+            {{ posicionSonidos.audiosSound }}
         </div>
         <div class="animate__animated animate__fadeIn animate__delay-2s animate__faster">
             <img class="imagen-ejercicio" :src="srcUrl" alt="">
@@ -15,6 +15,12 @@
 import { ref, computed, onBeforeMount, reactive } from 'vue'
 import Sonidos from '@/assets/helpers/sounds.js'
 import ImagenParlante from '@/assets/img/parlanteOn.gif'
+import Soundlife from '@/assets/sounds/life.mp3'
+import Soundcoin from '@/assets/sounds/coin.mp3'
+import Soundjump from '@/assets/sounds/jump.mp3'
+import Soundcartoon1 from '@/assets/sounds/cartoon1.mp3'
+import Soundcartoon2 from '@/assets/sounds/cartoon2.mp3'
+import Soundcartoon3 from '@/assets/sounds/cartoon3.mp3'
 
 onBeforeMount(() => {
     /*  setTimeout(() => {
@@ -49,23 +55,25 @@ const posicionSonidos = defineProps({
     estilos: Object
 })
 
-const sonidos = ref([
-    'life',
-    'coin',
-    'jump',
-    'cartoon1',
-    'cartoon2',
-    'cartoon3'
 
-])
 
 const playSonido = (posicion) => {
+    console.log(posicion)
+    let sonidos = [
+        new Audio(Soundlife),
+        new Audio(Soundcoin),
+        new Audio(Soundjump),
+        new Audio(Soundcartoon1),
+        new Audio(Soundcartoon2),
+        new Audio(Soundcartoon3)
+    ]
     if (audio.value == null) {
-        console.log(sonidos.value[parseInt(posicion)])
-        audio.value = new Sonidos(sonidos.value[parseInt(posicion)], false)
-        audio.value.playAudio()
+
+        sonidos[parseInt(posicion)].play()
+        /* audio.value = new Sonidos(sonidos[parseInt(posicion)], false)
+        audio.value.playAudio() */
     } else {
-        audio.value.stopAudio()
+        /* audio.value.stopAudio() */
     }
 }
 
@@ -83,7 +91,7 @@ const playSonido = (posicion) => {
 }
 
 .imagen-ejercicio {
-    width: 20vh;
-    height: 20vh
+    width: 14vh;
+    height: 14vh
 }
 </style>

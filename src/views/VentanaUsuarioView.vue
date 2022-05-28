@@ -21,7 +21,7 @@
 
         <div>
           <div class="flex-center-elements-row gap-2" v-if="guardar">
-            <input id="usuarionombre" type="text" v-model="usuario" placeholder="Nombre" />
+            <input id="usuarionombre" type="text" v-model="usuario" placeholder="Nombre" maxlength="12" />
 
 
           </div>
