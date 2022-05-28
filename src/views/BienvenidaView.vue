@@ -85,8 +85,22 @@ const countert = ref(null);
 const config = useConfigStore();
 
 onMounted(() => {
-  if (config.posicionactualEscenarioJuego>0) {
+  if (config.posicionactualEscenarioJuego > 0) {
     if (confirm("Continuar en la ultimo punto guardado?")) {
+      var targetelement = document.documentElement;
+
+      if (targetelement.requestFullscreen) {
+        targetelement.requestFullscreen();
+      }
+      if (targetelement.webkitRequestFullscreen) {
+        targetelement.webkitRequestFullscreen();
+      }
+      if (targetelement.mozRequestFullScreen) {
+        targetelement.mozRequestFullScreen();
+      }
+      if (targetelement.msRequestFullscreen) {
+        targetelement.msRequestFullscreen();
+      }
       router.push(`/Escenario`);
     } else {
       config.setPosicionActualUsuario(0)

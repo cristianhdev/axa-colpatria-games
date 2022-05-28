@@ -90,7 +90,7 @@
                     <br>
                     <div class="auto flex-center-elements-row gap-2" style="text-align:center">
                         <button class="btn-primary-ghost" @click="comprobarRespuesta">COMPROBAR</button>
-                        <button class="btn-primary-ghost">REPETIR</button>
+                       <!--  <button class="btn-primary-ghost">REPETIR</button> -->
                     </div>
                 </div>
 
@@ -259,7 +259,7 @@ const comprobarRespuesta = () => {
         /*  document.querySelector(`#figura-click-${opcionSeleccionada.value}`).style.borderRadius = '12px';
          document.querySelector(`#figura-click-${opcionSeleccionada.value}`).style.pointerEvents = 'none'; */
         document.querySelector(`#figura-click-${opcionSeleccionada.value}`).classList.add('imagenes-opciones')
-        document.querySelector(`#imagen-pregunta`).style.border = '3px solid green';
+        document.querySelector(`#imagen-pregunta`).style.border = '2px solid green';
         document.querySelector(`#imagen-pregunta`).setAttribute('src', imagenes.value[opcionSeleccionada.value - 1].imagen)
         document.querySelector(`#imagen-pregunta`).classList.add('imagenes-opciones')
         imagenes.value[opcionSeleccionada.value - 1].finalizado = true
@@ -309,7 +309,7 @@ const reiniciarInterrogante = () => {
 
 const volverEscena = () => {
     config.setActividadActual(router.currentRoute.value.path)
-    router.push('/')
+    router.push('/Escenario')
 }
 
 
@@ -340,7 +340,7 @@ const volverEscena = () => {
 }
 
 .contenedor-ejercicio-imagen-camara {
-    height: 59vh !important
+    height: 50vh !important
 }
 
 /* .camara {
@@ -368,7 +368,7 @@ const volverEscena = () => {
     flex-direction: column;
     place-items: center;
     width: 69%;
-    height: 80vh;
+    height: 72vh;
     grid-gap: 24px;
     padding: 20px 0px;
     background-image: url(@/assets/img/fonto.png);
@@ -397,7 +397,7 @@ const volverEscena = () => {
     border: 2px solid white;
     padding: 8px;
     width: 150px;
-    height: 181px;
+    height: 28vh;
 }
 
 
