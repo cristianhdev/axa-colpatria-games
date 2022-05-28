@@ -574,7 +574,7 @@ hr {
 
 .opciones-pregunta .opcion {
     font-family: 'SourceSansPro, Arial, Georgia, Sans Serif, Serif';
-    width: 27vh;
+    width: 17vw;
     height: 19vh;
     text-align: justify;
     border: 3px solid var(--bg-igloo);

@@ -1,10 +1,12 @@
 <template>
-    <div  v-if="!fintiempo" class="contenedor-audio flex-center-elements-column gap-1" :id="`parlante-${posicionSonidos.posicion}`">
-        <div :style="styleParlante" class="animate__animated animate__fadeIn animate__delay-1s animate__faster" @click="playSonido(posicionSonidos.posicion)">
+    <div v-if="!fintiempo" class="contenedor-audio flex-center-elements-column gap-1"
+        :id="`parlante-${posicionSonidos.posicion}`">
+        <div :style="styleParlante" class="animate__animated animate__fadeIn animate__delay-1s animate__faster"
+            @click="playSonido(posicionSonidos.posicion)">
 
         </div>
         <div class="animate__animated animate__fadeIn animate__delay-2s animate__faster">
-            <img :src="srcUrl" width="77" height="88" alt="">
+            <img class="imagen-ejercicio" :src="srcUrl" alt="">
         </div>
     </div>
 </template>
@@ -12,11 +14,12 @@
 <script setup>
 import { ref, computed, onBeforeMount, reactive } from 'vue'
 import Sonidos from '@/assets/helpers/sounds.js'
+import ImagenParlante from '@/assets/img/parlanteOn.gif'
 
 onBeforeMount(() => {
-   /*  setTimeout(() => {
-        document.querySelector('#figura-0').style.display = "none"
-    }, 13000) */
+    /*  setTimeout(() => {
+         document.querySelector('#figura-0').style.display = "none"
+     }, 13000) */
 })
 
 
@@ -30,7 +33,7 @@ const styleParlante = reactive({
     backgroundColor: 'silver',
     width: '26px',
     height: '27px',
-    backgroundImage: 'url(@/assets/img/parlanteOn.gif)',
+    backgroundImage: `url('${ImagenParlante}')`,
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center center',
     backgroundSize: 'contain',
@@ -40,10 +43,10 @@ const styleParlante = reactive({
 });
 
 const posicionSonidos = defineProps({
-    posicion: [Number,String],
+    posicion: [Number, String],
     fintiempo: Boolean,
-    srcUrl:String,
-    estilos:Object
+    srcUrl: String,
+    estilos: Object
 })
 
 const sonidos = ref([
@@ -79,4 +82,8 @@ const playSonido = (posicion) => {
     border: 3px solid green;
 }
 
+.imagen-ejercicio {
+    width: 20vh;
+    height: 20vh
+}
 </style>
