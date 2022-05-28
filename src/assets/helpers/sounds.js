@@ -1,4 +1,3 @@
-
 export default class Sonidos {
 
     audio;
@@ -19,36 +18,35 @@ export default class Sonidos {
     cargarAudio(ruta) {
 
         if (ruta.includes('/')) {
-
-            this.audio = new Audio(requiere(`${this.path_sound}${ruta}${this.sonido}.mp3`));
+            this.audio = new Audio(`${this.path_sound}${ruta}${this.sonido}.mp3`);
         } else {
-            this.audio = new Audio(requiere(`${this.path_sound}${this.sonido}.mp3`));
+            this.audio = new Audio(`${this.path_sound}${this.sonido}.mp3`);
         }
 
         /* audio.muted = true */
     }
 
 
-    /**
-     * !Importante tener encuenta el parametro del loop
-     * @param {function} callback Funcion a la que se llama cuando el audio termina
-     * @param {boolean} loop  Indica si el audio se repite infinitamente (true) o no (false)
-     */
-    playAudio(callback, loop) {
+/**
+ * !Importante tener encuenta el parametro del loop
+ * @param {function} callback Funcion a la que se llama cuando el audio termina
+ * @param {boolean} loop  Indica si el audio se repite infinitamente (true) o no (false)
+ */
+    playAudio(callback,loop) {
 
         this.audio.loop = loop
-        this.audio.autoplay = false
+        this.audio.autoplay=false
         this.audio.muted = true
         this.audio.volume = 0.2;
 
         this.isPlaying = true
-        this.audio.addEventListener('canplaythrough', () => {
+        this.audio.addEventListener('canplaythrough', () =>{
             this.audio.muted = false
             this.audio.play();
         });
 
         this.audio.addEventListener('ended', () => {
-
+           
             this.isFinalizado = true
             if (callback != null) {
                 callback()
