@@ -15,7 +15,6 @@
     "handsfree": "^8.5.1",
     "party-js": "^2.1.2",
     "pinia": "^2.0.13",
-    "soundjs": "^1.0.1",
     "vue": "^3.2.31",
     "vue-router": "^4.0.14"
   },
@@ -31,6 +30,7 @@
     "pinia-plugin-persist": "^1.0.0",
     "pinia-plugin-persistedstate": "^1.5.1",
     "prettier": "^2.5.1",
+    "soundjs": "^1.0.1",
     "vite": "^2.9.1",
     "vitest": "^0.8.1"
   }

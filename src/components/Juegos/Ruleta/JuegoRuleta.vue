@@ -1,4 +1,7 @@
 <template>
+    <audio ref="sonidoRuleta" preload="auto" >
+        <source :src="RuletaSonido">
+    </audio>
     <div class="emulate-confetti-1">
 
     </div>
@@ -130,6 +133,12 @@ import Ruleta from '@/assets/svg/ruleta.svg'
 import IndicadorRuleta from '@/assets/svg/indicador.svg'
 import party from "party-js";
 
+
+//Sonidos
+import Aplausos from '@/assets/sounds/aplausos.mp3'
+import Incorrecto from '@/assets/sounds/incorrecto.mp3'
+import RuletaSonido from '@/assets/sounds/Ruleta_sonido.mp3'
+
 const router = useRouter()
 const animacionRuletaFin = ref(false)
 const loading = ref(true)
@@ -154,9 +163,13 @@ const preguntasRuletaGeneradas = useConfigStore();
  * !Provicional
  */
 const preguntasRealizadas = ref([])
+const sonidoAplausos = ref(null)
+const sonidoIncorrecto = ref(null)
+const sonidoRuleta = ref(null)
 
 
 onMounted(() => {
+    
     document.querySelector(".emulate-confetti-1").addEventListener("click", (e) => {
 
         party.confetti(e.target);
@@ -173,7 +186,11 @@ onMounted(() => {
     setInterval(() => {
         document.querySelector(".emulate-confetti-2").click();
     }, 4500); */
+    document.body.focus()
     loading.value = false
+
+    sonidoRuleta.value = new Audio(RuletaSonido);
+
 })
 
 const StyleAwser = reactive({
@@ -294,7 +311,7 @@ const salirActividad = () => {
         } else if (document.msExitFullscreen) {
             document.msExitFullscreen();
         }
-       /*  close(); */
+        /*  close(); */
     }
 }
 
@@ -324,13 +341,10 @@ const continuarTrivia = () => {
 
 
 const girarRuleta = () => {
+    sonidoRuleta.value.play()
 
-    if (audioRuleta.value == null) {
-        audioRuleta.value = new Sonidos('Ruleta_sonido_editado', false)
-        audioRuleta.value.playAudio()
-    } else {
-        audioRuleta.value.pauseAudio()
-    }
+
+
     rotate.value = gsap.timeline({ timeScale: 0.1 })
         .to('.ruleta', {
             rotation: "-360deg", duration: 0.2, repeat: 21, ease: 'none', onComplete: () => {
@@ -351,8 +365,8 @@ const girarRuleta = () => {
 
                 rotate.value.seek(randomNumeroAleatorioPregunta());//posicion - 1
                 rotate.value.pause()
-                audioRuleta.value.pauseAudio()
-                audioRuleta.value = null
+                sonidoRuleta.value.pause()
+                sonidoRuleta.value = null
                 detenerRuleta()
             }
         })
