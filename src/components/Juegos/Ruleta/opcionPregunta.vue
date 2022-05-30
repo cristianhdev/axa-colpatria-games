@@ -1,7 +1,6 @@
 <template>
     <div class="contenedor-opciones-pregunta animate__animated  animate__delay-1s animate__zoomIn">
-        <div :id="`opciones-${secuencia.id}-awswer`"
-            :style="secuencia.respuestaOpcion == 'correcto' ? StyleAwserCorrecto : StyleAwserIncorrecto">
+        <div :id="`opciones-${secuencia.id}-awswer`">
 
         </div>
         <div class="opcion-border-rigth  opcion-normal">
@@ -24,23 +23,7 @@ import { ref, onMounted, onBeforeMount, computed, reactive } from "vue";
 import ImagenCheckawert from '@/assets/img/check_awert.png'
 import ImagenCheckwrong from '@/assets/img/check_wrong.png'
 
-const StyleAwserCorrecto = reactive({
-    backgroundSize: "contain",
-    position: "absolute",
-    top: "-3px",
-    right: "-13px",
-    width: "3vw",
-    height: "3vh"
-})
 
-const StyleAwserIncorrecto = reactive({
-    backgroundSize: "contain",
-    position: "absolute",
-    top: "-3px",
-    right: "-13px",
-    width: "3vw",
-    height: "3vh"
-})
 
 const secuencia = defineProps({
     id: {
