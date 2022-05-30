@@ -32,7 +32,7 @@ import PuntosEscenario from '@/assets/svg/puntos_fondo.svg';
 const router = useRouter()
 const escena = ref(null)
 const escenaCojines = ref([])
-const rutasActividad = ref(['/JuegoAudiosPosturas', '/JuegoManos', '/JuegoOjos', '/JuegoPosturas', '/JuegoManos', '/JuegoOjos', '/JuegoAudiosPosturas', '/JuegoPosturaAudios'])
+const rutasActividad = ref(['/JuegoPosturas', '/JuegoManos', '/JuegoOjos', '/JuegoAudiosPosturas', '/JuegoManos', '/JuegoOjos', '/JuegoAudiosPosturas', '/JuegoPosturaAudios'])
 const config = useConfigStore();
 const animacionAvancePersonaje = ref(null)
 const cleanTimeAvance = ref(null)
@@ -76,9 +76,9 @@ const styleOvalo = reactive({
 });
 
 onMounted(() => {
-    let temporal = rutasActividad.value.sort(() => Math.random() - 0.5)
+    /* let temporal = rutasActividad.value.sort(() => Math.random() - 0.5)
     rutasActividad.value = temporal
-    console.log(rutasActividad.value)
+    console.log(rutasActividad.value) */
     cargaEscenario()
 })
 

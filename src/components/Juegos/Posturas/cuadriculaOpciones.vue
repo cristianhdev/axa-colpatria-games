@@ -73,13 +73,13 @@
             <div v-if="continuar">
 
                 <div v-if="!opcionCorrecta">
-                    <h2>Selecciona la posición donde se encontraba la imagen.</h2>
+                    <h2>¿En que posicion se encontraba la pausa activa?</h2>
                 </div>
 
             </div>
             <div v-else>
                 <div v-if="!opcionCorrecta">
-                    <h2>Visualiza y memoriza las siguientes posiciones</h2>
+                    <h2>Visualiza y memoriza las siguientes pausas activas.</h2>
                 </div>
             </div>
             <div v-if="!opcionCorrecta" :style="styleCuadricula" id="cuadricula" class="gap-2">
@@ -108,7 +108,7 @@
                         <div class="contenedor-ejercicios" v-if="camaraReady">
 
                             <div>
-                                <CaramaWeb :width="250" :height="250" @camaraLoad="finLoadCamara" />
+                                <CaramaWeb :width="285" :height="250" @camaraLoad="finLoadCamara" />
                             </div>
                             <!--  <div v-else>
                         <h2>Cargando camara...</h2>
@@ -117,7 +117,7 @@
                         </div>
                         <div class="contenedor-ejercicios">
                             <img :id="opcionIdInterroganteSeleccionada" :src="opcionImagenInterroganteSeleccionada"
-                                alt="" width="250" height="250">
+                                alt="" width="285" height="250">
                         </div>
                     </div>
 
@@ -141,6 +141,8 @@ import VentanaIntroNivel from "@/components/VentanaIntroNivel.vue"
 import CaramaWeb from '@/components/Camaraweb/CamaraWeb.vue'
 import { ref, computed, onBeforeMount, onMounted, reactive } from 'vue'
 import { useRouter, useRoute } from "vue-router";
+
+//Imagenes Demo
 import { useConfigStore } from "../../../stores/config.js";
 import Imagen1Figuras from '@/assets/img/Ejercicio1.png'
 import Imagen2Figuras from '@/assets/img/Ejercicio2.png'
@@ -148,6 +150,14 @@ import Imagen3Figuras from '@/assets/img/Ejercicio3.png'
 import Imagen4Figuras from '@/assets/img/Ejercicio4.png'
 import Imagen5Figuras from '@/assets/img/Ejercicio5.png'
 import Imagen6Figuras from '@/assets/img/Ejercicio6.png'
+
+//Ejericicios Postura
+import Ejercicio1 from '@/assets/ejercicios/Ej1.gif'
+import Ejercicio2 from '@/assets/ejercicios/Ej2.gif'
+import Ejercicio3 from '@/assets/ejercicios/Ej3.gif'
+import Ejercicio4 from '@/assets/ejercicios/Ej4.gif'
+
+
 
 const router = useRouter()
 const numeracionCuadricula = ref(0)
@@ -224,36 +234,36 @@ const configurarActividad = (valor) => {
 
     if (valor == 1) {
         imagenesReferenciaRandom.value = [
-            { imagen: Imagen1Figuras, valorCheck: 1 },
-            { imagen: Imagen2Figuras, valorCheck: 2 },
-            { imagen: Imagen3Figuras, valorCheck: 3 },
-            { imagen: Imagen4Figuras, valorCheck: 4 }
+            { imagen: Ejercicio1, valorCheck: 1 },
+            { imagen: Ejercicio2, valorCheck: 2 },
+            { imagen: Ejercicio3, valorCheck: 3 },
+            { imagen: Ejercicio4, valorCheck: 4 }
         ]
 
         imagenesReferencia.value = [
-            { imagen: Imagen1Figuras, valorCheck: 1 },
-            { imagen: Imagen2Figuras, valorCheck: 2 },
-            { imagen: Imagen3Figuras, valorCheck: 3 },
-            { imagen: Imagen4Figuras, valorCheck: 4 }
+            { imagen: Ejercicio1, valorCheck: 1 },
+            { imagen: Ejercicio2, valorCheck: 2 },
+            { imagen: Ejercicio3, valorCheck: 3 },
+            { imagen: Ejercicio4, valorCheck: 4 }
         ]
 
         styleCuadricula.gridTemplateColumns = "repeat(auto-fill, minmax(30vw, 1fr))"
 
     } else {
         imagenesReferenciaRandom.value = [
-            { imagen: Imagen1Figuras, valorCheck: 1 },
-            { imagen: Imagen2Figuras, valorCheck: 2 },
-            { imagen: Imagen3Figuras, valorCheck: 3 },
-            { imagen: Imagen4Figuras, valorCheck: 4 },
+            { imagen: Ejercicio1, valorCheck: 1 },
+            { imagen: Ejercicio2, valorCheck: 2 },
+            { imagen: Ejercicio3, valorCheck: 3 },
+            { imagen: Ejercicio4, valorCheck: 4 },
             { imagen: Imagen5Figuras, valorCheck: 5 },
             { imagen: Imagen6Figuras, valorCheck: 6 }
         ]
 
         imagenesReferencia.value = [
-            { imagen: Imagen1Figuras, valorCheck: 1 },
-            { imagen: Imagen2Figuras, valorCheck: 2 },
-            { imagen: Imagen3Figuras, valorCheck: 3 },
-            { imagen: Imagen4Figuras, valorCheck: 4 },
+            { imagen: Ejercicio1, valorCheck: 1 },
+            { imagen: Ejercicio2, valorCheck: 2 },
+            { imagen: Ejercicio3, valorCheck: 3 },
+            { imagen: Ejercicio4, valorCheck: 4 },
             { imagen: Imagen5Figuras, valorCheck: 5 },
             { imagen: Imagen6Figuras, valorCheck: 6 }
         ]
@@ -303,11 +313,7 @@ const opcionSiguiente = () => {
     /* continuar.value = !continuar.value */
     imagenRamdom.value = !imagenRamdom.value
     puntosBuenos.value = puntosBuenos.value + 1
-    if (puntosBuenos.value == 1) {
-        mensajeFinal.value = true
-    } else {
-        getRamdomimagenInterrogante()
-    }
+
     opcionCorrecta.value = true
 
 }
@@ -340,9 +346,15 @@ const getOpcionRandomSeleccionada = () => {
 }
 
 const FinOpcion = () => {
-    continuar.value = !continuar.value
-    opcionCorrecta.value = !opcionCorrecta.value
-    opcionIdInterroganteSeleccionada.value = 0
+
+    if (puntosBuenos.value == 1) {
+        mensajeFinal.value = true
+    } else {
+        continuar.value = !continuar.value
+        opcionCorrecta.value = !opcionCorrecta.value
+        opcionIdInterroganteSeleccionada.value = 0
+        getRamdomimagenInterrogante()
+    }
 
 }
 
@@ -398,7 +410,7 @@ const volverEscenario = () => {
 .contenedor-ejercicios {
     border: 1px solid white;
     padding: 3px;
-    width: 250px;
+    width: 285px;
     height: 250px;
 }
 
@@ -415,6 +427,10 @@ const volverEscenario = () => {
 .imagen-random-img img {
     width: 9vw;
     height: 15vh;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -60%);
 }
 
 .contenedor-ejercicio-realizado {

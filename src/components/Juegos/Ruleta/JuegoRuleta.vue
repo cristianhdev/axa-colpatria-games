@@ -1,5 +1,5 @@
 <template>
-    <audio ref="sonidoRuleta" preload="auto" >
+    <audio ref="sonidoRuleta" preload="auto">
         <source :src="RuletaSonido">
     </audio>
     <div class="emulate-confetti-1">
@@ -14,7 +14,7 @@
                 opciones,
                 así podrás aplicar lo aprendido en  tu jornada laboral, estás listo.</h2>
             <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center"
-                @click="ocultarInstrucciones = !ocultarInstrucciones">
+                @click="ocultarInstruccionesActividad">
                 <button class="btn-primary-ghost"> CONTINUAR</button>
             </div>
         </template>
@@ -35,7 +35,8 @@
                 <button class="btn-primary-vr1" @mousemove="confity" @click="continuarTrivia">CONTINUAR TRIVIA!</button>
                 <button class="btn-primary-vr1" @mousemove="confity" @click="volveraAlEscenario">VOLVER A
                     EJERCICIOS</button>
-                <button class="btn-primary-vr1" @mousemove="confity" @click="salirActividad" @id="salir">SALIR</button>
+                <!-- <button class="btn-primary-vr1" @mousemove="confity" @click="salirActividad" @id="salir">SALIR</button>
+                <a href="#" @click="quitBox">Close Window</a> -->
             </template>
 
         </VentanaPuntosFinal>
@@ -60,9 +61,9 @@
                     </div>
 
                 </div>
-                <div v-if="btnContinuar" class="auto flex-center-elements-row gap-2" style="text-align:center">
+                <!--  <div v-if="btnContinuar" class="auto flex-center-elements-row gap-2" style="text-align:center">
                     <button class="btn-primary-ghost " @click="continuarActividad">GIRAR</button>
-                </div>
+                </div> -->
 
             </div>
             <!-- <div class="barra-izquierda">
@@ -85,19 +86,20 @@
 
                 <div class="opciones-pregunta  gap-1">
 
-                    <div class="opcion flex-center-elements-row animate__animated  animate__delay-1s animate__zoomIn"
-                        v-for="(opcion, index) in randomPregunta.opciones" :key="`opciones-${index}`"
-                        :id="`opciones-${index}`"
-                        @click="opcionCorrecta(randomPregunta.correcta, String.fromCharCode(`6${index + 5}`).toLocaleLowerCase(), `opciones-${index}`)">
-                        <div :id="`opciones-${index}-awswer`" :style="StyleAwser">
+                    <div class="opcion " v-for="(opcion, index) in randomPregunta.opciones" :key="`opciones-${index}`"
+                        :id="`opciones-${index}`">
+                        <OpcionesRuleta :id="index"
+                            @click="opcionCorrecta(randomPregunta.correcta, String.fromCharCode(`6${index + 5}`).toLocaleLowerCase(), `opciones-${index}`)">
 
-                        </div>
-                        <div class="opcion-border-rigth  opcion-normal">
-                            {{ String.fromCharCode(`6${index + 5}`) }}
-                        </div>
-                        <div class="texto-opcion ">
-                            {{ opcion }}.
-                        </div>
+                            <template #letra>
+                                {{ String.fromCharCode(`6${index + 5}`) }}
+                            </template>
+
+
+                            <template #texto>
+                                {{ opcion }}.
+                            </template>
+                        </OpcionesRuleta>
 
                     </div>
 
@@ -132,12 +134,18 @@ import VentanaPuntosFinal from "@/components/VentanaPuntosFinal.vue"
 import Ruleta from '@/assets/svg/ruleta.svg'
 import IndicadorRuleta from '@/assets/svg/indicador.svg'
 import party from "party-js";
-
+import OpcionesRuleta from '@/components/Juegos/Ruleta/opcionPregunta.vue'
 
 //Sonidos
 import Aplausos from '@/assets/sounds/aplausos.mp3'
 import Incorrecto from '@/assets/sounds/incorrecto.mp3'
 import RuletaSonido from '@/assets/sounds/Ruleta_sonido.mp3'
+
+//Imagenes
+
+import ImagenCheckawert from '@/assets/img/check_awert.png'
+import ImagenCheckwrong from '@/assets/img/check_wrong.png'
+
 
 const router = useRouter()
 const animacionRuletaFin = ref(false)
@@ -146,7 +154,9 @@ const rotate = ref(null)
 const posicionPreguntaActual = ref(0)
 const puntosBuenos = ref(0)
 const puntosMalos = ref(0)
+const opcionSeleccionada = ref(null)
 const acomuladorPuntos = ref(5)
+const opcionesPregunta = ref(null)
 const mostrarMensaje = ref(false)
 
 const mostrarDebug = ref(false)
@@ -168,8 +178,10 @@ const sonidoIncorrecto = ref(null)
 const sonidoRuleta = ref(null)
 
 
+
+
 onMounted(() => {
-    
+
     document.querySelector(".emulate-confetti-1").addEventListener("click", (e) => {
 
         party.confetti(e.target);
@@ -193,41 +205,33 @@ onMounted(() => {
 
 })
 
-const StyleAwser = reactive({
-    visibility: "hidden",
-    background: `transparent url(src/assets/img/check_awert.png) no-repeat center center`,
-    backgroundSize: "contain",
-    position: "absolute",
-    top: "4px",
-    right: "0px",
-    width: "3vw",
-    height: "3vh"
-})
+
 
 
 onBeforeMount(() => {
 
+    let temporal = Object.values(PreguntasTrivia.Preguntas)
+
+    for (let index = 0; index < 14; index++) {
+        const element = temporal[index];
+        preguntas.value.push(element)
+    }
+
+    //Generamos un array de manera aleatoria para las preguntas.
+    preguntas.value.sort(() => Math.random() - 0.5);
+
+
+    preguntasRuletaGeneradas.setPreguntasAleatorias(Object.values(preguntas.value.map((element) => {
+        return element.id
+    })))
+
+    //Generamos un array de manera aleatoria para los numero de la ruleta.
+    NumeroRuletaAleatorio.value.sort(() => Math.random() - 0.5);
 
 
     if (preguntasRuletaGeneradas.preguntasAleatoriasSeleccionadas.length == 0) {
-        let temporal = Object.values(PreguntasTrivia.Preguntas)
 
-        for (let index = 0; index < 14; index++) {
-            const element = temporal[index];
-            preguntas.value.push(element)
-        }
-
-        //Generamos un array de manera aleatoria para las preguntas.
-        preguntas.value.sort(() => Math.random() - 0.5);
-
-
-        preguntasRuletaGeneradas.setPreguntasAleatorias(Object.values(preguntas.value.map((element) => {
-            return element.id
-        })))
-
-        //Generamos un array de manera aleatoria para los numero de la ruleta.
-        NumeroRuletaAleatorio.value.sort(() => Math.random() - 0.5);
-    } else {
+    } /* else {
 
         let preguntaCargadas = preguntasRuletaGeneradas.preguntasAleatoriasSeleccionadas
 
@@ -240,35 +244,45 @@ onBeforeMount(() => {
              }
          }) */
 
-        Object.values(preguntaCargadas).forEach((id) => {
+    /*   Object.values(preguntaCargadas).forEach((id) => {
 
-            const isLargeNumber = (element) => element.id == id;
+          const isLargeNumber = (element) => element.id == id;
 
-            temporal.splice(Object.values(temporal).findIndex(isLargeNumber), 1)
+          temporal.splice(Object.values(temporal).findIndex(isLargeNumber), 1)
+      }) */
+
+    /* temporal.forEach((idReload) => {
+        let pregunta = temporal.filter((element, index) => {
+            const { id } = element
+            id != idReload ? temporal.splice(index, 1) : null
         })
+        console.log(Object.values(pregunta))
+    }) */
 
-        /* temporal.forEach((idReload) => {
-            let pregunta = temporal.filter((element, index) => {
-                const { id } = element
-                id != idReload ? temporal.splice(index, 1) : null
-            })
-            console.log(Object.values(pregunta))
-        }) */
-
-        for (let index = 0; index < 14; index++) {
-            const element = temporal[index];
-            preguntas.value.push(element)
-        }
+    /*  for (let index = 0; index < 14; index++) {
+         const element = temporal[index];
+         preguntas.value.push(element)
+     } */
 
 
-        /* console.log(preguntas.value) */
+    /* console.log(preguntas.value) */
 
-        //Generamos un array de manera aleatoria para los numero de la ruleta.
-        NumeroRuletaAleatorio.value.sort(() => Math.random() - 0.5);
+    //Generamos un array de manera aleatoria para los numero de la ruleta.
+    //NumeroRuletaAleatorio.value.sort(() => Math.random() - 0.5);
 
-    }
+    //}
 })
 
+
+const quitBox = (cmd) => {
+    open(location, '_self').close();
+    return false;
+}
+
+const ocultarInstruccionesActividad = () => {
+    ocultarInstrucciones.value = !ocultarInstrucciones.value
+    continuarActividad()
+}
 
 
 const filtrarPreguntasLoaders = (id) => {
@@ -285,7 +299,8 @@ const continuarActividad = () => {
 
 const randomPregunta = computed(() => {
     let pregunta = preguntas.value[posicionPreguntaActual.value]
-
+    const { opciones } = pregunta
+    opcionesPregunta.value = Object.keys(opciones).length
     preguntasRealizadas.value.push(pregunta.id)
     return pregunta
 })
@@ -403,9 +418,22 @@ const opcionCorrecta = (correcta, actual, id) => {
 
     if (correcta == actual) {
 
+
+        opcionSeleccionada.value = 'correcto'
         document.querySelector(`#${id}`).classList.add('opcion-correcto')
+        /*  for (let index = 0; index < opcionesPregunta.value; index++) {
+             console.log(`opciones-${index}-awswer`)
+             if (opcionesPregunta.value != id) {
+ 
+             }
+             document.querySelector(`#opciones-${index}-awswer`).style.visibility = "hidden"
+         } */
+
         document.querySelector(`#${id}-awswer`).style.visibility = "visible"
-        StyleAwser.background = `transparent url(src/assets/img/check_awert.png) no-repeat center center`
+
+        document.querySelector(`#${id}-awswer`).classList.add('opcion-img-correcto')
+
+        /* StyleAwser.background = `transparent url(${ImagenCheckawert}) no-repeat center center` */
         if (audioAplausos.value == null) {
             audioAplausos.value = new Sonidos('aplausos', false)
             document.querySelector(".emulate-confetti-1").click();
@@ -437,7 +465,18 @@ const opcionCorrecta = (correcta, actual, id) => {
         }
 
     } else {
+        opcionSeleccionada.value = 'incorrecto'
 
+        document.querySelector(`#${id}`).classList.add('opcion-incorrecto')
+        /*  for (let index = 0; index < opcionesPregunta.value; index++) {
+             console.log(`opciones-${index}-awswer`)
+             document.querySelector(`#opciones-${index}-awswer`).style.visibility = "hidden"
+         } */
+
+        /*  document.querySelector(`#${id}-awswer`).style.visibility = "visible" */
+        document.querySelector(`#${id}-awswer`).style.visibility = "visible"
+        /*document.querySelector(`#opciones-${id} #${id}-awswer`).style.visibility = "visible"
+      StyleAwser.background = `transparent url(${ImagenCheckwrong}) no-repeat center center` */
         if (audioIncorrecto.value == null) {
 
             audioIncorrecto.value = new Sonidos('incorrecto', false)
@@ -447,9 +486,7 @@ const opcionCorrecta = (correcta, actual, id) => {
             audioIncorrecto.value.stopAudio()
         }
         puntosMalos.value = puntosMalos.value + 1
-        document.querySelector(`#${id}`).classList.add('opcion-incorrecto')
-        document.querySelector(`#${id}-awswer`).style.visibility = "visible"
-        StyleAwser.background = `transparent url(src/assets/img/check_wrong.png) no-repeat center center`
+
     }
 }
 
@@ -580,47 +617,13 @@ hr {
     border: 3px solid var(--bg-igloo);
     vertical-align: middle;
     display: grid;
-    grid-template-columns: 1fr 3fr;
-    padding: 8px
-}
-
-
-.awswer {}
-
-.opcion-border-rigth {
-    /*     background: var(--info-mensaje); */
-    height: inherit;
-    display: flex;
-    align-items: center;
-    align-content: center;
-    justify-content: center;
-    margin-right: 7px;
-    color: var(--azul-axa);
-
-}
-
-.opcion:hover {
-    box-shadow: 3px 4px 5px silver;
-    transform: scale(1.03);
-    transition: transform 0.5s ease-in-out;
+    grid-template-columns: 1fr;
+    padding: 8px;
     cursor: pointer
 }
 
-.opcion:not(:hover) {
-    box-shadow: 3px 4px 0px silver;
-    transform: scale(1);
-    transition: transform 0.5s ease-in-out;
-}
 
-/* s */
 
-.texto-opcion {
-    pointer-events: none;
-    text-align: center;
-    color: var(--blanco);
-    font-size: 23px;
-    font-family: Source Sans Pro
-}
 
 .opcion-correcto {
     color: black;
@@ -630,6 +633,26 @@ hr {
 .opcion-incorrecto {
     color: black;
     border: 3px solid var(--border-error-mensaje) !important;
+}
+
+.opcion-correcto::before {
+    content: '';
+    background: url('@/assets/img/check_awert.png') no-repeat;
+    background-size: contain;
+    position: fixed;
+    width: 3vw;
+    height: 3vh;
+    transform: translate(210px, -3px);
+}
+
+.opcion-incorrecto::before {
+    content: '';
+    background: url('@/assets/img/check_wrong.png') no-repeat;
+    background-size: contain;
+    position: fixed;
+    width: 3vw;
+    height: 3vh;
+    transform: translate(210px, -3px);
 }
 
 

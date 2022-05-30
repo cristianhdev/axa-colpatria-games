@@ -123,7 +123,7 @@ const styleCuadricula = reactive({
     margin: "0px auto",
     display: "grid",
     gridTemplateColumns: "repeat(4,1fr)",
-    gridGap: "12px 20px"
+   /*  gridGap: "12px 20px" */
 })
 
 const configurarActividad = (valor) => {
@@ -266,7 +266,7 @@ h1 {
     margin: 0px auto;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 12px 20px;
+   /*  grid-gap: 12px 20px; */
 }
 
 .titulo {

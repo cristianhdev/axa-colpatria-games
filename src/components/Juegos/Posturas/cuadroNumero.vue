@@ -21,6 +21,14 @@
 import { ref, computed, reactive, onMounted, onBeforeMount, watch, defineEmits } from 'vue'
 import gsap from "gsap";
 import Sonidos from '@/assets/helpers/sounds.js'
+import Imagen1Figuras from '@/assets/img/Ejercicio1.png'
+import Imagen2Figuras from '@/assets/img/Ejercicio2.png'
+import Imagen3Figuras from '@/assets/img/Ejercicio3.png'
+import Imagen4Figuras from '@/assets/img/Ejercicio4.png'
+import Imagen5Figuras from '@/assets/img/Ejercicio5.png'
+import Imagen6Figuras from '@/assets/img/Ejercicio6.png'
+
+
 const audioIncorrecto = ref(null)
 const audioCorrecto = ref(null)
 
@@ -45,13 +53,15 @@ onBeforeMount(() => {
 
 
 
+
+
 const imagenes = ref([
-    { imagen: "@/assets/img/Ejercicio1.png", numero: secuencia.numero },
-    { imagen: "@/assets/img/Ejercicio2.png", numero: secuencia.numero },
-    { imagen: "@/assets/img/Ejercicio3.png", numero: secuencia.numero },
-    { imagen: "@/assets/img/Ejercicio4.png", numero: secuencia.numero },
-    { imagen: "@/assets/img/Ejercicio5.png", numero: secuencia.numero },
-    { imagen: "@/assets/img/Ejercicio6.png", numero: secuencia.numero },
+    { imagen: Imagen1Figuras, numero: secuencia.numero },
+    { imagen: Imagen2Figuras, numero: secuencia.numero },
+    { imagen: Imagen3Figuras, numero: secuencia.numero },
+    { imagen: Imagen4Figuras, numero: secuencia.numero },
+    { imagen: Imagen5Figuras, numero: secuencia.numero },
+    { imagen: Imagen6Figuras, numero: secuencia.numero },
 ])
 
 
@@ -152,7 +162,8 @@ const styleObject = reactive({
 })
 
 const stylePointerEvents = reactive({
-    pointerEvents: 'none'
+    pointerEvents: 'none',
+    backgroundColor:"transparent"
 })
 
 const validarClick = (id) => {
@@ -165,6 +176,7 @@ const validarClick = (id) => {
     if (parseInt(secuencia.opcion) === parseInt(id)) {
         if (audioCorrecto.value == null) {
             stylePointerEvents.pointerEvents = 'none'
+            stylePointerEvents.backgroundColor = 'green'
             audioCorrecto.value = new Sonidos('aplausos', false)
             audioCorrecto.value.playAudio(() => {
                 emit("OpcionCorrecto")
@@ -176,6 +188,7 @@ const validarClick = (id) => {
         respuestaCorrecta.value = true
     } else {
         stylePointerEvents.pointerEvents = 'none'
+        stylePointerEvents.backgroundColor = 'red'
         if (audioIncorrecto.value == null) {
 
             audioIncorrecto.value = new Sonidos('incorrecto', false)
