@@ -28,6 +28,9 @@ import Imagen4Figuras from '@/assets/img/Ejercicio4.png'
 import Imagen5Figuras from '@/assets/img/Ejercicio5.png'
 import Imagen6Figuras from '@/assets/img/Ejercicio6.png'
 
+//Sonidos
+import Aplausos from '@/assets/sounds/aplausos.mp3'
+import Incorrecto from '@/assets/sounds/incorrecto.mp3'
 
 const audioIncorrecto = ref(null)
 const audioCorrecto = ref(null)
@@ -163,7 +166,7 @@ const styleObject = reactive({
 
 const stylePointerEvents = reactive({
     pointerEvents: 'none',
-    backgroundColor:"transparent"
+    backgroundColor: "transparent"
 })
 
 const validarClick = (id) => {
@@ -171,16 +174,21 @@ const validarClick = (id) => {
 
     //emit('clickFicha',id)
 
-   
+
 
     if (parseInt(secuencia.opcion) === parseInt(id)) {
         if (audioCorrecto.value == null) {
             stylePointerEvents.pointerEvents = 'none'
             stylePointerEvents.backgroundColor = 'green'
-            audioCorrecto.value = new Sonidos('aplausos', false)
-            audioCorrecto.value.playAudio(() => {
+            audioCorrecto.value = new Audio(Aplausos)
+            audioCorrecto.value.play()
+            audioCorrecto.value.addEventListener("ended", () => {
                 emit("OpcionCorrecto")
-            })
+            });
+            /* audioCorrecto.value = new Sonidos('aplausos', false)
+            audioCorrecto.value.playAudio(() => {
+               
+            }) */
 
         } else {
             audioCorrecto.value.stopAudio()
@@ -189,14 +197,17 @@ const validarClick = (id) => {
     } else {
         stylePointerEvents.pointerEvents = 'none'
         stylePointerEvents.backgroundColor = 'red'
-        if (audioIncorrecto.value == null) {
+        audioIncorrecto.value = new Audio(Incorrecto)
+        audioIncorrecto.value.play()
+      
+        /* if (audioIncorrecto.value == null) {
 
             audioIncorrecto.value = new Sonidos('incorrecto', false)
             audioIncorrecto.value.playAudio()
 
         } else {
             audioIncorrecto.value.stopAudio()
-        }
+        } */
         respuestaIncorrecta.value = true
     }
 
