@@ -429,9 +429,7 @@ const opcionCorrecta = (correcta, actual, id) => {
              document.querySelector(`#opciones-${index}-awswer`).style.visibility = "hidden"
          } */
 
-        document.querySelector(`#${id}-awswer`).style.visibility = "visible"
 
-        document.querySelector(`#${id}-awswer`).classList.add('opcion-img-correcto')
 
         /* StyleAwser.background = `transparent url(${ImagenCheckawert}) no-repeat center center` */
         if (audioAplausos.value == null) {
@@ -468,15 +466,7 @@ const opcionCorrecta = (correcta, actual, id) => {
         opcionSeleccionada.value = 'incorrecto'
 
         document.querySelector(`#${id}`).classList.add('opcion-incorrecto')
-        /*  for (let index = 0; index < opcionesPregunta.value; index++) {
-             console.log(`opciones-${index}-awswer`)
-             document.querySelector(`#opciones-${index}-awswer`).style.visibility = "hidden"
-         } */
 
-        /*  document.querySelector(`#${id}-awswer`).style.visibility = "visible" */
-        document.querySelector(`#${id}-awswer`).style.visibility = "visible"
-        /*document.querySelector(`#opciones-${id} #${id}-awswer`).style.visibility = "visible"
-      StyleAwser.background = `transparent url(${ImagenCheckwrong}) no-repeat center center` */
         if (audioIncorrecto.value == null) {
 
             audioIncorrecto.value = new Sonidos('incorrecto', false)

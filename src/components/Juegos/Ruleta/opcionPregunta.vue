@@ -1,8 +1,5 @@
 <template>
     <div class="contenedor-opciones-pregunta animate__animated  animate__delay-1s animate__zoomIn">
-        <div :id="`opciones-${secuencia.id}-awswer`">
-
-        </div>
         <div class="opcion-border-rigth  opcion-normal">
             <slot name="letra">
 

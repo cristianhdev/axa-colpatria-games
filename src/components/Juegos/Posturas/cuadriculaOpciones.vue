@@ -102,7 +102,7 @@
             <div v-if="opcionCorrecta" class="contenedor-ejercicio-realizado">
                 <div>
                     <div class="auto">
-                        <h2>Ahora debes realiza el ejercicio.</h2>
+                        <h2>Ahora realiza el ejercicio.</h2>
                     </div>
                     <div class="flex-center-elements-row gap-3">
                         <div class="contenedor-ejercicios" v-if="camaraReady">

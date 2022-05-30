@@ -22,7 +22,7 @@
         <div class="contenedor-mensaje flex-center-elements-column gap-3">
             <div v-if="mostrarCamara" class="flex-center-elements-column gap-1">
                 <div class="titulo auto">
-                    <h2>Instrucciones
+                    <h2>Repite la secuencia, para ello utiliza las manos.
                     </h2>
                 </div>
                 <div class="contenedor-ejercicios" v-if="camaraReady">
