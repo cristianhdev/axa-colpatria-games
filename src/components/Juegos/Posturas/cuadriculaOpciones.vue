@@ -31,10 +31,10 @@
             </template>
             <template #mensaje-opcion>
                 <div v-if="puntosBuenos > 0">
-                    <span>¡GENIAL!</span>
+                    <span>¡Genial!</span>
                 </div>
                 <div v-else>
-                    <span>¡LO SENTIMOS!</span>
+                    <span>¡Lo sentimos!</span>
                 </div>
 
             </template>
@@ -68,7 +68,7 @@
                 </div>
             </div>
         </div>
-        <Cronometro v-if="opcionCorrecta" segundos="10" @endTime="FinOpcion" />
+        <Cronometro v-if="opcionCorrecta" segundos="12" @endTime="FinOpcion" />
         <div class="contenedor-elementos flex-center-elements-column gap-2  center-element">
             <div v-if="continuar">
 

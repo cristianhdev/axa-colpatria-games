@@ -29,7 +29,7 @@
                 <span>RESPUESTAS SEGUIDAS</span>
             </template>
             <template #mensaje-opcion>
-                <span>¡GENIAL!</span>
+                <span>¡Genial!</span>
             </template>
             <template #botones>
                 <button class="btn-primary-vr1" @mousemove="confity" @click="continuarTrivia">CONTINUAR TRIVIA!</button>
@@ -445,7 +445,7 @@ const opcionCorrecta = (correcta, actual, id) => {
                         x: 50, duration: 3, onComplete: () => {
                             posicionPreguntaActual.value = posicionPreguntaActual.value + 1
                             puntosBuenos.value = puntosBuenos.value + 1
-                            if (puntosBuenos.value == 1) {
+                            if (puntosBuenos.value == 3) {
                                 mostrarMensaje.value = true
                                 acomuladorPuntos.value = acomuladorPuntos.value + 5
                             } else {
@@ -600,7 +600,7 @@ hr {
 }
 
 .opciones-pregunta .opcion {
-    font-family: 'SourceSansPro, Arial, Georgia, Sans Serif, Serif';
+    font-family: Publico Banner;
     width: 17vw;
     height: 19vh;
     text-align: justify;
