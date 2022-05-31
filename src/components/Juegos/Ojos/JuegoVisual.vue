@@ -1,9 +1,9 @@
 <template>
   <VentanaIntroNivel v-if="ocultarIntroNivel" @finAnimacionIntroNivel="finAnimacionIntro"
     urlImagenFondo="marco_nivel_1">
-    <template #mensaje-nivel>
+    <!-- <template #mensaje-nivel>
       1
-    </template>
+    </template> -->
   </VentanaIntroNivel>
   <VentanaInstrucciones v-if="ocultarInstrucciones" >
     <template #texto>

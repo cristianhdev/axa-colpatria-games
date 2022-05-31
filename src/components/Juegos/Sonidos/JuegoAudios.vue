@@ -25,20 +25,11 @@
                     <h2>Repite la secuencia, para ello utiliza las manos.
                     </h2>
                 </div>
-                <div class="contenedor-ejercicios" v-if="camaraReady">
-
-                    <div>
-                        <CaramaWeb :width="200" :height="200" @camaraLoad="finLoadCamara" />
-                    </div>
-                    <!--  <div v-else>
-                        <h2>Cargando camara...</h2>
-                    </div> -->
-
-                </div>
+               
             </div>
             <div v-if="!mostrarCamara">
                 <div class="titulo auto" v-if="!continuarActividad">
-                    <h2>Memoriza las siguientes posiciones con tus manos, cuando ya estes listo da clic en
+                    <h2>Memoriza las siguientes posiciones de manos, luego clic en
                         continuar.
                     </h2>
                 </div>
@@ -47,7 +38,7 @@
                 </div>
             </div>
             <div class="contenedor-opciones flex-center-elements-column gap-4">
-                <div class="contenedor-opciones-items">
+                <div class="contenedor-opciones-items flex-center-elements-row gap-1">
                     <div class=" flex-center-elements-row gap-3">
                         <div :style="styleCuadricula" class="gap-1">
 
@@ -58,6 +49,9 @@
 
 
                         </div>
+                    </div>
+                     <div v-if="mostrarCamara">
+                        <CaramaWeb :width="200" :height="200" @camaraLoad="finLoadCamara" />
                     </div>
                 </div>
                 <div v-if="!continuarActividad">
@@ -71,7 +65,7 @@
                         <button v-if="activarBotonComprobar" class="btn-primary-ghost"
                             @click="comprobarRespuesta">COMPROBAR</button>
                         <button v-if="activarBotonRepetir" class="btn-primary-ghost"
-                            @click="repetirOpciones">REPETIR</button>
+                            @click="repetirOpciones">MODIFICAR</button>
                         <button v-if="mostrarCamara" class="btn-primary-ghost" @click="volverEscenario">VOLVER AL
                             ESCENARIO</button>
                     </div>
@@ -93,6 +87,11 @@ import VentanaPuntosFinal from "@/components/VentanaPuntosFinal.vue"
 import VentanaIntroNivel from "@/components/VentanaIntroNivel.vue"
 import CaramaWeb from '@/components/Camaraweb/CamaraWeb.vue'
 import { useRouter, useRoute } from "vue-router";
+
+
+
+
+
 const config = useConfigStore();
 
 const camaraReady = computed(() => config.isCamara)
@@ -270,7 +269,7 @@ h1 {
 }
 
 .titulo {
-    width: 69%;
+    width: 100%;
     margin: 0px auto
 }
 </style>

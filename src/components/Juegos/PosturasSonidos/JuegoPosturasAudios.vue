@@ -144,6 +144,12 @@ import ImagenEjercicio5 from '@/assets/img/Ejercicio5.png'
 import ImagenEjercicio6 from '@/assets/img/Ejercicio6.png'
 import ImagenParlante from '@/assets/img/parlanteOn.gif'
 
+//Ejericicios Postura -Gif
+import Ejercicio1 from '@/assets/ejercicios/Ej1.gif'
+import Ejercicio2 from '@/assets/ejercicios/Ej2.gif'
+import Ejercicio3 from '@/assets/ejercicios/Ej3.gif'
+import Ejercicio4 from '@/assets/ejercicios/Ej4.gif'
+
 //Sonidos
 import Soundlife from '@/assets/sounds/life.mp3'
 import Soundcoin from '@/assets/sounds/coin.mp3'
@@ -195,9 +201,9 @@ const configurarActividad = (valor) => {
 
     if (valor == 1) {
         imagenes.value = [
-            { imagen: ImagenEjercicio1, id: 1, finalizado: false, audio: Soundlife },
-            { imagen: ImagenEjercicio2, id: 2, finalizado: false, audio: Soundcoin },
-            { imagen: ImagenEjercicio3, id: 3, finalizado: false, audio: Soundjump }
+            { imagen: Ejercicio1, id: 1, finalizado: false, audio: Soundlife },
+            { imagen: Ejercicio2, id: 2, finalizado: false, audio: Soundcoin },
+            { imagen: Ejercicio3, id: 3, finalizado: false, audio: Soundjump }
 
         ]
 
@@ -215,10 +221,10 @@ const configurarActividad = (valor) => {
 
     } else {
         imagenes.value = [
-            { imagen: ImagenEjercicio1, id: 1, finalizado: false, audio: Soundlife },
-            { imagen: ImagenEjercicio2, id: 2, finalizado: false, audio: Soundcoin },
-            { imagen: ImagenEjercicio3, id: 3, finalizado: false, audio: Soundjump },
-            { imagen: ImagenEjercicio4, id: 4, finalizado: false, audio: Soundcartoon1 },
+            { imagen: Ejercicio1, id: 1, finalizado: false, audio: Soundlife },
+            { imagen: Ejercicio2, id: 2, finalizado: false, audio: Soundcoin },
+            { imagen: Ejercicio3, id: 3, finalizado: false, audio: Soundjump },
+            { imagen: Ejercicio4, id: 4, finalizado: false, audio: Soundcartoon1 },
             { imagen: ImagenEjercicio5, id: 5, finalizado: false, audio: Soundcartoon2 },
             { imagen: ImagenEjercicio6, id: 6, finalizado: false, audio: Soundcartoon3 }
         ]
@@ -242,8 +248,8 @@ const configurarActividad = (valor) => {
 
 const finAnimacionIntro = () => {
     ocultarIntroNivel.value = false
-
 }
+
 
 const ocultarVentanaInstrucciones = () => {
     ocultarInstrucciones.value = !ocultarInstrucciones.value

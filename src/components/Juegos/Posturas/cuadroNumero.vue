@@ -199,7 +199,7 @@ const validarClick = (id) => {
         stylePointerEvents.backgroundColor = 'red'
         audioIncorrecto.value = new Audio(Incorrecto)
         audioIncorrecto.value.play()
-      
+
         /* if (audioIncorrecto.value == null) {
 
             audioIncorrecto.value = new Sonidos('incorrecto', false)

@@ -105,6 +105,11 @@
                         <h2>Ahora realiza el ejercicio.</h2>
                     </div>
                     <div class="flex-center-elements-row gap-3">
+
+                        <div class="contenedor-ejercicios">
+                            <img :id="opcionIdInterroganteSeleccionada" :src="opcionImagenInterroganteSeleccionada"
+                                alt="" width="285" height="250">
+                        </div>
                         <div class="contenedor-ejercicios" v-if="camaraReady">
 
                             <div>
@@ -114,10 +119,6 @@
                         <h2>Cargando camara...</h2>
                     </div> -->
 
-                        </div>
-                        <div class="contenedor-ejercicios">
-                            <img :id="opcionIdInterroganteSeleccionada" :src="opcionImagenInterroganteSeleccionada"
-                                alt="" width="285" height="250">
                         </div>
                     </div>
 
@@ -151,7 +152,7 @@ import Imagen4Figuras from '@/assets/img/Ejercicio4.png'
 import Imagen5Figuras from '@/assets/img/Ejercicio5.png'
 import Imagen6Figuras from '@/assets/img/Ejercicio6.png'
 
-//Ejericicios Postura
+//Ejericicios Postura -Gif
 import Ejercicio1 from '@/assets/ejercicios/Ej1.gif'
 import Ejercicio2 from '@/assets/ejercicios/Ej2.gif'
 import Ejercicio3 from '@/assets/ejercicios/Ej3.gif'

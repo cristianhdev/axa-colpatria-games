@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import BienvenidaView from '../views/BienvenidaView.vue'
-import VentanaUsuarioView from '../views/VentanaUsuarioView.vue'
+
 
 
 const router = createRouter({
@@ -25,7 +25,7 @@ const router = createRouter({
     {
       path: '/Usuario',
       name: 'usuario',
-      component: VentanaUsuarioView
+      component: () => import('../views/VentanaUsuarioView.vue')
     },
     {
       path: '/WebCamera',
@@ -56,6 +56,11 @@ const router = createRouter({
       path: '/JuegoAudiosPosturas',
       name: 'juegoaudiosPosturas',
       component: () => import('../views/ventanaJuegoAudiosPosturasView.vue')
+    },
+    {
+      path: '/JuegoConcentrese',
+      name: 'juegoconcentrese',
+      component:() => import('../views/VentanaConcentreseView.vue')
     },
     {
       path: '/VentanaFinal',
