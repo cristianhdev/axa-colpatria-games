@@ -432,50 +432,38 @@ const opcionCorrecta = (correcta, actual, id) => {
 
 
         /* StyleAwser.background = `transparent url(${ImagenCheckawert}) no-repeat center center` */
-        if (audioAplausos.value == null) {
-            audioAplausos.value = new Audio(Aplausos)
-            document.querySelector(".emulate-confetti-1").click();
-            document.querySelector(".emulate-confetti-2").click();
-            audioAplausos.value.play()
-            audioAplausos.value.addEventListener("ended", () => {
-                 animateCSS(".contenedor-preguntas", "fadeOut").then((message) => {
-                    animacionRuletaFin.value = false
+        audioAplausos.value = new Audio(Aplausos)
+        document.querySelector(".emulate-confetti-1").click();
+        document.querySelector(".emulate-confetti-2").click();
+        audioAplausos.value.play()
+        audioAplausos.value.addEventListener("ended", () => {
+            animateCSS(".contenedor-preguntas", "fadeOut").then((message) => {
+                animacionRuletaFin.value = false
 
-                    gsap.to('.ruleta-completa', {
-                        x: 50, duration: 3, onComplete: () => {
-                            posicionPreguntaActual.value = posicionPreguntaActual.value + 1
-                            puntosBuenos.value = puntosBuenos.value + 1
-                            if (puntosBuenos.value == 3) {
-                                mostrarMensaje.value = true
-                                acomuladorPuntos.value = acomuladorPuntos.value + 5
-                            } else {
-                                rotate.value.restart()
-                                girarRuleta()
-                            }
+                gsap.to('.ruleta-completa', {
+                    x: 50, duration: 3, onComplete: () => {
+                        posicionPreguntaActual.value = posicionPreguntaActual.value + 1
+                        puntosBuenos.value = puntosBuenos.value + 1
+                        if (puntosBuenos.value == 3) {
+                            mostrarMensaje.value = true
+                            acomuladorPuntos.value = acomuladorPuntos.value + 5
+                        } else {
+                            rotate.value.restart()
+                            girarRuleta()
                         }
-                    })
+                    }
+                })
 
-                });
             });
-        
-        } else {
-
-            audioAplausos.value.pause()
-        }
+        });
 
     } else {
         opcionSeleccionada.value = 'incorrecto'
 
         document.querySelector(`#${id}`).classList.add('opcion-incorrecto')
+        audioIncorrecto.value = new Audio(Incorrecto)
+        audioIncorrecto.value.play()
 
-        if (audioIncorrecto.value == null) {
-
-            audioIncorrecto.value = new Audio(Incorrecto)
-            audioIncorrecto.value.play()
-
-        } else {
-            audioIncorrecto.value.pause()
-        }
         puntosMalos.value = puntosMalos.value + 1
 
     }
