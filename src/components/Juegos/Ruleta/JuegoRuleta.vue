@@ -433,12 +433,12 @@ const opcionCorrecta = (correcta, actual, id) => {
 
         /* StyleAwser.background = `transparent url(${ImagenCheckawert}) no-repeat center center` */
         if (audioAplausos.value == null) {
-            audioAplausos.value = new Sonidos('aplausos', false)
+            audioAplausos.value = new Audio(Aplausos)
             document.querySelector(".emulate-confetti-1").click();
             document.querySelector(".emulate-confetti-2").click();
-            audioAplausos.value.playAudio(() => {
-
-                animateCSS(".contenedor-preguntas", "fadeOut").then((message) => {
+            audioAplausos.value.play()
+            audioAplausos.value.addEventListener("ended", () => {
+                 animateCSS(".contenedor-preguntas", "fadeOut").then((message) => {
                     animacionRuletaFin.value = false
 
                     gsap.to('.ruleta-completa', {
@@ -456,10 +456,11 @@ const opcionCorrecta = (correcta, actual, id) => {
                     })
 
                 });
-            })
+            });
+        
         } else {
 
-            audioAplausos.value.stopAudio()
+            audioAplausos.value.pause()
         }
 
     } else {
@@ -469,11 +470,11 @@ const opcionCorrecta = (correcta, actual, id) => {
 
         if (audioIncorrecto.value == null) {
 
-            audioIncorrecto.value = new Sonidos('incorrecto', false)
-            audioIncorrecto.value.playAudio()
+            audioIncorrecto.value = new Audio(Incorrecto)
+            audioIncorrecto.value.play()
 
         } else {
-            audioIncorrecto.value.stopAudio()
+            audioIncorrecto.value.pause()
         }
         puntosMalos.value = puntosMalos.value + 1
 
