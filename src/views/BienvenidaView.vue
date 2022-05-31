@@ -10,17 +10,17 @@
     <VentanaInstrucciones v-if="ocultarVentana" @ocultarVentana="cerrarBienvenida" urlImagenFondo="BienvidaJuegos"
       :ocultarBotones="ocultarBotones">
       <template #texto>
-        <h3>
+        <h2>
           Las pausas activas son una forma de promover la actividad física, como habito
           de vida saludable, por lo cual se deben desarrollar programas educativos sobre
           la importancia y los beneficios de la actividad física regular.
-        </h3>
-        <h3>Son sesiones de actividad física desarrolladas en el entorno laboral, con una
+        </h2>
+        <h2>Son sesiones de actividad física desarrolladas en el entorno laboral, con una
           duración continua mínima de 10 minutos que incluye adaptación física
           cardiovascular, fortalecimiento muscular y mejoramiento de la flexibilidad
           buscando reducir el riesgo cardiovascular y las lesiones musculares por sobreuso asociados al desempeño
           laboral.
-        </h3>
+        </h2>
 
         <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center" @click="openFullscreen">
           <button class="btn-primary-ghost"> COMENZAR</button>
