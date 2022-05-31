@@ -65,7 +65,7 @@
                             ESCENARIO</button>
                     </div>
                 </div>
-                <div v-if="intentosActividad != 3">
+                <div v-if="!continuarActividad">
                     <div class="auto" style="text-align:center">
                         <button class="btn-primary-ghost" @click="continuar">CONTINUAR</button>
                     </div>
