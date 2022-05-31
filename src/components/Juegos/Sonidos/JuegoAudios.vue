@@ -15,9 +15,10 @@
 
         </template>
     </VentanaInstrucciones>
+
     <div class="contenedor-actividad gap-2 ">
         <!-- @endTime="activarNavegacionSliders" -->
-        <Cronometro v-if="activarCronometro" :segundos="15"  @endTime="activarNavegacionSliders" />
+        <Cronometro v-if="activarCronometro" :segundos="15" @endTime="activarNavegacionSliders" />
 
         <div class="contenedor-mensaje flex-center-elements-column gap-3">
             <div v-if="mostrarCamara" class="flex-center-elements-column gap-1">
@@ -25,9 +26,9 @@
                     <h2>Repite la secuencia, para ello utiliza las manos.
                     </h2>
                 </div>
-               
+
             </div>
-            <div v-if="!mostrarCamara">
+            <div v-if="intentosActividad != 3">
                 <div class="titulo auto" v-if="!continuarActividad">
                     <h2>Memoriza las siguientes posiciones de manos, luego clic en
                         continuar.
@@ -38,7 +39,7 @@
                 </div>
             </div>
             <div class="contenedor-opciones flex-center-elements-column gap-4">
-                <div class="contenedor-opciones-items flex-center-elements-row gap-1">
+                <div v-if="intentosActividad != 3" class="contenedor-opciones-items flex-center-elements-row gap-1">
                     <div class=" flex-center-elements-row gap-3">
                         <div :style="styleCuadricula" class="gap-1">
 
@@ -50,17 +51,27 @@
 
                         </div>
                     </div>
-                     <div v-if="mostrarCamara">
+                    <div v-if="mostrarCamara">
                         <CaramaWeb :width="200" :height="200" @camaraLoad="finLoadCamara" />
                     </div>
                 </div>
-                <div v-if="!continuarActividad">
+                <div v-if="intentosActividad == 3">
+                    <div class="titulo auto">
+                        <h2>Lo sentimos haz superado el numero de intentos.
+                        </h2>
+                    </div>
+                    <div class="auto flex-center-elements-row gap-2" style="text-align:center">
+                        <button class="btn-primary-ghost" @click="volverEscenario">VOLVER AL
+                            ESCENARIO</button>
+                    </div>
+                </div>
+                <div v-if="intentosActividad != 3">
                     <div class="auto" style="text-align:center">
                         <button class="btn-primary-ghost" @click="continuar">CONTINUAR</button>
                     </div>
                 </div>
-                <div>
-                    <div class="auto flex-center-elements-row gap-2" style="text-align:center">
+                <div >
+                    <div  class="auto flex-center-elements-row gap-2" style="text-align:center">
 
                         <button v-if="activarBotonComprobar" class="btn-primary-ghost"
                             @click="comprobarRespuesta">COMPROBAR</button>
@@ -108,6 +119,7 @@ const activarBotonRepetir = ref(false)
 const activarBotonVolver = ref(false)
 const finTiempoCronometro = ref(true)
 const ocultarInstrucciones = ref(true)
+const intentosActividad = ref(0)
 const ocultarIntroNivel = ref(false)
 const mostrarCamara = ref(false)
 const activarCronometro = ref(false)
@@ -122,7 +134,7 @@ const styleCuadricula = reactive({
     margin: "0px auto",
     display: "grid",
     gridTemplateColumns: "repeat(4,1fr)",
-   /*  gridGap: "12px 20px" */
+    /*  gridGap: "12px 20px" */
 })
 
 const configurarActividad = (valor) => {
@@ -156,10 +168,18 @@ const activarNavegacionSliders = () => {
 }
 
 const repetirOpciones = () => {
-    activarBotonRepetir.value = false
-    activarBotonComprobar.value = false
-    activarCronometro.value = true
-    finTiempoCronometro.value = false
+    intentosActividad.value = intentosActividad.value + 1
+    if (intentosActividad.value == 3) {
+        activarBotonRepetir.value = false
+        mostrarCamara.value = true
+        activarBotonComprobar.value = false
+    } else {
+        activarBotonRepetir.value = false
+        activarBotonComprobar.value = false
+        activarCronometro.value = true
+        finTiempoCronometro.value = false
+    }
+
 }
 
 
@@ -257,7 +277,7 @@ h1 {
 }
 
 .contenedor-opciones-items {
-   /*  grid-template-columns: repeat(auto-fill, minmax(30vw, 1fr));
+    /*  grid-template-columns: repeat(auto-fill, minmax(30vw, 1fr));
     display: grid; */
 }
 
@@ -265,7 +285,7 @@ h1 {
     margin: 0px auto;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-   /*  grid-gap: 12px 20px; */
+    /*  grid-gap: 12px 20px; */
 }
 
 .titulo {

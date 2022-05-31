@@ -34,7 +34,7 @@
             <template #botones>
                 <button class="btn-primary-vr1" @mousemove="confity" @click="continuarTrivia">CONTINUAR TRIVIA!</button>
                 <button class="btn-primary-vr1" @mousemove="confity" @click="volveraAlEscenario">VOLVER A
-                    EJERCICIOS</button>
+                    ESCENARIO</button>
                 <!-- <button class="btn-primary-vr1" @mousemove="confity" @click="salirActividad" @id="salir">SALIR</button>
                 <a href="#" @click="quitBox">Close Window</a> -->
             </template>

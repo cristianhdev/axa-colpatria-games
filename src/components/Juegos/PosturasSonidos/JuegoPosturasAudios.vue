@@ -68,7 +68,7 @@
                             <h2>Escucha el audio, segun el sonido a que ejercicio hace referencia</h2>
                         </div>
                         <div v-if="mostrarCamaraCalentamiento">
-                            <h2>Hora realiza el ejercicio</h2>
+                            <h2>Ahora realiza el ejercicio</h2>
                         </div>
                         <div v-if="!mostrarCamaraCalentamiento"
                             class="parlante-validador animate__animated animate__pulse animate__faster animate__repeat-2"

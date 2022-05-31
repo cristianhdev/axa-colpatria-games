@@ -21,7 +21,7 @@
                 <div class="flex-center-elements-column">
                     
                     <div>
-                        <h2>Tu balance {{usuario.nombreUsuario.toUpperCase()}}</h2>
+                        <h2>Balance de {{usuario.nombreUsuario.toUpperCase()}}</h2>
                     </div>
                     <div class="flex-center-elements-column gap-4">
                         <div class="contenedor-iconos  gap-2">
