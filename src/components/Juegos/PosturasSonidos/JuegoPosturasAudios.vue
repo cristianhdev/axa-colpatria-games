@@ -294,8 +294,7 @@ const activarNavegacionSliders = () => {
 const playSonidoAleatorio = () => {
 
     if (aleatorioSonidos.value.length !== 0) {
-        if (audio.value == null) {
-            audio.value = new Audio(imagenes.value[aleatorioSonidos.value[posicionAudioAleatorio.value]].audio)
+        audio.value = new Audio(imagenes.value[aleatorioSonidos.value[posicionAudioAleatorio.value]].audio)
             audio.value.play()
             audio.value.addEventListener("ended", () => {
                 cronometroMostrarOpciones.value = true
@@ -306,10 +305,6 @@ const playSonidoAleatorio = () => {
              audio.value.playAudio(() => {
                 
              }) */
-
-        } else {
-            audio.value.stopAudio()
-        }
         audio.value = null
     } else {
         generarSonidosAleatorios()
