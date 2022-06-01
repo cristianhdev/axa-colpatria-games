@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div v-if="intentosActividad != 3" class="contenedor-opciones flex-center-elements-column gap-4">
-                <div class="contenedor-opciones-items flex-center-elements-row gap-1">
+                <div class="contenedor-opciones-items  gap-1">
                     <div class=" flex-center-elements-row gap-3">
                         <div :style="styleCuadricula" class="gap-1">
 
@@ -196,21 +196,25 @@ const comprobarRespuesta = () => {
             document.querySelector(`.contenedor-imagenes-${element.slider + 1}  #sliders-order-${element.posicion} `).style.boxShadow = '-1px -1px 16px inset green';
             document.querySelector(`.contenedor-imagenes-${element.slider + 1}  #sliders-order-${element.posicion} `).style.borderRadius = '12px';
             document.querySelector(`.contenedor-imagenes-${element.slider + 1}  #sliders-order-${element.posicion} `).style.backgroundColor = '#4caf50';
-
+            document.querySelector(`.contenedor-imagenes-${element.slider + 1}`).style.pointerEvent = 'none';
         } else {
             correcto.value = false
+           
             document.querySelector(`.contenedor-imagenes-${element.slider + 1}  #sliders-order-${element.posicion} `).style.boxShadow = '-1px -1px 16px inset red';
             document.querySelector(`.contenedor-imagenes-${element.slider + 1}  #sliders-order-${element.posicion} `).style.borderRadius = '12px';
             document.querySelector(`.contenedor-imagenes-${element.slider + 1}  #sliders-order-${element.posicion} `).style.backgroundColor = '#a93a3a';
         }
     });
 
+    console.log(puntosTotales.value, cantidadItemSliders.value)
+
     if (puntosTotales.value == cantidadItemSliders.value) {
         activarBotonRepetir.value = false
         mostrarCamara.value = true
         activarBotonComprobar.value = false
         activarVentanaPausa = true
-
+    }else{
+         puntosTotales.value = 0
     }
 
 
@@ -271,8 +275,12 @@ h1 {
 }
 
 .contenedor-opciones-items {
-    /*  grid-template-columns: repeat(auto-fill, minmax(30vw, 1fr));
-    display: grid; */
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .contenedor-items {
