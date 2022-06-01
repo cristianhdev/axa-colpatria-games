@@ -87,8 +87,8 @@ const styleOvalo = reactive({
 });
 
 onMounted(() => {
-    let temporal = rutasActividad.value.sort(() => Math.random() - 0.5)
-    rutasActividad.value = temporal
+   /*  let temporal = rutasActividad.value.sort(() => Math.random() - 0.5)
+    rutasActividad.value = temporal */
     /* console.log(rutasActividad.value) */
     cargaEscenario()
 })
