@@ -161,7 +161,6 @@ const activarNavegacionSliders = () => {
 }
 
 const repetirOpciones = () => {
-    intentosActividad.value = intentosActividad.value + 1
     activarBotonRepetir.value = false
     activarBotonComprobar.value = false
     activarCronometro.value = true
