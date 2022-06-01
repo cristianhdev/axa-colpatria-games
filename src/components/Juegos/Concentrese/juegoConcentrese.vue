@@ -59,7 +59,7 @@
                         :id="imagen.nombre"
                         @click="validarClick({ id: imagen.id, nombre: imagen.nombre, imagen: imagen.imagen })"
                         :srcUrlImagen="srcUrlImagen" v-for="(imagen, index) in imagenesTablero" :key="index">
-                        <ItemConcentrese :idItem="imagen.id" :nombreItem="imagen.nombre" />
+                        <ItemConcentrese :idItem="imagen.id" :nombreItem="imagen.nombre" :finActividad="activarBotonContinuar" />
 
                     </div>
                 </template>
@@ -272,8 +272,11 @@ const validarClick = (elementoclick) => {
                 opcionSeleccionada2.value = ''
             } else {
                 console.log('clickaca2')
+                innabilitarClick.value = true
                 setTimeout(() => {
                     innabilitarClick.value = false
+                     document.querySelector(`#${nombreSeleccionada1.value} #imagen`).setAttribute('src', "")
+                    document.querySelector(`#${nombreSeleccionada2.value} #imagen`).setAttribute('src', "")
                     document.querySelector(`#${nombreSeleccionada1.value} #imagen`).setAttribute('src', ImagenInterrogante)
                     document.querySelector(`#${nombreSeleccionada2.value} #imagen`).setAttribute('src', ImagenInterrogante)
                 }, 1500)
@@ -295,6 +298,7 @@ const validarClick = (elementoclick) => {
             console.log('clickaca3')
             innabilitarClick.value = true
             setTimeout(() => {
+                 innabilitarClick.value = false
                 document.querySelector(`#${nombreSeleccionada1.value} #imagen`).setAttribute('src', ImagenInterrogante)
                 document.querySelector(`#${nombreSeleccionada2.value} #imagen`).setAttribute('src', ImagenInterrogante)
             }, 1500)

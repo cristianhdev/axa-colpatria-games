@@ -42,17 +42,20 @@ const secuencia = defineProps({
         type: String,
         default: ImagenInterrogante
     },
-    resultado: Array
+    finActividad: Boolean
 })
 
-watch(() => secuencia.resultado, (newCorrecto, oldCorrecto) => {
+watch(() => secuencia.finActividad, (newCorrecto, oldCorrecto) => {
     console.log(newCorrecto, oldCorrecto)
-
+    if (secuencia.finActividad) {
+        document.querySelector(`#${secuencia.nombreItem}`).setAttribute('src', ImagenInterrogante)
+    }
 
 });
 
 watchEffect(() => {
-    console.log("Type: ", typeof (secuencia.resultado))
+    console.log("Type: ", secuencia.finActividad)
+
 })
 
 const reiniciarImagen = () => {
@@ -68,7 +71,8 @@ const cambiarImagen = () => {
     console.log(idItemElement[0].imagen)
 
     /* srcUrlImagen.value = idItemElement[0].imagen */
-    document.querySelector(`#${secuencia.nombreItem} #imagen`).setAttribute('src',idItemElement[0].imagen)
+    console.log(idItemElement[0].imagen)
+    document.querySelector(`#${secuencia.nombreItem} #imagen`).setAttribute('src', idItemElement[0].imagen)
     mostrarImagen.value = true
     emit('clickItem', { id: secuencia.idItem, nombre: secuencia.nombreItem })
 }
@@ -95,5 +99,4 @@ const cambiarImagen = () => {
     width: 50vw;
     text-align: center
 }
-
 </style>
