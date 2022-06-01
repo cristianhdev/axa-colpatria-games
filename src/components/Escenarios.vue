@@ -32,7 +32,17 @@ import PuntosEscenario from '@/assets/svg/puntos_fondo.svg';
 const router = useRouter()
 const escena = ref(null)
 const escenaCojines = ref([])
-const rutasActividad = ref(['/JuegoPosturas', '/JuegoPosturas', '/JuegoAudiosPosturas', '/JuegoAudiosPosturas', '/JuegoManos', '/JuegoManos', '/JuegoOjos', '/JuegoOjos', '/JuegoConcentrese', '/JuegoConcentrese'])
+const rutasActividad = ref([
+    '/JuegoPosturas',//0
+    '/JuegoPosturas',//1
+    '/JuegoAudiosPosturas',//3
+    '/JuegoAudiosPosturas',//4
+    '/JuegoManos',//6
+    '/JuegoManos',//7
+    '/JuegoOjos',//9
+    '/JuegoOjos',//10
+    '/JuegoConcentrese',
+    '/JuegoConcentrese'])
 const config = useConfigStore();
 const animacionAvancePersonaje = ref(null)
 const cleanTimeAvance = ref(null)
