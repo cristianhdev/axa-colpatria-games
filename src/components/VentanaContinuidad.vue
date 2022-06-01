@@ -7,7 +7,7 @@
     ">
         <div>
             <div class="contenedor-central flex-center-elements-column gap-2">
-                <h2 class="title"> Existe progreso en el escenario guardado, continuar?</h2>
+                <h2 class="title"> Existe progreso en el escenario guardado, ¿continuar?</h2>
                 <div>
                     <div class="flex-center-elements-row gap-3">
                         <div class="btn-primary-vr1" @click="openFullscreen('si')"> SI </div>

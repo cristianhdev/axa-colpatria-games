@@ -26,13 +26,13 @@
                 {{ puntosBuenos }}
             </template>
             <template #mensaje-respuestas>
-                <span>RESPUESTAS SEGUIDAS</span>
+                <span>Respuestas seguidas</span>
             </template>
             <template #mensaje-opcion>
                 <span>¡Genial!</span>
             </template>
             <template #botones>
-                <button class="btn-primary-vr1" @mousemove="confity" @click="continuarTrivia">CONTINUAR TRIVIA!</button>
+                <button class="btn-primary-vr1" @mousemove="confity" @click="continuarTrivia">CONTINUAR TRIVIA</button>
                 <button class="btn-primary-vr1" @mousemove="confity" @click="volveraAlEscenario">VOLVER A
                     ESCENARIO</button>
                 <!-- <button class="btn-primary-vr1" @mousemove="confity" @click="salirActividad" @id="salir">SALIR</button>
@@ -139,7 +139,7 @@ import OpcionesRuleta from '@/components/Juegos/Ruleta/opcionPregunta.vue'
 //Sonidos
 import Aplausos from '@/assets/sounds/aplausos.mp3'
 import Incorrecto from '@/assets/sounds/incorrecto.mp3'
-import RuletaSonido from '@/assets/sounds/Ruleta_sonido.mp3'
+import RuletaSonido from '@/assets/sounds/Ruleta_sonido_editado.mp3'
 
 //Imagenes
 

@@ -27,7 +27,7 @@
                 {{ puntosBuenos }}
             </template>
             <template #mensaje-respuestas>
-                <span>RESPUESTAS SEGUIDAS</span>
+                <span>Respuestas seguidas</span>
             </template>
             <template #mensaje-opcion>
                 <div v-if="puntosBuenos > 0">

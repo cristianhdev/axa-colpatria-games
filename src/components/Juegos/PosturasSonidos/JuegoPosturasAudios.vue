@@ -62,7 +62,7 @@
                 <div v-if="continuar" class="flex-center-elements-column gap-1">
                     <div class="flex-center-elements-column gap-1">
                         <div v-if="!mostrarCamaraCalentamiento">
-                            <h2>Escucha el audio, segun el sonido a que ejercicio hace referencia</h2>
+                            <h2>Escucha el audio, según el sonido a que ejercicio hace referencia</h2>
                         </div>
                         <div v-if="mostrarCamaraCalentamiento">
                             <h2>Ahora realiza el ejercicio</h2>

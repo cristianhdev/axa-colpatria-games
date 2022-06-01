@@ -20,12 +20,12 @@
         </template>
     </VentanaInstrucciones>
     <div class="contenedor-actividad">
-        <Cronometro  v-if="habilitarCronometro" :segundos="tiempoActividad" @endTime="continuarActividad" />
+        <Cronometro v-if="habilitarCronometro" :segundos="tiempoActividad" @endTime="continuarActividad" />
 
         <div class="contenedor-items   center-element">
             <div v-if="!opcionCorrecta" class="titulo auto">
                 <h2>Encuenta la pareja que corresponda</h2>
-               
+
             </div>
             <div :style="stylecuadriculaItems" class=" auto flex-center-elements-row gap-1">
 
@@ -55,20 +55,13 @@
 
                 </div>
                 <template v-if="!opcionCorrecta">
-                    <div :class="{ 'desahbilitado': imagen.finalizado }" :id="imagen.nombre"
+                    <div :class="{ 'desahbilitado': imagen.finalizado, 'remove-click': innabilitarClick }"
+                        :id="imagen.nombre"
                         @click="validarClick({ id: imagen.id, nombre: imagen.nombre, imagen: imagen.imagen })"
-                        :srcUrlImagen="srcUrlImagen" v-for="(imagen, index) in imagenesA" :key="index">
-                        <ItemConcentrese :idItem="imagen.id" :nombreItem="imagen.nombre">
-                        </ItemConcentrese>
-                    </div>
-                    <div :class="{ 'desahbilitado': imagen.finalizado }" :id="imagen.nombre"
-                        @click="validarClick({ id: imagen.id, nombre: imagen.nombre, imagen: imagen.imagen })"
-                        :srcUrlImagen="srcUrlImagen" v-for="(imagen, index) in imagenesB" :key="index">
-                        <ItemConcentrese :idItem="imagen.id" :nombreItem="imagen.nombre">
+                        :srcUrlImagen="srcUrlImagen" v-for="(imagen, index) in imagenesTablero" :key="index">
+                        <ItemConcentrese :idItem="imagen.id" :nombreItem="imagen.nombre" />
 
-                        </ItemConcentrese>
                     </div>
-
                 </template>
 
             </div>
@@ -131,6 +124,7 @@ const nombreSeleccionada2 = ref('')
 const mostrarImagen = ref('')
 const opcionCorrecta = ref(false)
 const activarBotonContinuar = ref(false)
+const innabilitarClick = ref(false)
 
 const srcUrlImagen = ref(ImagenInterrogante)
 
@@ -141,6 +135,7 @@ const habilitarCronometro = ref(false)
 const reiniciaFiguraCheck = ref(false)
 const imagenesA = ref([])
 const imagenesB = ref([])
+const imagenesTablero = ref([])
 const resultado = ref([])
 
 
@@ -178,32 +173,40 @@ const configurarActividad = (valor) => {
             { nombre:'ImagenB6',imagen: ImagenEjercicio6, id: 6, finalizado: false } */
         ]
 
-        imagenesA.value = imagenesA.value.sort(() => Math.random() - 0.5)
-        imagenesB.value = imagenesB.value.sort(() => Math.random() - 0.5)
+
+        imagenesTablero.value = imagenesA.value.concat(imagenesB.value)
+        /* imagenesA.value = imagenesA.value.sort(() => Math.random() - 0.5)
+        imagenesB.value = imagenesB.value.sort(() => Math.random() - 0.5) */
+        imagenesTablero.value = imagenesTablero.value.sort(() => Math.random() - 0.5)
 
         stylecuadriculaItems.gridTemplateColumns = "repeat(3, 1fr)"
 
     } else {
         imagenesA.value = [
-            { nombre: 'ImagenA1',imagen: ImagenEjercicio1, id: 1, finalizado: false },
-            { nombre: 'ImagenA2',imagen: ImagenEjercicio2, id: 2, finalizado: false },
-            { nombre: 'ImagenA3',imagen: ImagenEjercicio3, id: 3, finalizado: false },
-            { nombre: 'ImagenA4',imagen: ImagenEjercicio4, id: 4, finalizado: false },
-            { nombre: 'ImagenA5',imagen: ImagenEjercicio5, id: 5, finalizado: false },
-            { nombre: 'ImagenA6',imagen: ImagenEjercicio6, id: 6, finalizado: false }
+            { nombre: 'ImagenA1', imagen: ImagenEjercicio1, id: 1, finalizado: false },
+            { nombre: 'ImagenA2', imagen: ImagenEjercicio2, id: 2, finalizado: false },
+            { nombre: 'ImagenA3', imagen: ImagenEjercicio3, id: 3, finalizado: false },
+            { nombre: 'ImagenA4', imagen: ImagenEjercicio4, id: 4, finalizado: false },
+            { nombre: 'ImagenA5', imagen: ImagenEjercicio5, id: 5, finalizado: false },
+            { nombre: 'ImagenA6', imagen: ImagenEjercicio6, id: 6, finalizado: false }
         ]
 
         imagenesB.value = [
-            { nombre: 'ImagenB1',imagen: ImagenEjercicio1, id: 1, finalizado: false },
-            { nombre: 'ImagenB2',imagen: ImagenEjercicio2, id: 2, finalizado: false },
-            { nombre: 'ImagenB3',imagen: ImagenEjercicio3, id: 3, finalizado: false },
-            { nombre: 'ImagenB4',imagen: ImagenEjercicio4, id: 4, finalizado: false },
-            { nombre: 'ImagenB5',imagen: ImagenEjercicio5, id: 5, finalizado: false },
-            { nombre: 'ImagenB6',imagen: ImagenEjercicio6, id: 6, finalizado: false }
+            { nombre: 'ImagenB1', imagen: ImagenEjercicio1, id: 1, finalizado: false },
+            { nombre: 'ImagenB2', imagen: ImagenEjercicio2, id: 2, finalizado: false },
+            { nombre: 'ImagenB3', imagen: ImagenEjercicio3, id: 3, finalizado: false },
+            { nombre: 'ImagenB4', imagen: ImagenEjercicio4, id: 4, finalizado: false },
+            { nombre: 'ImagenB5', imagen: ImagenEjercicio5, id: 5, finalizado: false },
+            { nombre: 'ImagenB6', imagen: ImagenEjercicio6, id: 6, finalizado: false }
         ]
 
-        imagenesA.value = imagenesA.value.sort(() => Math.random() - 0.5)
-        imagenesB.value = imagenesB.value.sort(() => Math.random() - 0.5)
+        imagenesTablero.value = imagenesA.value.concat(imagenesB.value)
+        /* imagenesA.value = imagenesA.value.sort(() => Math.random() - 0.5)
+        imagenesB.value = imagenesB.value.sort(() => Math.random() - 0.5) */
+        imagenesTablero.value = imagenesTablero.value.sort(() => Math.random() - 0.5)
+
+        /*  imagenesA.value = imagenesA.value.sort(() => Math.random() - 0.5)
+         imagenesB.value = imagenesB.value.sort(() => Math.random() - 0.5) */
 
         stylecuadriculaItems.gridTemplateColumns = "repeat(4, 1fr)"
     }
@@ -223,13 +226,15 @@ const finAnimacionIntro = () => {
 
 const validarClick = (elementoclick) => {
 
+
+
     if (contadorClicks.value == 0) {
         opcionSeleccionada1.value = elementoclick.nombre.substr(elementoclick.nombre.length - 2, 2)
         nombreSeleccionada1.value = elementoclick.nombre
         contadorClicks.value = contadorClicks.value + 1
 
 
-    } else {
+    } else if (contadorClicks.value == 1) {
         opcionSeleccionada2.value = elementoclick.nombre.substr(elementoclick.nombre.length - 2, 2)
         nombreSeleccionada2.value = elementoclick.nombre
         contadorClicks.value = contadorClicks.value + 1
@@ -237,8 +242,8 @@ const validarClick = (elementoclick) => {
 
 
     }
-
     if (contadorClicks.value == 2) {
+        innabilitarClick.value = true
         let letra1 = opcionSeleccionada1.value.substr(0, opcionSeleccionada1.value.length - 1)
         let numero1 = opcionSeleccionada1.value.substr(1, opcionSeleccionada1.value.length - 1)
         let letra2 = opcionSeleccionada2.value.substr(0, opcionSeleccionada2.value.length - 1)
@@ -251,6 +256,7 @@ const validarClick = (elementoclick) => {
 
 
             if (numero1 === numero2) {
+                console.log('clickaca2')
                 puntosBuenos.value = puntosBuenos.value + 1
 
                 setTimeout(() => {
@@ -259,13 +265,15 @@ const validarClick = (elementoclick) => {
 
                     opcionCorrecta.value = true
                     habilitarCronometro.value = true
+
                     eliminarElemento(elementoclick.id)
                 }, 1500)
                 opcionSeleccionada1.value = ''
                 opcionSeleccionada2.value = ''
             } else {
-
+                console.log('clickaca2')
                 setTimeout(() => {
+                    innabilitarClick.value = false
                     document.querySelector(`#${nombreSeleccionada1.value} #imagen`).setAttribute('src', ImagenInterrogante)
                     document.querySelector(`#${nombreSeleccionada2.value} #imagen`).setAttribute('src', ImagenInterrogante)
                 }, 1500)
@@ -284,12 +292,15 @@ const validarClick = (elementoclick) => {
             /*  nombreSeleccionada1.value = ''
              nombreSeleccionada2.value = '' */
         } else {
+            console.log('clickaca3')
+            innabilitarClick.value = true
             setTimeout(() => {
                 document.querySelector(`#${nombreSeleccionada1.value} #imagen`).setAttribute('src', ImagenInterrogante)
                 document.querySelector(`#${nombreSeleccionada2.value} #imagen`).setAttribute('src', ImagenInterrogante)
             }, 1500)
             opcionSeleccionada1.value = ''
             opcionSeleccionada2.value = ''
+
         }
 
         contadorClicks.value = 0
@@ -300,12 +311,13 @@ const validarClick = (elementoclick) => {
 const continuarActividad = () => {
     opcionCorrecta.value = false
     habilitarCronometro.value = false
-    if(puntosBuenos.value== imagenesA.value.length){
-        activarBotonContinuar.value=true
+    if (puntosBuenos.value == imagenesA.value.length) {
+        activarBotonContinuar.value = true
     }
 }
 
 const eliminarElemento = (id) => {
+    innabilitarClick.value = false
     let posicionA = imagenesA.value.findIndex((elementId) => {
         return elementId.id == id
     })
@@ -315,9 +327,6 @@ const eliminarElemento = (id) => {
 
     imagenesA.value[posicionA].finalizado = true
     imagenesB.value[posicionB].finalizado = true
-
-    console.log(imagenesA)
-    console.log(imagenesB)
 
 }
 
@@ -360,7 +369,7 @@ const volverEscenario = () => {
 .desahbilitado {
     filter: grayscale(1);
     pointer-events: none;
-   
+
 }
 
 .titulo {
@@ -371,5 +380,9 @@ const volverEscenario = () => {
 .contenedor-ejercicio-realizado {
     width: 50vw;
     text-align: center
+}
+
+.remove-click {
+    pointer-events: none;
 }
 </style>

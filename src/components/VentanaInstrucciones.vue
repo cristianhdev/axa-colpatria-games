@@ -30,8 +30,6 @@
 import { ref, reactive, onBeforeMount, onMounted } from 'vue'
 import imagenFondoBienvenidaImagen from '@/assets/img/BienvidaJuegos.png'
 import imagenFondoInstruccionesImagen from '@/assets/img/InstruccioneJuegos.png'
-import { useConfigStore } from "../stores/config.js";
-const config = useConfigStore();
 
 const emit = defineEmits(['ocultarVentana'])
 const imagenFondo = ref('')
