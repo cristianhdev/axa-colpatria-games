@@ -432,9 +432,10 @@ const opcionCorrecta = (correcta, actual, id) => {
 
 
         /* StyleAwser.background = `transparent url(${ImagenCheckawert}) no-repeat center center` */
-        audioAplausos.value = new Audio(Aplausos)
+
         document.querySelector(".emulate-confetti-1").click();
         document.querySelector(".emulate-confetti-2").click();
+        audioAplausos.value = new Audio(Aplausos)
         audioAplausos.value.play()
         audioAplausos.value.addEventListener("ended", () => {
             animateCSS(".contenedor-preguntas", "fadeOut").then((message) => {

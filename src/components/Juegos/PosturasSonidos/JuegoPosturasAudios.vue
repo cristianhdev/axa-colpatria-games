@@ -36,8 +36,7 @@
                         <div v-for="(imagen, index) in imagenes.slice(0, 3)" :key="imagen + '-' + index">
 
                             <Parlante :srcUrl="imagen.imagen" :id="`figura-${index + 1}`"
-                                :posicion="(parseInt(imagen.id)-1)" :fintiempo="continuar"
-                                 />
+                                :posicion="(parseInt(imagen.id) - 1)" :fintiempo="continuar" />
                         </div>
                     </div>
 
@@ -45,9 +44,7 @@
 
                         <div v-for="(imagen, index) in imagenes.slice(3, 6)" :key="imagen + '-' + index">
                             <Parlante :srcUrl="imagen.imagen" :id="`figura-${index + 1}`"
-                                :posicion="(parseInt(imagen.id)-1)" :fintiempo="continuar"
-                                
-                                 />
+                                :posicion="(parseInt(imagen.id) - 1)" :fintiempo="continuar" />
                         </div>
 
                     </div>
@@ -55,7 +52,7 @@
 
                 </div>
                 <div v-if="!continuar" class="auto flex-center-elements-row gap-2" style="text-align:center">
-                    <button class="btn-primary-ghost" @click="continuar = !continuar">CONTINUAR</button>
+                    <button class="btn-primary-ghost" @click="continuarAtividad">CONTINUAR</button>
                     <!-- <button class="btn-primary-ghost" @click="volverEscena">VOLVER A EJERCICIOS</button> -->
                 </div>
 
@@ -158,6 +155,8 @@ import Soundcartoon1 from '@/assets/sounds/cartoon1.mp3'
 import Soundcartoon2 from '@/assets/sounds/cartoon2.mp3'
 import Soundcartoon3 from '@/assets/sounds/cartoon3.mp3'
 
+import Aplausos from '@/assets/sounds/aplausos.mp3'
+import Incorrecto from '@/assets/sounds/incorrecto.mp3'
 
 const router = useRouter()
 
@@ -188,9 +187,14 @@ const posicionAudioAleatorio = ref(0)
 
 
 onBeforeMount(() => {
-    generarSonidosAleatorios()
+
 })
 
+
+const continuarAtividad = () => {
+    continuar.value = !continuar.value
+    generarSonidosAleatorios()
+}
 
 const imagenes = ref([])
 
@@ -293,20 +297,22 @@ const activarNavegacionSliders = () => {
 
 const playSonidoAleatorio = () => {
 
-    if (aleatorioSonidos.value.length !== 0) {
-        audio.value = new Audio(imagenes.value[aleatorioSonidos.value[posicionAudioAleatorio.value]].audio)
-            audio.value.play()
-            audio.value.addEventListener("ended", () => {
-                cronometroMostrarOpciones.value = true
-                repetirAudio.value = true
-            });
 
-            /*  audio.value = new Sonidos(sonidos.value[aleatorioSonidos.value[posicionAudioAleatorio.value]], false)
-             audio.value.playAudio(() => {
-                
-             }) */
+    if (aleatorioSonidos.value.length !== 0) {
+
+        audio.value = new Audio(imagenes.value[aleatorioSonidos.value[posicionAudioAleatorio.value]].audio)
+        audio.value.play()
+
+        audio.value.addEventListener("ended", () => {
+            cronometroMostrarOpciones.value = true
+            repetirAudio.value = true
+        });
+        /*  audio.value = new Sonidos(sonidos.value[aleatorioSonidos.value[posicionAudioAleatorio.value]], false)
+         audio.value.playAudio(() => {
+            
+         }) */
     } else {
-        generarSonidosAleatorios()
+
         posicionAudioAleatorio.value = 0
     }
 
@@ -337,40 +343,49 @@ const comprobarRespuesta = () => {
          document.querySelector(`#figura-click-${opcionSeleccionada.value}`).style.pointerEvents = 'none'; */
         document.querySelector(`#figura-click-${opcionSeleccionada.value}`).classList.add('imagenes-opciones')
         document.querySelector(`#imagen-pregunta`).style.border = '2px solid green';
-        document.querySelector(`#imagen-pregunta`).setAttribute('src', imagenes.value[opcionSeleccionada.value - 1].imagen)
+        document.querySelector(`#imagen-pregunta`).setAttribute('src',imagenCorrecta.value)
         document.querySelector(`#imagen-pregunta`).classList.add('imagenes-opciones')
         imagenes.value[opcionSeleccionada.value - 1].finalizado = true
         repetirAudio.value = false
 
         posicionAudioAleatorio.value = posicionAudioAleatorio.value + 1
         /* aleatorioSonidos.value.splice(0, 1) */
-        if (audioAplausos.value == null) {
+        /*   if (audioAplausos.value == null) {
+  
+              audioAplausos.value = new Sonidos('aplausos', false)
+  
+              audioAplausos.value.playAudio(() => {
+                  
+              })
+  
+          } else {
+              audioAplausos.value.stopAudio()
+          } */
 
-            audioAplausos.value = new Sonidos('aplausos', false)
-
-            audioAplausos.value.playAudio(() => {
-                habilitarCronometro.value = true
-                cronometroMostrarOpciones.value = false
-                mostrarCamaraCalentamiento.value = true
-            })
-
-        } else {
-            audioAplausos.value.stopAudio()
-        }
+        audioAplausos.value = new Audio(Aplausos)
+        audioAplausos.value.play()
+        audioAplausos.value.addEventListener("ended", () => {
+            habilitarCronometro.value = true
+            cronometroMostrarOpciones.value = false
+            mostrarCamaraCalentamiento.value = true
+        })
 
     } else {
 
         document.querySelector(`#figura-click-${opcionSeleccionada.value}`).style.boxShadow = '-1px -1px 16px inset red';
         document.querySelector(`#imagen-pregunta`).style.border = '3px solid red';
         document.querySelector(`#figura-click-${opcionSeleccionada.value}`).style.borderRadius = '12px';
-        if (audioIncorrecto.value == null) {
+        audioIncorrecto.value = new Audio(Incorrecto)
+        audioIncorrecto.value.play()
 
-            audioIncorrecto.value = new Sonidos('incorrecto', false)
-            audioIncorrecto.value.playAudio()
-
-        } else {
-            audioIncorrecto.value.stopAudio()
-        }
+        /*  if (audioIncorrecto.value == null) {
+ 
+             audioIncorrecto.value = new Sonidos('incorrecto', false)
+             audioIncorrecto.value.playAudio()
+ 
+         } else {
+             audioIncorrecto.value.stopAudio()
+         } */
         setTimeout(() => {
             document.querySelector(`#imagen-pregunta`).style.border = 'none';
         }, 2500)
@@ -446,7 +461,7 @@ const volverEscena = () => {
     flex-direction: column;
     place-items: center;
     width: 69%;
-    height: 60vh;
+    height: 65vh;
     grid-gap: 24px;
     padding: 20px 0px;
     background-image: url(@/assets/img/fonto.png);
@@ -475,7 +490,8 @@ const volverEscena = () => {
     border: 2px solid white;
     padding: 8px;
     width: 150px;
-    height: 21vh;
+    height: 17vh;
+    grid-gap: 2px;
 }
 
 

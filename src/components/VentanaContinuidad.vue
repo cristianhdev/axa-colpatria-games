@@ -55,7 +55,7 @@ const openFullscreen = (desicion) => {
 <style lang="css" scoped>
 .contenedor-central {
     width: 801px;
-    height: 67vh;
+    height: 54vh;
     background: transparent url(@/assets/img/recuadrointro.png) no-repeat center center;
     background-size: 100% 100%;
 }

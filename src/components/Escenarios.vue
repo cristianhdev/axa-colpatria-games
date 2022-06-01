@@ -32,7 +32,7 @@ import PuntosEscenario from '@/assets/svg/puntos_fondo.svg';
 const router = useRouter()
 const escena = ref(null)
 const escenaCojines = ref([])
-const rutasActividad = ref(['/JuegoPosturas', '/JuegoManos', '/JuegoOjos', '/JuegoAudiosPosturas', '/JuegoManos', '/JuegoPosturas', '/JuegoManos','/JuegoConcentrese','/JuegoPosturas','/JuegoAudiosPosturas','/JuegoOjos','/JuegoConcentrese'])
+const rutasActividad = ref(['/JuegoPosturas', '/JuegoPosturas', '/JuegoAudiosPosturas', '/JuegoAudiosPosturas', '/JuegoManos', '/JuegoManos', '/JuegoOjos', '/JuegoOjos', '/JuegoConcentrese', '/JuegoConcentrese'])
 const config = useConfigStore();
 const animacionAvancePersonaje = ref(null)
 const cleanTimeAvance = ref(null)
@@ -76,9 +76,9 @@ const styleOvalo = reactive({
 });
 
 onMounted(() => {
-    /* let temporal = rutasActividad.value.sort(() => Math.random() - 0.5)
+    let temporal = rutasActividad.value.sort(() => Math.random() - 0.5)
     rutasActividad.value = temporal
-    console.log(rutasActividad.value) */
+    /* console.log(rutasActividad.value) */
     cargaEscenario()
 })
 
@@ -147,14 +147,14 @@ const animarPuntos = () => {
     } else if (posicionActual == 11) {
         router.push('/VentanaFinal')
     } else {
-         setTimeout(() => {
-             if (posicionActual == 0) {
-                 router.push(rutasActividad.value[posicionActual])
-             } else {
-                 console.log("ruta",rutasActividad.value[posicionActual - 1])
-                 router.push(rutasActividad.value[posicionActual - 1])
-             }
-         }, 1500)
+        setTimeout(() => {
+            if (posicionActual == 0) {
+                router.push(rutasActividad.value[posicionActual])
+            } else {
+                console.log("ruta", rutasActividad.value[posicionActual - 1])
+                router.push(rutasActividad.value[posicionActual - 1])
+            }
+        }, 1500)
 
 
 
