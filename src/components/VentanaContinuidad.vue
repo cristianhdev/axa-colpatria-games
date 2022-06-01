@@ -26,7 +26,7 @@ const config = useConfigStore();
 const router = useRouter()
 
 const openFullscreen = (desicion) => {
-     var targetelement = document.documentElement;
+    var targetelement = document.documentElement;
 
     if (targetelement.requestFullscreen) {
         targetelement.requestFullscreen();
@@ -40,13 +40,13 @@ const openFullscreen = (desicion) => {
     if (targetelement.msRequestFullscreen) {
         targetelement.msRequestFullscreen();
     }
-    if(desicion=='si'){
+    if (desicion == 'si') {
         router.push(`/Escenario`);
-    }else{
+    } else {
         config.setPosicionActualUsuario(0)
         config.setPosicionActualActividades(0)
         config.reiniciarActividadActual([])
-      router.push(`/usuario`);
+        router.push(`/Escenario`);
     }
 }
 
