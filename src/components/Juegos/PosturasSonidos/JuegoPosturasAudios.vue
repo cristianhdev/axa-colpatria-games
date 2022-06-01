@@ -27,7 +27,7 @@
             <div v-if="!continuar" class="contenedor-opciones flex-center-elements-column gap-1">
                 <div v-if="!continuar" class="titulo">
                     <h2>Escucha cada uno de los audios y relacionalo con las imagenes, cuando estes listo da
-                        click en continuar.</h2>
+                        clic en continuar.</h2>
 
                 </div>
 
@@ -343,7 +343,7 @@ const comprobarRespuesta = () => {
          document.querySelector(`#figura-click-${opcionSeleccionada.value}`).style.pointerEvents = 'none'; */
         document.querySelector(`#figura-click-${opcionSeleccionada.value}`).classList.add('imagenes-opciones')
         document.querySelector(`#imagen-pregunta`).style.border = '2px solid green';
-        document.querySelector(`#imagen-pregunta`).setAttribute('src',imagenCorrecta.value)
+        document.querySelector(`#imagen-pregunta`).setAttribute('src', imagenCorrecta.value)
         document.querySelector(`#imagen-pregunta`).classList.add('imagenes-opciones')
         imagenes.value[opcionSeleccionada.value - 1].finalizado = true
         repetirAudio.value = false
@@ -401,6 +401,7 @@ const reiniciarInterrogante = () => {
 }
 
 const volverEscena = () => {
+    imagenCorrecta.value = null
     config.setActividadActual(router.currentRoute.value.path)
     router.push('/Escenario')
 }

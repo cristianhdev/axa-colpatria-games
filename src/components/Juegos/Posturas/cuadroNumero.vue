@@ -1,10 +1,10 @@
 <template>
     <div>
         <div :id="'contenedor-' + secuencia.opcion" :style="stylePointerEvents" class="contenedor-opciones"
-            @click="validarClick(getIdimagen)"
-            >
-            <div  :class="{ correcto: respuestaCorrecta, incorrecto: respuestaIncorrecta }" :id="'contenedor-imagen' + getIdimagen" v-if="mostrarNumero">
-                <div class="interrogante">
+            @click="validarClick(getIdimagen)">
+            <div :class="{ correcto: respuestaCorrecta, incorrecto: respuestaIncorrecta }"
+                :id="'contenedor-imagen' + getIdimagen" v-if="mostrarNumero">
+                <div :style="styleInterrogante">
 
                 </div>
             </div>
@@ -27,6 +27,7 @@ import Imagen3Figuras from '@/assets/img/Ejercicio3.png'
 import Imagen4Figuras from '@/assets/img/Ejercicio4.png'
 import Imagen5Figuras from '@/assets/img/Ejercicio5.png'
 import Imagen6Figuras from '@/assets/img/Ejercicio6.png'
+import Interrogante from '@/assets/img/manos/pregunta.png'
 
 //Sonidos
 import Aplausos from '@/assets/sounds/aplausos.mp3'
@@ -164,6 +165,21 @@ const styleObject = reactive({
     height: "16vh"
 })
 
+const styleInterrogante = reactive({
+    backgroundImage: `url(${Interrogante})`,
+    backgroundSize: "contain",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    width: "243px",
+    height: "15vh",
+    textAlign: "center",
+    display: "flex",
+    justifyContent: "center",
+    alignContent: "center",
+    margin: "0px auto",
+    backgroundColor: "#9fd9b4"
+})
+
 const stylePointerEvents = reactive({
     pointerEvents: 'none',
     backgroundColor: "transparent"
@@ -180,6 +196,10 @@ const validarClick = (id) => {
         if (audioCorrecto.value == null) {
             stylePointerEvents.pointerEvents = 'none'
             /* stylePointerEvents.backgroundColor = 'green' */
+            console.log(`#contenedor-imagen${id}`)
+            console.log(secuencia.srcUrlImagen)
+           /*  document.querySelector(`#contenedor-imagen${id}`).setAttribute('src', secuencia.srcUrlImagen) */
+            styleInterrogante.backgroundImage = `url(${secuencia.srcUrlImagen})`
             audioCorrecto.value = new Audio(Aplausos)
             audioCorrecto.value.play()
             audioCorrecto.value.addEventListener("ended", () => {
@@ -196,7 +216,7 @@ const validarClick = (id) => {
         respuestaCorrecta.value = true
     } else {
         stylePointerEvents.pointerEvents = 'none'
-      /*   stylePointerEvents.backgroundColor = 'red' */
+        /*   stylePointerEvents.backgroundColor = 'red' */
         audioIncorrecto.value = new Audio(Incorrecto)
         audioIncorrecto.value.play()
 
@@ -226,20 +246,7 @@ const validarClick = (id) => {
     justify-content: center;
 }
 
-.interrogante {
-    background-image: url(@/assets/img/manos/pregunta.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 243px;
-    height: 15vh;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    margin: 0px auto;
-    background-color: #9fd9b4;
-}
+
 
 
 
@@ -265,10 +272,10 @@ img {
 }
 
 .correcto {
-    border:2px solid  green
+    border: 2px solid green
 }
 
 .incorrecto {
-    border:2px solid red
+    border: 2px solid red
 }
 </style>

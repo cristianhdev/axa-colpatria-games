@@ -160,6 +160,7 @@ import Ejercicio4 from '@/assets/ejercicios/Ej4.gif'
 
 
 
+
 const router = useRouter()
 const numeracionCuadricula = ref(0)
 const numero = ref(null)
@@ -427,7 +428,7 @@ const volverEscenario = () => {
 
 .imagen-random-img img {
     width: 9vw;
-    height: 15vh;
+    height: 90px;
     position: absolute;
     left: 50%;
     top: 50%;
