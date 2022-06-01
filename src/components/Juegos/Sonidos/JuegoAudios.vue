@@ -205,7 +205,7 @@ const comprobarRespuesta = () => {
         }
     });
 
-    if (puntosTotales.value == opcinesValidacion.orderArray.length) {
+    if (puntosTotales.value == cantidadItemSliders.value) {
         activarBotonRepetir.value = false
         mostrarCamara.value = true
         activarBotonComprobar.value = false
