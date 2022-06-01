@@ -46,6 +46,10 @@ export const useConfigStore = defineStore({
         this.actividad.push(infoActividad)
       }
 
+    },
+    reiniciarActividadActual(infoActividad) {
+      this.actividad= infoActividad
+
     }
   },
   persist: {

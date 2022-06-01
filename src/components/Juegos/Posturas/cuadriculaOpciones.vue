@@ -85,7 +85,7 @@
             <div v-if="!opcionCorrecta" :style="styleCuadricula" id="cuadricula" class="gap-2">
                 <div v-for="(imagen, index) in getRamdomimagen" :key="`cuadrado-${index}`">
                     <!-- v-for="i in filas" :key="i" -->
-                    <div class="contenedor-opciones   border-axa animate__animated animate__fadeIn  animate__zoomIn"
+                    <div class="contenedor-opciones    animate__animated animate__fadeIn  animate__zoomIn"
                         v-if="visible">
                         <CuadriculaNumero :numero="imagen.valorCheck" :posicion="index + 1"
                             :opcion="opcionIdInterroganteSeleccionada" :girarOpciones="continuar"
@@ -453,7 +453,6 @@ const volverEscenario = () => {
     width: 218px;
     height: 18vh;
     text-align: center;
-    border: 1px solid white;
     background-color: #027180;
     color: white
 }

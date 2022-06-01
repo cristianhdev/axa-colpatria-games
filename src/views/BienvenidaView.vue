@@ -7,32 +7,42 @@
 
       </object>
     </div> -->
-    <VentanaInstrucciones v-if="ocultarVentana" @ocultarVentana="cerrarBienvenida" urlImagenFondo="BienvidaJuegos"
-      :ocultarBotones="ocultarBotones">
-      <template #texto>
-        <h2>
-          Las pausas activas son una forma de promover la actividad física, como habito
-          de vida saludable, por lo cual se deben desarrollar programas educativos sobre
-          la importancia y los beneficios de la actividad física regular.
-        </h2>
-        <h2>Son sesiones de actividad física desarrolladas en el entorno laboral, con una
-          duración continua mínima de 10 minutos que incluye adaptación física
-          cardiovascular, fortalecimiento muscular y mejoramiento de la flexibilidad
-          buscando reducir el riesgo cardiovascular y las lesiones musculares por sobreuso asociados al desempeño
-          laboral.
-        </h2>
 
-        <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center" @click="openFullscreen">
-          <button class="btn-primary-ghost"> COMENZAR</button>
-        </div>
+    <div v-if="mostrarVentanaContinuidad">
+      <VentanaContinuidad />
+    </div>
+    <div v-else>
+      <VentanaInstrucciones v-if="ocultarVentana" @ocultarVentana="cerrarBienvenida" urlImagenFondo="BienvidaJuegos"
+        :ocultarBotones="ocultarBotones">
+        <template #texto>
+          <h2>
+            Las pausas activas son una forma de promover la actividad física, como habito
+            de vida saludable, por lo cual se deben desarrollar programas educativos sobre
+            la importancia y los beneficios de la actividad física regular.
+          </h2>
+          <h2>Son sesiones de actividad física desarrolladas en el entorno laboral, con una
+            duración continua mínima de 10 minutos que incluye adaptación física
+            cardiovascular, fortalecimiento muscular y mejoramiento de la flexibilidad
+            buscando reducir el riesgo cardiovascular y las lesiones musculares por sobreuso asociados al desempeño
+            laboral.
+          </h2>
+
+          <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center" @click="openFullscreen">
+            <button class="btn-primary-ghost"> COMENZAR</button>
+          </div>
 
 
-      </template>
-      <template #btntexto>
+        </template>
+        <template #btntexto>
 
-      </template>
+        </template>
 
-    </VentanaInstrucciones>
+      </VentanaInstrucciones>
+    </div>
+
+
+
+
     <div class="animacion-bienvenida animate__animated animate__delay-2s animate__fadeOut">
       <!-- <VentanaBienvenida :sliderActive="true" :slider="slidersBienvenida" /> -->
 
@@ -71,6 +81,7 @@
 import PuntosEscenario from '@/assets/svg/puntos_fondo.svg';
 import VentanaBienvenida from "@/components/VentanaBienvenida.vue";
 import VentanaInstrucciones from "@/components/VentanaInstrucciones.vue";
+import VentanaContinuidad from "@/components/VentanaContinuidad.vue";
 import { ref, reactive, onMounted, computed } from "vue";
 import Sliders from "@/assets/textos/Bienvenida.json";
 import { useLocalStorage, useMouse, usePreferredDark } from '@vueuse/core'
@@ -81,18 +92,20 @@ const router = useRouter()
 
 const ocultarVentana = ref(false);
 const ocultarBotones = ref(false);
+const mostrarVentanaContinuidad = ref(false);
 const countert = ref(null);
 const config = useConfigStore();
 
 onMounted(() => {
-  if (config.posicionactualEscenarioJuego > 0) {
-    if (confirm("Continuar en la ultimo punto guardado?")) {
 
-      router.push(`/Escenario`);
-    } else {
-      config.setPosicionActualUsuario(0)
-    }
-  }
+ 
+
+   if (config.posicionactualEscenarioJuego > 0) {
+     setTimeout(() => {
+        mostrarVentanaContinuidad.value=true
+     },2000)
+     
+   }
 
 
 

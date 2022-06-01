@@ -53,10 +53,10 @@
     </template>
     <template #mensaje-opcion>
       <div v-if="puntos_correctos < 0">
-        <span>¡GENIAL!</span>
+        <span>¡Genial!</span>
       </div>
       <div v-else>
-        <span>¡LO SENTIMOS!</span>
+        <span>¡Lo sentimos!</span>
       </div>
     </template>
     <template #botones>

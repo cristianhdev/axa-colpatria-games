@@ -26,7 +26,7 @@
                     <h2>Repite la secuencia, para ello utiliza las manos.
                     </h2>
                 </div>
-                 <div v-else class="titulo auto">
+                <div v-else class="titulo auto">
                     <h2>Haz alcanzado el numero de intentos.
                     </h2>
                 </div>
@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="contenedor-opciones flex-center-elements-column gap-4">
-                <div v-if="intentosActividad != 3" class="contenedor-opciones-items flex-center-elements-row gap-1">
+                <div v-if="activarVentanaPausa" class="contenedor-opciones-items flex-center-elements-row gap-1">
                     <div class=" flex-center-elements-row gap-3">
                         <div :style="styleCuadricula" class="gap-1">
 
@@ -59,14 +59,14 @@
                         <CaramaWeb :width="200" :height="200" @camaraLoad="finLoadCamara" />
                     </div>
                 </div>
-                
+
                 <div v-if="!continuarActividad">
                     <div class="auto" style="text-align:center">
                         <button class="btn-primary-ghost" @click="continuar">CONTINUAR</button>
                     </div>
                 </div>
-                <div >
-                    <div  class="auto flex-center-elements-row gap-2" style="text-align:center">
+                <div>
+                    <div class="auto flex-center-elements-row gap-2" style="text-align:center">
 
                         <button v-if="activarBotonComprobar" class="btn-primary-ghost"
                             @click="comprobarRespuesta">COMPROBAR</button>
@@ -111,7 +111,7 @@ const navegacionsEstado = ref(false)
 const continuarActividad = ref(false)
 const activarBotonComprobar = ref(false)
 const activarBotonRepetir = ref(false)
-const activarBotonVolver = ref(false)
+const activarVentanaPausa = ref(true)
 const finTiempoCronometro = ref(true)
 const ocultarInstrucciones = ref(true)
 const intentosActividad = ref(0)
@@ -119,6 +119,7 @@ const ocultarIntroNivel = ref(false)
 const mostrarCamara = ref(false)
 const activarCronometro = ref(false)
 const correcto = ref(false)
+const puntosTotales = ref(0)
 
 onMounted(() => {
 
@@ -187,30 +188,30 @@ const validarRespuesta = (comprobar) => {
 }
 
 const comprobarRespuesta = () => {
-    let puntos = 0
+
     activarCronometro.value = false
     activarBotonRepetir.value = true
     opcinesValidacion.orderArray.forEach(element => {
         if (element.posicion == element.respuesta) {
             correcto.value = true
-            puntos++
+            puntosTotales.value = puntosTotales.value + 1
             document.querySelector(`.contenedor-imagenes-${element.slider + 1}  #sliders-order-${element.posicion} `).style.boxShadow = '-1px -1px 16px inset green';
             document.querySelector(`.contenedor-imagenes-${element.slider + 1}  #sliders-order-${element.posicion} `).style.borderRadius = '12px';
             document.querySelector(`.contenedor-imagenes-${element.slider + 1}  #sliders-order-${element.posicion} `).style.backgroundColor = '#4caf50';
 
         } else {
             correcto.value = false
-
             document.querySelector(`.contenedor-imagenes-${element.slider + 1}  #sliders-order-${element.posicion} `).style.boxShadow = '-1px -1px 16px inset red';
             document.querySelector(`.contenedor-imagenes-${element.slider + 1}  #sliders-order-${element.posicion} `).style.borderRadius = '12px';
             document.querySelector(`.contenedor-imagenes-${element.slider + 1}  #sliders-order-${element.posicion} `).style.backgroundColor = '#a93a3a';
         }
     });
 
-    if (puntos == opcinesValidacion.orderArray.length) {
+    if (puntosTotales.value == opcinesValidacion.orderArray.length) {
         activarBotonRepetir.value = false
         mostrarCamara.value = true
         activarBotonComprobar.value = false
+        activarVentanaPausa = true
 
     }
 

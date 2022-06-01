@@ -2,8 +2,8 @@
     <div>
         <div :id="'contenedor-' + secuencia.opcion" :style="stylePointerEvents" class="contenedor-opciones"
             @click="validarClick(getIdimagen)"
-            :class="{ correcto: respuestaCorrecta, incorrecto: respuestaIncorrecta }">
-            <div :id="'contenedor-imagen' + getIdimagen" v-if="mostrarNumero">
+            >
+            <div  :class="{ correcto: respuestaCorrecta, incorrecto: respuestaIncorrecta }" :id="'contenedor-imagen' + getIdimagen" v-if="mostrarNumero">
                 <div class="interrogante">
 
                 </div>
@@ -179,7 +179,7 @@ const validarClick = (id) => {
     if (parseInt(secuencia.opcion) === parseInt(id)) {
         if (audioCorrecto.value == null) {
             stylePointerEvents.pointerEvents = 'none'
-            stylePointerEvents.backgroundColor = 'green'
+            /* stylePointerEvents.backgroundColor = 'green' */
             audioCorrecto.value = new Audio(Aplausos)
             audioCorrecto.value.play()
             audioCorrecto.value.addEventListener("ended", () => {
@@ -196,7 +196,7 @@ const validarClick = (id) => {
         respuestaCorrecta.value = true
     } else {
         stylePointerEvents.pointerEvents = 'none'
-        stylePointerEvents.backgroundColor = 'red'
+      /*   stylePointerEvents.backgroundColor = 'red' */
         audioIncorrecto.value = new Audio(Incorrecto)
         audioIncorrecto.value.play()
 
@@ -238,6 +238,7 @@ const validarClick = (id) => {
     justify-content: center;
     align-content: center;
     margin: 0px auto;
+    background-color: #9fd9b4;
 }
 
 
@@ -264,10 +265,10 @@ img {
 }
 
 .correcto {
-    background-color: green
+    border:2px solid  green
 }
 
 .incorrecto {
-    background-color: red
+    border:2px solid red
 }
 </style>
