@@ -91,7 +91,7 @@ const playSonido = (posicion) => {
 }
 
 .imagen-ejercicio {
-    width: 14vh;
-    height: 14vh
+    width: 17vh;
+    height: 15vh;
 }
 </style>

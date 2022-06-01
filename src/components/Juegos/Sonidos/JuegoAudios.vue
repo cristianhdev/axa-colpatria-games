@@ -21,15 +21,22 @@
         <Cronometro v-if="activarCronometro" :segundos="15" @endTime="activarNavegacionSliders" />
 
         <div class="contenedor-mensaje flex-center-elements-column gap-3">
+            <div v-if="intentosActividad == 3">
+                <div class="titulo auto">
+                    <h2>Haz alcanzado el numero de intentos.
+                    </h2>
+                </div>
+                <div class="auto flex-center-elements-row gap-2" style="text-align:center">
+                    <button class="btn-primary-ghost" @click="volverEscenario">VOLVER AL
+                        ESCENARIO</button>
+                </div>
+            </div>
             <div v-if="mostrarCamara" class="flex-center-elements-column gap-1">
                 <div v-if="intentosActividad != 3" class="titulo auto">
                     <h2>Repite la secuencia, para ello utiliza las manos.
                     </h2>
                 </div>
-                <div v-else class="titulo auto">
-                    <h2>Haz alcanzado el numero de intentos.
-                    </h2>
-                </div>
+
 
             </div>
             <div v-if="!continuarActividad">
@@ -42,8 +49,8 @@
                     <h2>Ahora organiza la secuencia</h2>
                 </div>
             </div>
-            <div class="contenedor-opciones flex-center-elements-column gap-4">
-                <div v-if="activarVentanaPausa" class="contenedor-opciones-items flex-center-elements-row gap-1">
+            <div v-if="intentosActividad != 3" class="contenedor-opciones flex-center-elements-column gap-4">
+                <div class="contenedor-opciones-items flex-center-elements-row gap-1">
                     <div class=" flex-center-elements-row gap-3">
                         <div :style="styleCuadricula" class="gap-1">
 
@@ -168,6 +175,7 @@ const repetirOpciones = () => {
     if (intentosActividad.value == 3) {
         activarBotonRepetir.value = false
         mostrarCamara.value = true
+        activarVentanaPausa = false
         activarBotonComprobar.value = false
     } else {
         activarBotonRepetir.value = false

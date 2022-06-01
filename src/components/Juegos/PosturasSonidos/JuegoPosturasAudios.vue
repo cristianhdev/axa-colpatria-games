@@ -305,7 +305,6 @@ const playSonidoAleatorio = () => {
              audio.value.playAudio(() => {
                 
              }) */
-        audio.value = null
     } else {
         generarSonidosAleatorios()
         posicionAudioAleatorio.value = 0
@@ -419,7 +418,7 @@ const volverEscena = () => {
 }
 
 .contenedor-ejercicio-imagen-camara {
-    height: 50vh !important
+    height: 44vh !important
 }
 
 /* .camara {
@@ -447,7 +446,7 @@ const volverEscena = () => {
     flex-direction: column;
     place-items: center;
     width: 69%;
-    height: 78vh;
+    height: 60vh;
     grid-gap: 24px;
     padding: 20px 0px;
     background-image: url(@/assets/img/fonto.png);
