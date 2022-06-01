@@ -33,16 +33,16 @@ const router = useRouter()
 const escena = ref(null)
 const escenaCojines = ref([])
 const rutasActividad = ref([
-    '/JuegoConcentrese',//11
-    '/JuegoConcentrese',
+    '/JuegoPosturas',//0
+    '/JuegoPosturas',//1
     '/JuegoAudiosPosturas',//3
     '/JuegoAudiosPosturas',//4
     '/JuegoManos',//6
     '/JuegoManos',//7
     '/JuegoOjos',//9
     '/JuegoOjos',//10
-    '/JuegoPosturas',//0
-    '/JuegoPosturas'])//12
+    '/JuegoConcentrese',//11
+    '/JuegoConcentrese'])//12
 const config = useConfigStore();
 const animacionAvancePersonaje = ref(null)
 const cleanTimeAvance = ref(null)
@@ -87,8 +87,8 @@ const styleOvalo = reactive({
 });
 
 onMounted(() => {
-    /*  let temporal = rutasActividad.value.sort(() => Math.random() - 0.5)
-     rutasActividad.value = temporal */
+    let temporal = rutasActividad.value.sort(() => Math.random() - 0.5)
+    rutasActividad.value = temporal
     /* console.log(rutasActividad.value) */
     cargaEscenario()
 })
@@ -193,7 +193,7 @@ const animarPuntos = () => {
     if (posicionActual == escenaCojines.value.length) {
         posicionActual = 0
         config.setPosicionActualUsuario(posicionActual)
-    }
+    } 
 
 }
 

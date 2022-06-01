@@ -44,7 +44,8 @@ const openFullscreen = (desicion) => {
         router.push(`/Escenario`);
     }else{
         config.setPosicionActualUsuario(0)
-    config.reiniciarActividadActual([])
+        config.setPosicionActualActividades(-1)
+        config.reiniciarActividadActual([])
       router.push(`/usuario`);
     }
 }
