@@ -41,11 +41,12 @@ const rutasActividad = ref([
     '/JuegoManos',//7
     '/JuegoOjos',//9
     '/JuegoOjos',//10
-    '/JuegoConcentrese',
-    '/JuegoConcentrese'])
+    '/JuegoConcentrese',//11
+    '/JuegoConcentrese'])//12
 const config = useConfigStore();
 const animacionAvancePersonaje = ref(null)
 const cleanTimeAvance = ref(null)
+const posicionAvanceJuego = ref(0)
 
 /* '/JuegoAudiosPosturas' */
 
@@ -131,8 +132,9 @@ const cargaEscenario = () => {
 const animarPuntos = () => {
 
     let posicionActual = config.posicionactualEscenarioJuego
+    let posicionActualActividades = config.posicionActualActividades
 
-
+    console.log(posicionActual)
 
     /*     animacionAvancePersonaje.value.pause() */
 
@@ -145,10 +147,12 @@ const animarPuntos = () => {
 
     console.log(posicionActual)
     if (posicionActual == 2 || posicionActual == 5 || posicionActual == 8) {
-        posicionActual++
-        config.setPosicionActualUsuario(posicionActual)
+        posicionActualActividades++
+
         animacionAvancePersonaje.value.pause()
         cleanTimeAvance.value = setTimeout(() => {
+            posicionActual++
+            config.setPosicionActualUsuario(posicionActual)
             router.push('/JuegoRuleta')
         }, 1500);
 
@@ -157,21 +161,30 @@ const animarPuntos = () => {
     } else if (posicionActual == 11) {
         router.push('/VentanaFinal')
     } else {
+
         setTimeout(() => {
             if (posicionActual == 0) {
-                router.push(rutasActividad.value[posicionActual])
+                router.push(rutasActividad.value[posicionActualActividades])
+
             } else {
-                console.log("ruta", rutasActividad.value[posicionActual - 1])
-                router.push(rutasActividad.value[posicionActual - 1])
+                console.log("ruta", rutasActividad.value[posicionActualActividades - 1])
+                router.push(rutasActividad.value[posicionActualActividades - 1])
+
             }
+
         }, 1500)
 
 
 
         posicionActual++
+        posicionActualActividades++
+        config.setPosicionActualActividades(posicionActualActividades)
         config.setPosicionActualUsuario(posicionActual)
+
+
         animacionAvancePersonaje.value.pause()
     }
+
 
     /* animarEscenaPersonaje() */
 
@@ -180,9 +193,8 @@ const animarPuntos = () => {
     if (posicionActual == escenaCojines.value.length) {
         posicionActual = 0
         config.setPosicionActualUsuario(posicionActual)
-    } else {
+    } 
 
-    }
 }
 
 const animarEscenaPersonaje = () => {

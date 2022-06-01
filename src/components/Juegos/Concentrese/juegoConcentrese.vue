@@ -27,7 +27,7 @@
                 <h2>Encuenta la pareja que corresponda</h2>
                
             </div>
-            <div :style="stylecuadriculaItems" class=" auto flex-center-elements-row gap-2">
+            <div :style="stylecuadriculaItems" class=" auto flex-center-elements-row gap-1">
 
                 <div v-if="opcionCorrecta" class="contenedor-ejercicio-realizado">
                     <div>
@@ -185,21 +185,21 @@ const configurarActividad = (valor) => {
 
     } else {
         imagenesA.value = [
-            { imagen: ImagenEjercicio1, id: 1, finalizado: false },
-            { imagen: ImagenEjercicio2, id: 2, finalizado: false },
-            { imagen: ImagenEjercicio3, id: 3, finalizado: false },
-            { imagen: ImagenEjercicio4, id: 4, finalizado: false },
-            { imagen: ImagenEjercicio5, id: 5, finalizado: false },
-            { imagen: ImagenEjercicio6, id: 6, finalizado: false }
+            { nombre: 'ImagenA1',imagen: ImagenEjercicio1, id: 1, finalizado: false },
+            { nombre: 'ImagenA2',imagen: ImagenEjercicio2, id: 2, finalizado: false },
+            { nombre: 'ImagenA3',imagen: ImagenEjercicio3, id: 3, finalizado: false },
+            { nombre: 'ImagenA4',imagen: ImagenEjercicio4, id: 4, finalizado: false },
+            { nombre: 'ImagenA5',imagen: ImagenEjercicio5, id: 5, finalizado: false },
+            { nombre: 'ImagenA6',imagen: ImagenEjercicio6, id: 6, finalizado: false }
         ]
 
         imagenesB.value = [
-            { imagen: ImagenEjercicio1, id: 1, finalizado: false },
-            { imagen: ImagenEjercicio2, id: 2, finalizado: false },
-            { imagen: ImagenEjercicio3, id: 3, finalizado: false },
-            { imagen: ImagenEjercicio4, id: 4, finalizado: false },
-            { imagen: ImagenEjercicio5, id: 5, finalizado: false },
-            { imagen: ImagenEjercicio6, id: 6, finalizado: false }
+            { nombre: 'ImagenB1',imagen: ImagenEjercicio1, id: 1, finalizado: false },
+            { nombre: 'ImagenB2',imagen: ImagenEjercicio2, id: 2, finalizado: false },
+            { nombre: 'ImagenB3',imagen: ImagenEjercicio3, id: 3, finalizado: false },
+            { nombre: 'ImagenB4',imagen: ImagenEjercicio4, id: 4, finalizado: false },
+            { nombre: 'ImagenB5',imagen: ImagenEjercicio5, id: 5, finalizado: false },
+            { nombre: 'ImagenB6',imagen: ImagenEjercicio6, id: 6, finalizado: false }
         ]
 
         imagenesA.value = imagenesA.value.sort(() => Math.random() - 0.5)
@@ -300,7 +300,7 @@ const validarClick = (elementoclick) => {
 const continuarActividad = () => {
     opcionCorrecta.value = false
     habilitarCronometro.value = false
-    if(puntosBuenos.value==3){
+    if(puntosBuenos.value== imagenesA.value.length){
         activarBotonContinuar.value=true
     }
 }
