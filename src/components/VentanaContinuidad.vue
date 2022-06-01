@@ -52,7 +52,7 @@ const openFullscreen = (desicion) => {
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
 .contenedor-central {
     width: 801px;
     height: 67vh;
