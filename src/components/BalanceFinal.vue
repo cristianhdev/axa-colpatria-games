@@ -7,21 +7,19 @@
     </div>
     <div class="contenedor-actividad">
         <div>
-            <div class="contenedor-barras-personaje  center-element">
+            <div class="contenedor-items-ventana-final center-element">
                 <div class="personaje flex-center-elements-column">
 
-                    <div class="flex-center-elements-row">
-                        <img src="@/assets/img/personajeFinal.png" class="responsive" alt="">
+                    <div class="flex-center-elements-row gap-3">
+                        <img src="@/assets/img/personajeFinal.png" class="responsive-personaje" alt="">
                     </div>
-                    <div class="asluz">
 
-                    </div>
 
                 </div>
-                <div class="flex-center-elements-column">
-                    
+                <div class="flex-center-elements-column gap-4">
+
                     <div>
-                        <h2>Balance de {{usuario.nombreUsuario.toUpperCase()}}</h2>
+                        <div class="titulo">Balance de {{ usuario.nombreUsuario.toUpperCase() }}</div>
                     </div>
                     <div class="flex-center-elements-column gap-4">
                         <div class="contenedor-iconos  gap-2">
@@ -76,6 +74,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="auto">
+                    <div class="btn-primary" @click="reiniciar">CONTINUAR</div>
+                </div>
             </div>
         </div>
     </div>
@@ -86,12 +87,16 @@ import gsap from "gsap";
 import { ref, onMounted, onBeforeMount, computed, reactive } from "vue";
 import party from "party-js";
 import { useConfigStore } from "../stores/config.js";
+import { useRouter, useRoute } from "vue-router";
 const usuario = useConfigStore();
+const router = useRouter()
 
 onMounted(() => {
-    gsap.fromTo('.icono-energia', 1.4, { marginLeft: '7pc' }, { marginLeft: '80%', repeat: -1, repeatDelay: 1.3, yoyo: true, transformOrigin: 'center center' });
-    gsap.fromTo('.icono-salud', 2.4, { marginLeft: '7pc' }, { marginLeft: '80%', repeat: -1, repeatDelay: 1.3, yoyo: true, transformOrigin: 'center center' });
-    gsap.fromTo('.icono-estres', 1.8, { marginLeft: '7pc' }, { marginLeft: '80%', repeat: -1, repeatDelay: 1.3, yoyo: true, transformOrigin: 'center center' });
+    let barraEnergia = document.querySelector('.barra-energia').getBoundingClientRect()
+    console.log(barraEnergia)
+    /* gsap.fromTo('.icono-energia', 1.4, { marginLeft: '7pc' }, { marginLeft: '78%', repeat: -1, repeatDelay: 1.3, yoyo: false, transformOrigin: 'center center' });
+    gsap.fromTo('.icono-salud', 2.4, { marginLeft: '7pc' }, { marginLeft: '78%', repeat: -1, repeatDelay: 1.3, yoyo: false, transformOrigin: 'center center' });
+    gsap.fromTo('.icono-estres', 1.8, { marginLeft: '7pc' }, { marginLeft: '78%', repeat: -1, repeatDelay: 1.3, yoyo: false, transformOrigin: 'center center' }); */
 
     document.querySelector(".emulate-confetti-1").addEventListener("click", (e) => {
 
@@ -128,9 +133,28 @@ onMounted(() => {
 })
 
 
+const reiniciar = ()  =>{
+       router.push('/')
+}
+
 </script>
 
 <style lang="css" scoped>
+.contenedor-items-ventana-final {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-content: center;
+    place-items: center;
+    width: 42vw;
+    height: 546px;
+    max-height: 610px;
+    grid-gap: 24px;
+    background-color: white;
+    border-radius: 23px;
+    filter: drop-shadow(2px 4px 6px black);
+}
+
 #salud,
 #estres,
 #energia {
@@ -140,14 +164,14 @@ onMounted(() => {
     background-color: #355F9E;
     color: #8fadd8;
     font-family: Source Sans Pro;
-    font-size:1em
+    font-size: 1em
 }
 
 .asluz {
     position: absolute;
-    bottom: 53px;
-    left: 25px;
-    width: 30vh;
+    bottom: 8px;
+    left: -119px;
+    width: 27vh;
     height: 38vh;
     background: transparent url(/src/assets/img/asluz.png) no-repeat center center;
     background-size: 100% 100%;
@@ -158,20 +182,11 @@ onMounted(() => {
 .contenedor-actividad {
     width: 100vw;
     height: 100vh;
-    background-image: url('@/assets/img/fondoPantallaIntermedias.png');
-    background-size: 100% 100%;
-    font-family: Source Sans Pro;
+    background-image: url('@/assets/img/fondoEscenario.png');
+    background-size: cover;
 }
 
-.contenedor-barras-personaje {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    place-items: center;
-    width: 56vw;
-    height: 70vh;
-    background: transparent url(@/assets/img/fondoPuntos.png) no-repeat center center;
-    background-size: 100% 100%;
-}
+
 
 .emulate-confetti-1 {
     position: absolute;
@@ -199,13 +214,16 @@ onMounted(() => {
 
 
 
+/* background-image: url(/src/assets/img/fonto.png); background-repeat: no-repeat; background-size: contain; background-position: center center; */
+;
+
 .icono-salud {
 
     width: 13vh;
     height: 10vh;
     background: transparent url(@/assets/img/IconoSalud.png) no-repeat center;
-    background-size: cover;
-    margin-left: 19%
+    background-size: contain;
+    margin-left: 8%
 }
 
 .icono-estres {
@@ -213,8 +231,8 @@ onMounted(() => {
     width: 13vh;
     height: 10vh;
     background: transparent url(@/assets/img/IconoEstres.png) no-repeat center;
-    background-size: cover;
-    margin-left: 19%
+    background-size: contain;
+    margin-left: 8%
 }
 
 .icono-energia {
@@ -222,8 +240,8 @@ onMounted(() => {
     width: 13vh;
     height: 10vh;
     background: transparent url(@/assets/img/IconoEnergia.png) no-repeat center;
-    background-size: cover;
-    margin-left: 19%;
+    background-size: contain;
+    margin-left: 10%;
 
 }
 
@@ -231,25 +249,39 @@ onMounted(() => {
 .barra-salud {
     width: 100%;
     height: 4vh;
-    background: transparent url(@/assets/img/barraSalud.png) repeat-x center;
-    background-size: cover;
+    background-color: #df97ab;
+    border-radius: 15px;
+    /*  background: transparent url(@/assets/img/barraSalud.png) repeat-x center;
+    background-size: cover; */
 }
 
 
 .barra-estres {
     width: 100%;
     height: 4vh;
-    background: transparent url(@/assets/img/barraEstres.png) repeat-x center;
-    background-size: cover;
+    background-color: #3bbbcd;
+    border-radius: 15px;
+    /*  background: transparent url(@/assets/img/barraEstres.png) repeat-x center;
+    background-size: cover; */
 }
 
 .barra-energia {
     width: 100%;
     height: 4vh;
-    background: transparent url(@/assets/img/barraEnergia.png) repeat-x center;
-    background-size: cover;
+    background-color: #a3d0b2;
+    border-radius: 15px;
+    /*  background: transparent url(@/assets/img/barraEnergia.png) repeat-x center;
+    background-size: cover; */
 }
 
+.titulo {
+    width: 100%;
+    text-align: center;
+    font-family: Source Sans Pro;
+    font-size: var(--h2-title-size);
+    color: black;
+    font-weight: normal;
+}
 
 .contenedor-iconos {
     display: flex;
@@ -263,11 +295,10 @@ onMounted(() => {
 
 /*Barras de habilidad */
 
-.responsive {
-    width: 40vh;
-    height: 80vh;
+.responsive-personaje {
+    width: 40%;
     position: absolute;
-    top: -5pc;
-    left: 0%;
+    top: 0pc;
+    left: -24%;
 }
 </style>

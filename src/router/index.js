@@ -60,15 +60,35 @@ const router = createRouter({
     {
       path: '/JuegoConcentrese',
       name: 'juegoconcentrese',
-      component:() => import('../views/VentanaConcentreseView.vue')
+      component: () => import('../views/VentanaConcentreseView.vue')
+      /*  component:{ 
+         default:import('../views/VentanaConcentreseView.vue'),
+         menuPrincipal
+       } */
     },
     {
       path: '/VentanaFinal',
       name: 'ventanafinal',
       component: () => import('../views/VentanaFinalJuegoView.vue')
     },
+    {
+      path: '/InstruccionesPausas',
+      name: 'instruccionespausas',
+      component: () => import('../views/VentanaTestInstruccionesPausas.vue')
+    },
+    {
+      path: '/VentanaPuntosFinal',
+      name: 'ventanapuntosfinal',
+      component: () => import('@/components/VentanaPuntosFinal.vue')
+    },
+    {
+      path: '/MenuPrincipal',
+      name: 'menuprincipal',
+      component: () => import('@/components/MenuPrincipal.vue')
+    },
     { path: '/:pathMatch(.*)*', redirect: '/' }
   ]
 })
+
 
 export default router

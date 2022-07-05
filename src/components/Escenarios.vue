@@ -1,7 +1,36 @@
 <template>
+    <div class="botonMenu" @click="mostrarMenu"></div>
+
     <div class="container-escena">
 
         <!-- <img :src="ImagHospital" alt=""> -->
+        <!-- start-1 -->
+        <img ref="escena" :src="StartPoint" class="puntos-start" id="puntos-start-1">
+        <!-- start-2 -->
+        <img ref="escena" :src="StartPoint" class="puntos-start" id="puntos-start-2">
+        <!-- start-3 -->
+        <img ref="escena" :src="StartPoint" class="puntos-start" id="puntos-start-3">
+        <!-- start-4 -->
+        <img ref="escena" :src="StartPoint" class="puntos-start" id="puntos-start-4">
+        <!-- start-5 -->
+        <img ref="escena" :src="StartPoint" class="puntos-start" id="puntos-start-5">
+        <!-- start-6 -->
+        <img ref="escena" :src="StartPoint" class="puntos-start" id="puntos-start-6">
+        <!-- start-7 -->
+        <img ref="escena" :src="StartPoint" class="puntos-start" id="puntos-start-7">
+        <!-- start-8 -->
+        <img ref="escena" :src="StartPoint" class="puntos-start" id="puntos-start-8">
+        <!-- start-9 -->
+        <img ref="escena" :src="StartPoint" class="puntos-start" id="puntos-start-9">
+        <!-- start-10 -->
+        <img ref="escena" :src="StartPoint" class="puntos-start" id="puntos-start-10">
+        <!-- start-11 -->
+        <img ref="escena" :src="StartPoint" class="puntos-start" id="puntos-start-11">
+        <!-- start-12 -->
+        <img ref="escena" :src="StartPoint" class="puntos-start" id="puntos-start-12">
+        <!-- start-1 3-->
+        <img ref="escena" :src="StartPoint" class="puntos-start" id="puntos-start-13">
+
         <div class="puntos-avance">
 
             <object ref="escena" type="image/svg+xml" :data="PuntosEscenario" class="puntos-escena">
@@ -9,30 +38,74 @@
             </object>
         </div>
         <div :style="styleOvalo" id="ovalo">
+
             <div id="personaje" :style="stylePersonaje">
                 <img src="@/assets/img/personaje.png" alt="">
             </div>
         </div>
+        <MenuPrincipal :isvisible="false" @eventInstrucciones="ocultarInstrucciones = !ocultarInstrucciones" />
+        <VentanaInstrucciones v-if="ocultarInstrucciones" urlImagenFondo="Instrucciones" :ocultarNavegacion="true">
+            <template #texto>
+                <div>
+                    <sliderInstrucciones :numerodeSliders="3" :ocultarNavegacion="false"
+                        :tituloInstruccion="InstruccionesActividad">
 
+                        <template #sliders>
+                            <div class="item-slider">
+                                <img src="@/assets/img/sliders_camara_usuario.png" class="responsive-imagen-slider"
+                                    alt="">
+                            </div>
+                            <div class="item-slider">
+                                <img src="@/assets/img/Intrucciones_escenario.png" class="responsive-imagen-slider"
+                                    alt="">
+                            </div>
+                            <div class="item-slider">
+                                <img src="@/assets/img/Intrucciones_ruleta.png" class="responsive-imagen-slider" alt="">
+                            </div>
+                            <div class="item-slider">
+                                <img src="@/assets/img/sliders_instrucciones_balance_final.png"
+                                    class="responsive-imagen-slider" alt="">
+                            </div>
+                        </template>
+                    </sliderInstrucciones>
+                </div>
+                <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center"
+                    @click="ocultarVentanaInstrucciones">
+                    <div class="btn-primary"> CONTINUAR</div>
+                </div>
+
+            </template>
+        </VentanaInstrucciones>
     </div>
 </template>
 
 <script setup>
 
-import { onMounted, onBeforeMount, onBeforeUnmount, ref, reactive } from 'vue';
+import { onMounted, onBeforeMount, onBeforeUnmount, ref, reactive, computed, watch } from 'vue';
 import { useRouter, useRoute } from "vue-router";
 import { useConfigStore } from "../stores/config.js";
 import { gsap } from "gsap"
 import anime from 'animejs/lib/anime.es.js';
-import ImagHospital from '@/assets/svg/hospitl_escena.svg';
+//import ImagHospital from '@/assets/svg/hospitl_escena.svg';
+import ImagHospital from '@/assets/svg/oficina2.svg';
 import PuntosEscenario from '@/assets/svg/puntos_fondo.svg';
+//import StartPoint from '@/assets/svg/start.svg';
+import StartPoint from '@/assets/svg/start.svg';
+import MenuPrincipal from '@/components/MenuPrincipal.vue';
 
 
+import { instruccionesBienvenida } from "@/assets/textos/TextosInstrucciones.js";
+
+//Textos Instrucciones
+const InstruccionesActividad = ref(instruccionesBienvenida)
 
 const router = useRouter()
 const escena = ref(null)
 const escenaCojines = ref([])
 const rutasActividad = ref([
+
+    '/JuegoConcentrese',//11
+    '/JuegoConcentrese',//12
     '/JuegoPosturas',//0
     '/JuegoPosturas',//1
     '/JuegoAudiosPosturas',//3
@@ -41,12 +114,21 @@ const rutasActividad = ref([
     '/JuegoManos',//7
     '/JuegoOjos',//9
     '/JuegoOjos',//10
-    '/JuegoConcentrese',//11
-    '/JuegoConcentrese'])//12
+])
 const config = useConfigStore();
 const animacionAvancePersonaje = ref(null)
 const cleanTimeAvance = ref(null)
-const posicionAvanceJuego = ref(0)
+const posicionAvanceJuego = computed(() => {
+    return config.posicionactualEscenarioJuego
+})
+const posicionAvanceJuegoActual = computed(() => {
+    return config.posicionActualActividades
+})
+
+const posicionActual = ref(null)
+const posicionActualActividades = ref(null)
+
+
 
 /* '/JuegoAudiosPosturas' */
 
@@ -68,6 +150,20 @@ const coordenadasAnimacionPersonaje = ref([
     { 'x': '-31', 'y': 17 }
 ])
 
+const coordenadasStarts = ref([])
+
+const ocultarInstrucciones = ref(null)
+const actividadesCompletadas = ref(null)
+
+const mostrarMenu = () => {
+    config.setMenuEstadoVisible(!config.menuEstadoVisible)
+}
+
+const ocultarVentanaInstrucciones = () => {
+    ocultarInstrucciones.value = !ocultarInstrucciones.value
+    config.setInstrucionesDeInicio()
+    animarEscenaPersonaje()
+}
 
 const stylePersonaje = reactive({
     position: "absolute",
@@ -86,11 +182,59 @@ const styleOvalo = reactive({
     transform: "translate(-49vw, 24.5vw)"
 });
 
+
 onMounted(() => {
-    let temporal = rutasActividad.value.sort(() => Math.random() - 0.5)
-    rutasActividad.value = temporal
+    /*  rutasActividad.value = rutasActividad.value.reverse() */
+    /*  let temporal = rutasActividad.value.sort(() => Math.random() - 0.5)
+     rutasActividad.value = temporal */
     /* console.log(rutasActividad.value) */
-    cargaEscenario()
+    //console.log()
+
+    //Ocultamos todas las estrellas.
+
+    coordenadasStarts.value = document.querySelectorAll('.puntos-start')
+
+    console.log(coordenadasStarts.value)
+
+
+
+
+    actividadesCompletadas.value = config.actividadCompletada
+    posicionActual.value = config.posicionactualEscenarioJuego
+    posicionActualActividades.value = config.posicionActualActividades
+
+    console.log(actividadesCompletadas.value)
+    console.log(posicionActual.value)
+    console.log(posicionActualActividades.value)
+
+
+    if (ocultarInstrucciones.value) {
+        ocultarInstrucciones.value = config.mostrarInicioInstrucciones
+        animarEscenaPersonaje()
+    } else {
+        if (posicionActual.value == 0) {
+            animarEscenaPersonaje()
+            /*  cargaEscenario() */
+        } else {
+            /* Object.values(config.actividadCompletada) */
+            /* ages.every(checkAge)
+    
+            function checkAge(age) {
+                return age > 18;
+            } */
+
+
+            if (Object.values(config.actividadCompletada).includes(1)) {
+                mostrarEstrella()
+                animarEscenaPersonaje()
+            }
+
+
+            /* cargaEscenario() */
+        }
+
+    }
+
 })
 
 
@@ -101,13 +245,37 @@ onBeforeMount(() => {
         styleOvalo.transform = `translate(${coordenadasAnimacionPersonaje.value[config.posicionactualEscenarioJuego - 1].x + 'vw'}, ${coordenadasAnimacionPersonaje.value[config.posicionactualEscenarioJuego - 1].y + 'vw'})`
     }
 
+
+
 })
 
+const mostrarEstrella = () => {
+    console.log("posicionActualActividades.value-1", posicionActualActividades.value - 1)
+    let index = actividadesCompletadas.value.length - 1
+    while (index >= 0) {
+        console.log(index, posicionActualActividades.value)
+        console.log(coordenadasStarts.value[index])
+        coordenadasStarts.value[index].style.display = 'block'
+        index = index - 1
+    }
+    /*  coordenadasStarts.value.forEach((element, index) => {
+        
+              coordenadasStarts.value[index].style.display = 'block'
+         
+        
+     }); */
+
+
+}
+
 const cargaEscenario = () => {
+
+    //Estrellas
     let elementosSvgEscenario = document.querySelector('.puntos-escena')
     elementosSvgEscenario.addEventListener('load', () => {
         let documentoMapa = elementosSvgEscenario.getSVGDocument()
         let elementosDomSvgMapa = documentoMapa.querySelectorAll('svg g')
+
 
         let niveles = Object.values(elementosDomSvgMapa).filter((svggelement) => {
             return svggelement.id.includes('cojin')
@@ -120,21 +288,25 @@ const cargaEscenario = () => {
             if (element.id != 'undefined') {
                 return element.id
             }
-
         })
 
-        reiniciarPosiciones()
-        animarEscenaPersonaje()
+        //reiniciarPosiciones()
+
     })
 }
 
 
+const detenerAnimacionPersonaje = () => {
+    if (animacionAvancePersonaje.value != null) {
+        animacionAvancePersonaje.value.pause()
+    }
+}
+
 const animarPuntos = () => {
 
-    let posicionActual = config.posicionactualEscenarioJuego
-    let posicionActualActividades = config.posicionActualActividades
 
-    console.log(posicionActual)
+
+
 
     /*     animacionAvancePersonaje.value.pause() */
 
@@ -145,30 +317,27 @@ const animarPuntos = () => {
 
     /*  escenaCojines.value[posicionActual].style.fill = '#EDFF91' */
 
-    console.log(posicionActual)
-    if (posicionActual == 2 || posicionActual == 5 || posicionActual == 8) {
-        posicionActualActividades++
 
-        animacionAvancePersonaje.value.pause()
+    if (posicionActual.value == 2 || posicionActual.value == 5 || posicionActual.value == 8) {
+        posicionActualActividades.value = posicionActualActividades.value + 1
+        //Detenemos la animacion del personaje.
+        detenerAnimacionPersonaje()
+
         cleanTimeAvance.value = setTimeout(() => {
-            posicionActual++
-            config.setPosicionActualUsuario(posicionActual)
             router.push('/JuegoRuleta')
         }, 1500);
 
 
 
-    } else if (posicionActual == 11) {
+    } else if (posicionActual.value == 11) {
         router.push('/VentanaFinal')
     } else {
 
         setTimeout(() => {
-            if (posicionActual == 0) {
-                router.push(rutasActividad.value[posicionActualActividades])
-
+            if (posicionActual.value == 0) {
+                router.push(rutasActividad.value[posicionActualActividades.value])
             } else {
-                console.log("ruta", rutasActividad.value[posicionActualActividades - 1])
-                router.push(rutasActividad.value[posicionActualActividades - 1])
+                router.push(rutasActividad.value[posicionActualActividades.value - 1])
 
             }
 
@@ -176,24 +345,22 @@ const animarPuntos = () => {
 
 
 
-        posicionActual++
-        posicionActualActividades++
-        config.setPosicionActualActividades(posicionActualActividades)
-        config.setPosicionActualUsuario(posicionActual)
 
 
-        animacionAvancePersonaje.value.pause()
+        //Detenemos la animacion del personaje.
+        detenerAnimacionPersonaje()
     }
 
 
     /* animarEscenaPersonaje() */
 
-    animacionAvancePersonaje.value.pause()
+    //Detenemos la animacion del personaje.
+    detenerAnimacionPersonaje()
 
-    if (posicionActual == escenaCojines.value.length) {
-        posicionActual = 0
-        config.setPosicionActualUsuario(posicionActual)
-    } 
+    if (posicionActual.value == escenaCojines.value.length) {
+        posicionActual.value = 0
+        config.setPosicionActualUsuario(posicionActual.value)
+    }
 
 }
 
@@ -215,10 +382,27 @@ const reiniciarPosiciones = () => {
 
 
 
+/* watch(router.params, (previous, current) => {
+  console.log(`${previous} and ${current}`); // Debug info
+}) */
+
+watch(posicionAvanceJuegoActual, (to, from) => {
+    console.log(to)
+    console.log(from)
+});
+
+
+
+
+
+
+
 
 onBeforeUnmount(() => {
     clearTimeout(cleanTimeAvance.value)
 })
+
+
 
 </script>
 
@@ -229,6 +413,70 @@ onBeforeUnmount(() => {
     height: 91vh;
     position: absolute;
     visibility: hidden
+}
+
+
+
+
+.puntos-start {
+    width: 7.5%;
+    position: fixed;
+    bottom: 50%;
+    left: 50%;
+    display: none
+}
+
+#puntos-start-1 {
+    transform: translate(-32.5vw, 19.5vw)
+}
+
+#puntos-start-2 {
+    transform: translate(-39.6vw, 11.3vw);
+}
+
+#puntos-start-3 {
+    transform: translate(-39.6vw, 3vw);
+}
+
+#puntos-start-4 {
+    transform: translate(-29.6vw, -3.2vw);
+}
+
+
+#puntos-start-5 {
+    transform: translate(-16.6vw, -6.9vw);
+}
+
+#puntos-start-6 {
+    transform: translate(-4.6vw, -5vw);
+}
+
+#puntos-start-7 {
+    transform: translate(-5.3vw, 2.6vw);
+}
+
+#puntos-start-8 {
+    transform: translate(6.9vw, -3.2vw);
+}
+
+#puntos-start-9 {
+    transform: translate(6.8vw, 5vw);
+}
+
+#puntos-start-10 {
+    transform: translate(21.5vw, 4.5vw);
+}
+
+#puntos-start-11 {
+    transform: translate(21.5vw, 4.5vw);
+}
+
+#puntos-start-12 {
+    transform: translate(21.1vw, 13.3vw);
+}
+
+#puntos-start-13 {
+    transform: translate(29.6vw, 18.3vw);
 }
 
 
@@ -249,6 +497,7 @@ onBeforeUnmount(() => {
     left: 254px
 }
 
+/* @/assets/svg/hospitl_escena.svg */
 .container-escena {
     width: 100vw;
     height: 100vh;

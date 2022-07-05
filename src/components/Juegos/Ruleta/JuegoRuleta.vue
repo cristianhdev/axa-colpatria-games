@@ -1,4 +1,5 @@
 <template>
+    <div class="botonMenu" @click="mostrarMenu"></div>
     <audio ref="sonidoRuleta" preload="auto">
         <source :src="RuletaSonido">
     </audio>
@@ -8,61 +9,93 @@
     <div class="emulate-confetti-2">
 
     </div>
-    <VentanaInstrucciones v-if="ocultarInstrucciones">
+
+    <VentanaInstrucciones v-if="ocultarInstrucciones" :isPersonajeVisible="false">
         <template #texto>
-            <h2>Gira la ruleta y pon a prueba los conocimientos sobre pausas activas, recuerda completar todas las
-                opciones,
-                así podrás aplicar lo aprendido en  tu jornada laboral, estás listo.</h2>
+
+            <div>
+                <sliderInstrucciones :numerodeSliders="0" :ocultarNavegacion="true"
+                    :tituloInstruccion="instruccionesActividad">
+
+                    <template #sliders>
+
+                        <div class="item-slider">
+                            <img src="@/assets/img/Intrucciones_ruleta.png" class="responsive-imagen-slider" alt="">
+                        </div>
+                        <!--  <div>
+                            <img src="@/assets/img/Intrucciones_audios.png" width="800" alt="">
+                        </div>
+ -->
+                    </template>
+                </sliderInstrucciones>
+            </div>
             <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center"
                 @click="ocultarInstruccionesActividad">
-                <button class="btn-primary-ghost"> CONTINUAR</button>
+                <div class="btn-primary"> CONTINUAR</div>
             </div>
         </template>
     </VentanaInstrucciones>
-    <div class="container-ruleta">
-        <VentanaPuntosFinal v-if="mostrarMensaje" @continuarTriviaEvent="continuarActividad"
-            @volverEscenarioEvent="volveraAlEscenario">
-            <template #puntos-buenos>
-                {{ puntosBuenos }}
-            </template>
-            <template #mensaje-respuestas>
-                <span>Respuestas seguidas</span>
-            </template>
-            <template #mensaje-opcion>
+    <VentanaPuntosFinal v-if="mostrarMensaje" @continuarTriviaEvent="continuarActividad"
+        @volverEscenarioEvent="volveraAlEscenario">
+        <template #puntos-buenos>
+            <div v-if="puntosBuenos > 0">
                 <span>¡Genial!</span>
-            </template>
-            <template #botones>
-                <button class="btn-primary-vr1" @mousemove="confity" @click="continuarTrivia">CONTINUAR TRIVIA</button>
-                <button class="btn-primary-vr1" @mousemove="confity" @click="volveraAlEscenario">VOLVER A
-                    ESCENARIO</button>
-                <!-- <button class="btn-primary-vr1" @mousemove="confity" @click="salirActividad" @id="salir">SALIR</button>
+            </div>
+            <div v-else>
+                <span>¡Lo sentimos!</span>
+            </div>
+        </template>
+        <template #mensaje-respuestas>
+            <div v-if="puntosBuenos > 0" class="auto">
+                <img :src="ChetList" width="180" height="180" alt="">
+            </div>
+            <div v-else class="auto">
+                <img :src="WarnList" width="180" height="180" alt="">
+            </div>
+        </template>
+        <template #mensaje-opcion>
+            <span style="font-size:2em">{{ puntosBuenos }}</span> <span>Respuestas seguidas</span>
+        </template>
+        <template #botones>
+            <div class="btn-primary" @mousemove="confity" @click="continuarTrivia">CONTINUAR TRIVIA</div>
+            <div class="btn-primary" @mousemove="confity" @click="volveraAlEscenario">VOLVER AL
+                ESCENARIO</div>
+            <!-- <button class="btn-primary-vr1" @mousemove="confity" @click="salirActividad" @id="salir">SALIR</button>
                 <a href="#" @click="quitBox">Close Window</a> -->
-            </template>
+        </template>
 
-        </VentanaPuntosFinal>
+    </VentanaPuntosFinal>
 
+    <div class="container-ruleta">
         <div>
             <div v-if="loading">
                 <div class="spiner center-element">
 
                 </div>
             </div>
-            <div class="center-element">
 
+            <div class="parent-ruleta">
                 <div class="ruleta-completa">
                     <object type="image/svg+xml" :data="Ruleta" class="ruleta responsive">
 
                     </object>
-                    <div>
+                    <div class="indicador">
 
-                        <object type="image/svg+xml" :data="IndicadorRuleta" class="indicador">
+                        <object type="image/svg+xml" :data="IndicadorRuleta">
+
+                        </object>
+                    </div>
+
+                    <div class="baseRuleta">
+
+                        <object type="image/svg+xml" :data="baseRuleta">
 
                         </object>
                     </div>
 
                 </div>
                 <!--  <div v-if="btnContinuar" class="auto flex-center-elements-row gap-2" style="text-align:center">
-                    <button class="btn-primary-ghost " @click="continuarActividad">GIRAR</button>
+                    <button class="btn-ghost-white " @click="continuarActividad">GIRAR</button>
                 </div> -->
 
             </div>
@@ -72,67 +105,76 @@
              <div class="barra-derecha">
 
             </div> -->
-            <div v-if="animacionRuletaFin"
-                class="contenedor-preguntas  flex-center-elements-column gap-2 animate__animated animate__fadeInLeftBig">
 
+            <div v-if="animacionRuletaFin" class="contenedor-preguntas   animate__animated animate__fadeInLeftBig">
+                <div class=" flex-center-elements-column gap-2" style="height: inherit;">
 
+                    <div class="title animate__animated animate__fadeIn ">
 
-                <div class="texto-pregunta animate__animated animate__fadeIn ">
-
-                    <h2>{{ randomPregunta.pregunta }}</h2>
-
-                </div>
-
-
-                <div class="opciones-pregunta  gap-1">
-
-                    <div class="opcion " v-for="(opcion, index) in randomPregunta.opciones" :key="`opciones-${index}`"
-                        :id="`opciones-${index}`">
-                        <OpcionesRuleta :id="index"
-                            @click="opcionCorrecta(randomPregunta.correcta, String.fromCharCode(`6${index + 5}`).toLocaleLowerCase(), `opciones-${index}`)">
-
-                            <template #letra>
-                                {{ String.fromCharCode(`6${index + 5}`) }}
-                            </template>
-
-
-                            <template #texto>
-                                {{ opcion }}.
-                            </template>
-                        </OpcionesRuleta>
+                        <div>{{ randomPregunta.pregunta }}</div>
 
                     </div>
 
-                    <div>
 
+                    <div class="opciones-pregunta  gap-1">
+
+                        <div class="opcion " v-for="(opcion, index) in randomPregunta.opciones"
+                            :key="`opciones-${index}`" :id="`opciones-${index}`">
+                            <OpcionesRuleta :id="index"
+                                @click="opcionCorrecta(randomPregunta.correcta, String.fromCharCode(`6${index + 5}`).toLocaleLowerCase(), `opciones-${index}`)">
+
+                                <template #letra>
+                                    {{ String.fromCharCode(`6${index + 5}`) }}
+                                </template>
+
+
+                                <template #texto>
+                                    {{ opcion }}.
+                                </template>
+                            </OpcionesRuleta>
+
+                        </div>
+
+                        <div>
+
+                        </div>
+                    </div>
+                    <div style="height: 2vh;">
+                        <div class="titulo-incorrecto" v-show="OpcionSeleccionadaRuleta">
+                            ¡Opción incorrecta, inténtelo nuevamente!
+                        </div>
                     </div>
                 </div>
-
-
             </div>
-        </div>
-        <div v-if="mostrarDebug" class="debug">
-            {{ preguntasRealizadas }}<br>
-            <!-- {{ randomPreguntaIds() }}<br> -->
-            {{ NumeroLanzados }}
-            {{ mostrarMensaje }}
+            <MenuPrincipal :isvisible="false"
+                @eventInstrucciones="isInstruccionesPausaVisible = !isInstruccionesPausaVisible" />
         </div>
     </div>
+
 
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeMount, computed, reactive } from "vue";
+
+//ANIMACIONES
 import gsap from "gsap";
 import animateCSS from "@/assets/helpers/animations.js";
 import PreguntasTrivia from "@/assets/textos/Preguntas.json";
-import Sonidos from '@/assets/helpers/sounds.js'
+
 import { useRouter, useRoute } from "vue-router";
 import { useConfigStore } from "../../../stores/config.js";
+
+//VENTANAS COMPONENTES
 import VentanaInstrucciones from "@/components/VentanaInstrucciones.vue"
+import sliderInstrucciones from "@/components/sliderInstrucciones.vue"
 import VentanaPuntosFinal from "@/components/VentanaPuntosFinal.vue"
+import MenuPrincipal from '@/components/MenuPrincipal.vue';
+
+//SVG IMAGENES
 import Ruleta from '@/assets/svg/ruleta.svg'
 import IndicadorRuleta from '@/assets/svg/indicador.svg'
+import baseRuleta from '@/assets/svg/baseRuleta.svg'
 import party from "party-js";
 import OpcionesRuleta from '@/components/Juegos/Ruleta/opcionPregunta.vue'
 
@@ -140,12 +182,15 @@ import OpcionesRuleta from '@/components/Juegos/Ruleta/opcionPregunta.vue'
 import Aplausos from '@/assets/sounds/aplausos.mp3'
 import Incorrecto from '@/assets/sounds/incorrecto.mp3'
 import RuletaSonido from '@/assets/sounds/Ruleta_sonido_editado.mp3'
+import Sonidos from '@/assets/helpers/sounds.js'
 
 //Imagenes
+import WarnList from '@/assets/img/warn-list.png';
+import ChetList from '@/assets/img/chek-list.png';
 
-import ImagenCheckawert from '@/assets/img/check_awert.png'
-import ImagenCheckwrong from '@/assets/img/check_wrong.png'
 
+//Textos 
+import {instruccionesJuegoRuleta}  from "@/assets/textos/TextosInstrucciones.js";
 
 const router = useRouter()
 const animacionRuletaFin = ref(false)
@@ -167,7 +212,9 @@ const btnContinuar = ref(true)
 const ocultarInstrucciones = ref(true)
 const NumeroRuletaAleatorio = ref(['2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'])
 const NumeroLanzados = ref([])
-const preguntasRuletaGeneradas = useConfigStore();
+const isInstruccionesPausaVisible = ref(false)
+const instruccionesActividad = ref(instruccionesJuegoRuleta)
+const config = useConfigStore();
 
 /**
  * !Provicional
@@ -176,6 +223,8 @@ const preguntasRealizadas = ref([])
 const sonidoAplausos = ref(null)
 const sonidoIncorrecto = ref(null)
 const sonidoRuleta = ref(null)
+
+
 
 
 
@@ -200,16 +249,21 @@ onMounted(() => {
     }, 4500); */
     document.body.focus()
     loading.value = false
-
-    sonidoRuleta.value = new Audio(RuletaSonido);
+    sonidoPlayRuleta()
 
 })
 
 
 
+const sonidoPlayRuleta = () => {
+    if (config.audioPausas) {
+        sonidoRuleta.value = new Audio(RuletaSonido);
+    }
+}
+
 
 onBeforeMount(() => {
-
+    sonidoPlayRuleta
     let temporal = Object.values(PreguntasTrivia.Preguntas)
 
     for (let index = 0; index < 14; index++) {
@@ -221,7 +275,7 @@ onBeforeMount(() => {
     preguntas.value.sort(() => Math.random() - 0.5);
 
 
-    preguntasRuletaGeneradas.setPreguntasAleatorias(Object.values(preguntas.value.map((element) => {
+    config.setPreguntasAleatorias(Object.values(preguntas.value.map((element) => {
         return element.id
     })))
 
@@ -229,11 +283,11 @@ onBeforeMount(() => {
     NumeroRuletaAleatorio.value.sort(() => Math.random() - 0.5);
 
 
-    if (preguntasRuletaGeneradas.preguntasAleatoriasSeleccionadas.length == 0) {
+    if (config.preguntasAleatoriasSeleccionadas.length == 0) {
 
     } /* else {
 
-        let preguntaCargadas = preguntasRuletaGeneradas.preguntasAleatoriasSeleccionadas
+        let preguntaCargadas = config.preguntasAleatoriasSeleccionadas
 
         let temporal = Object.values(PreguntasTrivia.Preguntas)
 
@@ -285,8 +339,9 @@ const ocultarInstruccionesActividad = () => {
 }
 
 
-const filtrarPreguntasLoaders = (id) => {
 
+const mostrarMenu = () => {
+    config.setMenuEstadoVisible(!config.menuEstadoVisible)
 }
 
 
@@ -306,6 +361,10 @@ const randomPregunta = computed(() => {
 })
 
 
+const OpcionSeleccionadaRuleta = computed(() => {
+    return opcionSeleccionada.value == 'incorrecto' ? true : false
+})
+
 const randomPreguntaIds = () => {
 
     preguntas.value.forEach((element) => {
@@ -317,15 +376,7 @@ const randomPreguntaIds = () => {
 
 const salirActividad = () => {
     if (confirm("Desea salir de la actividad!")) {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-        } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-        } else if (document.msExitFullscreen) {
-            document.msExitFullscreen();
-        }
+
         /*  close(); */
     }
 }
@@ -356,7 +407,8 @@ const continuarTrivia = () => {
 
 
 const girarRuleta = () => {
-    sonidoRuleta.value.play()
+    sonidoPlayRuleta()
+    //sonidoRuleta.value.play()
 
 
 
@@ -380,8 +432,11 @@ const girarRuleta = () => {
 
                 rotate.value.seek(randomNumeroAleatorioPregunta());//posicion - 1
                 rotate.value.pause()
-                sonidoRuleta.value.pause()
-                sonidoRuleta.value = null
+                if (sonidoRuleta.value != null) {
+                    sonidoRuleta.value.pause()
+                    sonidoRuleta.value = null
+                }
+
                 detenerRuleta()
             }
         })
@@ -401,7 +456,7 @@ const detenerRuleta = () => {
     gsap.to(rotate.value, {
         timeScale: 0, duration: Math.random(), onComplete: () => {
             gsap.to('.ruleta-completa', {
-                x: 700, duration: 2, onComplete: () => {
+                x: '100vh', duration: 2, onComplete: () => {
 
                     animacionRuletaFin.value = true
                 }
@@ -435,9 +490,37 @@ const opcionCorrecta = (correcta, actual, id) => {
 
         document.querySelector(".emulate-confetti-1").click();
         document.querySelector(".emulate-confetti-2").click();
-        audioAplausos.value = new Audio(Aplausos)
-        audioAplausos.value.play()
-        audioAplausos.value.addEventListener("ended", () => {
+
+        //Si la configuracion de audio general esta en true
+        if (config.audioPausas) {
+            audioAplausos.value = new Audio(Aplausos)
+            audioAplausos.value.play()
+            audioAplausos.value.addEventListener("ended", () => {
+                animateCSS(".contenedor-preguntas", "fadeOut").then((message) => {
+                    animacionRuletaFin.value = false
+
+                    gsap.to('.ruleta-completa', {
+                        x: 50, duration: 3, onComplete: () => {
+                            posicionPreguntaActual.value = posicionPreguntaActual.value + 1
+                            puntosBuenos.value = puntosBuenos.value + 1
+                            if (puntosBuenos.value == 3) {
+                                mostrarMensaje.value = true
+                                acomuladorPuntos.value = acomuladorPuntos.value + 5
+                            } else {
+                                rotate.value.restart()
+                                girarRuleta()
+                            }
+                        }
+                    })
+
+                });
+            });
+        } else {
+
+
+
+
+
             animateCSS(".contenedor-preguntas", "fadeOut").then((message) => {
                 animacionRuletaFin.value = false
 
@@ -456,25 +539,46 @@ const opcionCorrecta = (correcta, actual, id) => {
                 })
 
             });
-        });
+        }
 
     } else {
         opcionSeleccionada.value = 'incorrecto'
 
         document.querySelector(`#${id}`).classList.add('opcion-incorrecto')
-        audioIncorrecto.value = new Audio(Incorrecto)
-        audioIncorrecto.value.play()
+
+        let tituloIncorrecto = document.querySelector('.titulo-incorrecto')
+        console.log(tituloIncorrecto)
+        tituloIncorrecto.style.visibility = 'visible'
+        gsap.fromTo('.titulo-incorrecto', { opacity: 0 }, {
+            opacity: 1, duration: 1.4, onComplete: () => {
+
+                gsap.fromTo('.titulo-incorrecto', { opacity: 1 }, {
+                    opacity: 0, duration: 1.4, delay: 1.2, onComplete: () => {
+                        tituloIncorrecto.style.opacity = '0'
+
+                    }
+                });
+            }
+        });
+
+        //Si la configuracion de audio general esta en true
+        if (config.audioPausas) {
+            audioIncorrecto.value = new Audio(Incorrecto)
+            audioIncorrecto.value.play()
+        }
 
         puntosMalos.value = puntosMalos.value + 1
 
     }
 }
 
-const opcionInCorrecta = () => {
-
-}
-
 const volveraAlEscenario = () => {
+    config.setActividadActual(router.currentRoute.value.path)
+    config.setActividadCompletada()
+    let posicionActual = config.posicionactualEscenarioJuego
+    let posicionActualActividades = config.posicionActualActividades
+    config.setPosicionActualActividades(posicionActualActividades + 1)
+    config.setPosicionActualUsuario(posicionActual + 1)
     mostrarMensaje.value = false
     router.push("/Escenario")
 }
@@ -483,6 +587,13 @@ const volveraAlEscenario = () => {
 </script>
 
 <style lang="css" scoped>
+.parent-ruleta {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .emulate-confetti-1 {
     position: absolute;
     top: 10px;
@@ -509,7 +620,9 @@ const volveraAlEscenario = () => {
 .container-ruleta {
     width: 100vw;
     height: 100vh;
-    background-color: #9FD9B4
+    background: transparent url(@/assets/img/fondoEscenario.png) no-repeat center center;
+    background-size: cover;
+    overflow: hidden
 }
 
 
@@ -519,22 +632,17 @@ hr {
     width: 80%
 }
 
-.texto-pregunta {
-    color: var(--blanco);
-    width: 83%;
-    text-align: left;
-    font-size: 1rem;
-    line-height: 1.5em;
-}
+
 
 .contenedor-preguntas {
     width: 67vw;
-    height: 95vh;
-    margin: 0px 9vh;
-    background-color: #004E54;
-    background: transparent url(@/assets/img/fonto.png) no-repeat center center;
-    background-size: 105% 82%;
+    height: 75vh;
+    margin: 9vh 9vh;
+    background-color: white;
+    /* background: transparent url(@/assets/img/fonto.png) no-repeat center center;
+    background-size: 105% 82%; */
     z-index: 999999;
+    border-radius: 23px
 }
 
 .barra-izquierda {
@@ -573,10 +681,20 @@ hr {
     width: 15vw;
     height: 17vw;
     position: absolute;
-    top: 29%;
+    top: 39%;
     left: 124px;
     box-shadow: 3px 3px solid black
 }
+
+.baseRuleta {
+    width: 15vw;
+    height: 17vw;
+    position: absolute;
+    top: 89%;
+    left: 324px;
+    z-index: -9999
+}
+
 
 
 
@@ -594,7 +712,7 @@ hr {
     width: 17vw;
     height: 19vh;
     text-align: justify;
-    border: 3px solid var(--bg-igloo);
+    border: 3px solid var(--azul-axa);
     vertical-align: middle;
     display: grid;
     grid-template-columns: 1fr;
@@ -615,25 +733,7 @@ hr {
     border: 3px solid var(--border-error-mensaje) !important;
 }
 
-.opcion-correcto::before {
-    content: '';
-    background: url('@/assets/img/check_awert.png') no-repeat;
-    background-size: contain;
-    position: fixed;
-    width: 3vw;
-    height: 3vh;
-    transform: translate(210px, -3px);
-}
 
-.opcion-incorrecto::before {
-    content: '';
-    background: url('@/assets/img/check_wrong.png') no-repeat;
-    background-size: contain;
-    position: fixed;
-    width: 3vw;
-    height: 3vh;
-    transform: translate(210px, -3px);
-}
 
 
 .opcion-normal {
@@ -644,6 +744,25 @@ hr {
     font-family: 'Publico Headline Bold';
 }
 
+.title {
+    width: 83%;
+    text-align: left;
+    color: black;
+    font-family: Source Sans Pro;
+    font-size: 1.8em;
+    font-weight: 400;
+}
+
+.titulo-incorrecto {
+    width: 100%;
+    text-align: center;
+    font-family: Source Sans Pro;
+    font-size: var(--h2-title-size);
+    color: red;
+    font-weight: normal;
+}
+
+
 /* 
   ##Device = Desktops
   ##Screen = 1281px to higher resolution desktops
@@ -652,13 +771,37 @@ hr {
 @media (min-width: 1281px) {
 
     /* CSS */
-    /* .container-ruleta {
-        border: 4px solid rgb(20, 196, 49)
+    /*    .container-ruleta {
+       outline: 32px double red;
     } */
 
     .ruleta {
         width: 53rem;
-        height: 36rem;
+        height: 487px;
+    }
+
+    .indicador {
+        width: 12vw;
+        height: 11vw;
+        position: absolute;
+        top: 39%;
+        left: 168px;
+    }
+
+    .baseRuleta {
+        width: 230px;
+        height: 25pc;
+        position: absolute;
+        top: 89%;
+        left: 313px;
+        z-index: -9999;
+    }
+
+    .parent-ruleta {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -16pc);
     }
 
 }
@@ -671,9 +814,34 @@ hr {
 @media (min-width: 1025px) and (max-width: 1280px) {
 
     /* CSS */
-    /*   .container-ruleta {
-        border: 3px solid blue
-    } */
+    .container-ruleta {
+        outline: 32px double red;
+    }
+
+
+    .ruleta {
+        width: 53rem;
+        height: 29rem;
+    }
+
+    .indicador {
+        width: 12vw;
+        height: 11vw;
+        position: absolute;
+        top: 39%;
+        left: 168px;
+    }
+
+    .baseRuleta {
+        width: 15vw;
+        height: 17vw;
+        position: absolute;
+        top: 89%;
+        left: 324px;
+        z-index: -9999
+    }
+
+
 }
 
 /* 
@@ -683,10 +851,44 @@ hr {
 
 @media (min-width: 768px) and (max-width: 1024px) {
 
+    .title{
+        font-size: 1.3em;
+    }
+
     /* CSS */
-    /*   .container-ruleta {
-        border: 3px solid red
-    } */
+    .container-ruleta {
+        outline: 32px double red;
+    }
+
+    .texto-pregunta {
+        font-size: 1rem;
+        line-height: 1.5em;
+    }
+
+
+    .ruleta {
+        width: 53rem;
+        height: 29rem;
+    }
+
+    .indicador {
+        width: 12vw;
+        height: 11vw;
+        position: absolute;
+        top: 39%;
+        left: 188px;
+    }
+
+    .baseRuleta {
+        width: 15vw;
+        height: 17vw;
+        position: absolute;
+        top: 89%;
+        left: 124px;
+        z-index: -9999
+    }
+
+
 }
 
 /* 
@@ -696,10 +898,64 @@ hr {
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
 
-    /* CSS */
-    /*  .container-ruleta {
-        border: 3px solid orange
-    } */
+    body {
+        overflow: hidden
+    }
+
+    .ruleta {
+        width: 23rem;
+        height: 21em;
+    }
+
+    .ruleta-completa {}
+
+    svg {
+        object-fit: scale-down;
+    }
+
+
+    .indicador {
+        position: absolute;
+        top: 29%;
+        left: 14px;
+    }
+
+
+    .opciones-pregunta .opcion {
+        font-size: 0.7rem;
+        line-height: 1.5em;
+    }
+
+    .texto-pregunta {
+        font-size: 0.8rem;
+        line-height: 1.5em;
+    }
+
+    .opcion-correcto::before {
+        content: '';
+        background: url('@/assets/img/check_awert.png') no-repeat;
+        background-size: contain;
+        position: fixed;
+        width: 3vw;
+        height: 3vh;
+        transform: translate(35vh, -3px);
+    }
+
+    .opcion-incorrecto::before {
+        content: '';
+        background: url('@/assets/img/check_wrong.png') no-repeat;
+        background-size: contain;
+        position: fixed;
+        width: 3vw;
+        height: 3vh;
+        transform: translate(35vh, -3px);
+    }
+
+    .contenedor-preguntas {
+        width: 67vw;
+        max-height: 95vh;
+        height: 95vh;
+    }
 
 }
 
@@ -728,6 +984,7 @@ hr {
     /* .container-ruleta {
         border: 3px solid teal
     } */
+
 
 }
 </style>

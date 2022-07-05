@@ -1,11 +1,11 @@
 <template>
     <div>
-        <JuegoAudios />
+        <JuegoManos />
     </div>
 </template>
 
 <script setup>
-import JuegoAudios from "@/components/Juegos/Sonidos/JuegoAudios.vue";
+import JuegoManos from "@/components/Juegos/Manos/juegoManos.vue";
 </script>
 
 <style lang="css" scoped>

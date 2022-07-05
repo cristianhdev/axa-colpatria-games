@@ -10,39 +10,44 @@
         <div
             class="ventana-mensaje-puntos center-element  flex-center-elements-column gap-2 padding-2 animate__animated animate__fadeIn">
 
-            <div class="contenedor-mensaje flex-center-elements-column gap-1" id="simulate-click">
-                <div class="contenedor-puntos-buenos flex-center-elements-column gap-2">
-                    <slot name="puntos-buenos">
-
-                    </slot>
-                </div>
-                <div class="contenedor-mensajes">
-                    <div class="info-mensaje">
-                        <slot name="mensaje-respuestas">
+            <div class="contenedor-central flex-center-elements-column " id="simulate-click">
+                <div style="width: 100%;height: 100%;display: flex;flex-direction: column;justify-content: flex-start;align-items: baseline;grid-gap: 59px;">
+                    <div class="contenedor-puntos-buenos flex-center-elements-column gap-2">
+                        <slot name="puntos-buenos">
 
                         </slot>
                     </div>
-                    <div class="mensaje-opcion">
-                        <slot name="mensaje-opcion">
-                            <h1>
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad repudiandae, quos, dolores
-                                pariatur
-                                vero
-                                accusantium ut doloremque ratione sint soluta, recusandae porro possimus modi distinctio
-                                minus
-                                placeat?
-                                Incidunt, exercitationem cumque?
-                            </h1>
+                    <div class="contenedor-mensajes">
+                        <div class="info-mensaje">
+                            <slot name="mensaje-respuestas">
+
+                            </slot>
+                        </div>
+                        <div class="mensaje-opcion">
+                            <slot name="mensaje-opcion">
+                                <h1>
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad repudiandae, quos,
+                                    dolores
+                                    pariatur
+                                    vero
+                                    accusantium ut doloremque ratione sint soluta, recusandae porro possimus modi
+                                    distinctio
+                                    minus
+                                    placeat?
+                                    Incidunt, exercitationem cumque?
+                                </h1>
+                            </slot>
+                        </div>
+                    </div>
+                    <!-- comentario para subir archivo actualizado -->
+                    <div class="auto flex-center-elements-row gap-2" style="text-align:center">
+                        <slot name="botones">
+
                         </slot>
                     </div>
-                </div>
-                <!-- comentario para subir archivo actualizado -->
-                <div class="auto flex-center-elements-row gap-2" style="text-align:center">
-                    <slot name="botones">
-
-                    </slot>
                 </div>
             </div>
+
         </div>
         <div class="button">Click me!</div>
     </div>
@@ -123,27 +128,27 @@ onBeforeUnmount(() => {
 
 .info-mensaje {
     font-size: 1.8em;
-    color: #f0ff93;
+    color: black;
     font-family: Source Sans Pro
 }
 
 .mensaje-opcion {
-    font-size: 6em;
-    color: white;
+    font-size: 1.5em;
+    color: black;
     height: inherit;
     font-family: Publico Banner
 }
 
 .contenedor-puntos-buenos {
-    width: 23vw;
-    height: -webkit-fill-available;
-    background: transparent url(/src/assets/img/Puntos.png) no-repeat center center;
-    background-size: contain;
-    position: absolute;
-    top: -31%;
-    font-size: 8em;
+    width: 100%;
+    height: 14vh;
+    font-size: 3.4em;
     color: var(--blanco);
     font-family: Publico Banner;
+    background-color: var(--azul-axa);
+    border-top-left-radius: 12px;
+    overflow: hidden;
+    border-top-right-radius: 12px;
 }
 
 .ventana-mensaje-puntos {
@@ -151,7 +156,7 @@ onBeforeUnmount(() => {
     height: 100vh;
     z-index: 9;
     text-align: center;
-    background: transparent url(@/assets/img/fondoPantallaFinalPuntos.png) no-repeat center center;
+    background: transparent url(@/assets/img/fondoEscenario.png) no-repeat center center;
     background-size: 100% 100%;
 }
 
@@ -163,20 +168,12 @@ onBeforeUnmount(() => {
     align-items: center;
     align-content: center;
     flex-direction: column;
-    grid-gap: 10vh;
-    margin-bottom: 9vh;
-    margin-top: 12vh;
+    grid-gap: 3vh;
 }
 
-.contenedor-mensaje {
-    display: flex;
-    flex-direction: column;
-    width: 56vw;
-    height: 33rem;
-    background: transparent url(@/assets/img/fondoPuntos.png) no-repeat center center;
-    background-size: 100% 100%;
 
-}
+
+
 
 .emulate-confetti-1-pantantalla-puntos {
     position: absolute;
@@ -189,5 +186,38 @@ onBeforeUnmount(() => {
     top: 10px;
     right: 0px;
     border: 2px solid red
+}
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .mensaje-opcion {
+        font-size: 1.5em;
+        color: white;
+        height: inherit;
+        font-family: Publico Banner
+    }
+
+    .contenedor-mensajes {
+        height: 16%;
+       /*  margin-top: 22vh; */
+    }
+
+    .contenedor-mensaje {
+        height: 15rem;
+    }
+    
+
+    .mensaje-opcion {
+        font-size: 1.5em;
+    }
+
+    .info-mensaje {
+        font-size: 1.8em;
+    }
+
+    .contenedor-puntos-buenos {
+        top: 11%;
+        font-size: 4em;
+        height: 26vh;
+    }
 }
 </style>

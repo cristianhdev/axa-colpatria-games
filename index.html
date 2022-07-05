@@ -7,10 +7,33 @@
     <meta name="description" content="Actividad Pausas Activas Laborales">
     <meta name="author" content="Cristian Alberto Hernandez">
     <title>Pausas Activas Laborales</title>
-    
+
   </head>
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
+    <script>
+
+  
+      /* you can pass in options here */
+      var PleaseRotateOptions = {
+        startOnPageLoad: true,
+        onHide: function () { },
+        onShow: function () { },
+        forcePortrait: false,
+        message: "Por favor gire el dispositivo para realizar la actividad",
+        subMessage: "",
+        allowClickBypass: false,
+        onlyMobile: true,
+        zIndex: 9999999,
+        iconNode: null
+      };
+
+      
+    </script>
+  
+  
+  
+    <script src="src/assets/helpers/pleaserotate.min.js"></script>
   </body>
 </html>

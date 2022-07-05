@@ -2,7 +2,7 @@
   <div id="cronometro">
 
     <div class="base-timer">
-      <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <!-- <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <g class="base-timer__circle">
           <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
           <path id="base-timer-path-remaining" :stroke-dasharray="circleDasharray" class="base-timer__path-remaining"
@@ -13,15 +13,15 @@
           a 45,45 0 1,0 -90,0
         "></path>
         </g>
-      </svg>
-      <span id="base-timer-label" class="base-timer__label">
+      </svg> -->
+      <span id="base-timer-label" class="base-timer__label" :class="{ 'animate_blinks': isRun }">
         {{ formatTime(timeLeft) }}</span>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, onUnmounted, onBeforeMount, defineEmits, watch } from 'vue'
+import { ref, reactive, onMounted, onUnmounted, onBeforeMount, defineEmits, watch } from 'vue'
 
 import Sonidos from '@/assets/helpers/sounds.js'
 
@@ -49,6 +49,7 @@ const COLOR_CODES = reactive({
 
 
 
+
 const TIME_LIMIT = tiempo.segundos;
 let timePassed = ref(0);
 let timeLeft = ref(TIME_LIMIT);
@@ -58,9 +59,15 @@ let circleDasharray = ref(null)
 
 onBeforeMount(() => {
 
-  startTimer();
+
 })
 
+
+onMounted(() => {
+  if (tiempo.isRun) {
+    startTimer();
+  }
+})
 
 const tiempo = defineProps({
   segundos: {
@@ -70,12 +77,33 @@ const tiempo = defineProps({
   reiniciar: {
     type: Boolean,
     default: false
+  },
+  isRun: {
+    type: Boolean,
+    default: true
+  },
+  isCronometroPausa: {
+    type: Boolean,
+    default: false
   }
 })
 
 
 watch(tiempo.reiniciar, (reiniciarTiempoNew, reiniciarTiempoOld) => {
- 
+
+})
+
+watch(() => tiempo.isRun, (reiniciarTiempoNew, reiniciarTiempoOld) => {
+  startTimer();
+})
+
+watch(() => tiempo.isCronometroPausa, (reiniciarTiempoNew, reiniciarTiempoOld) => {
+  clearInterval(timerInterval.value);
+  if (clockAudio.value != null) {
+    clockAudio.value.stopAudio()
+    clockAudio.value = null
+    /* document.getElementById("base-timer-label").style.animation = 'none' */
+  }
 })
 
 
@@ -128,6 +156,7 @@ const formatTime = (time) => {
     seconds = `0${seconds}`;
   }
 
+  return `${seconds}`;
   return `${minutes}:${seconds}`;
 }
 
@@ -136,21 +165,21 @@ const formatTime = (time) => {
 
 const setRemainingPathColor = (timeLeft) => {
 
-  if (timeLeft <= COLOR_CODES.alert.threshold) {
-    document
-      .getElementById("base-timer-path-remaining")
-      .classList.remove(COLOR_CODES.warning.color);
-    document
-      .getElementById("base-timer-path-remaining")
-      .classList.add(COLOR_CODES.alert.color);
-  } else if (timeLeft <= COLOR_CODES.warning.threshold) {
-    document
-      .getElementById("base-timer-path-remaining")
-      .classList.remove(COLOR_CODES.info.color);
-    document
-      .getElementById("base-timer-path-remaining")
-      .classList.add(COLOR_CODES.warning.color);
-  }
+  /*  if (timeLeft <= COLOR_CODES.alert.threshold) {
+     document
+       .getElementById("base-timer-path-remaining")
+       .classList.remove(COLOR_CODES.warning.color);
+     document
+       .getElementById("base-timer-path-remaining")
+       .classList.add(COLOR_CODES.alert.color);
+   } else if (timeLeft <= COLOR_CODES.warning.threshold) {
+     document
+       .getElementById("base-timer-path-remaining")
+       .classList.remove(COLOR_CODES.info.color);
+     document
+       .getElementById("base-timer-path-remaining")
+       .classList.add(COLOR_CODES.warning.color);
+   } */
 }
 
 
@@ -187,8 +216,9 @@ onUnmounted(() => {
   position: absolute;
   width: 150px;
   height: 150px;
-  top: 12px;
-  right: 50px
+  top: -18px;
+  right: 0rem;
+  float: right;
 }
 
 .base-timer__svg {
@@ -229,18 +259,19 @@ onUnmounted(() => {
 
 .base-timer__label {
   position: absolute;
-  width: 300px;
-  height: 300px;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
   top: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 48px;
+  font-size: 3em;
+  font-family: Source Sans pro;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-#base-timer-label {
+.animate_blinks {
   animation: bliks 1s infinite
 }
 

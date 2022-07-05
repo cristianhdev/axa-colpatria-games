@@ -12,7 +12,7 @@
       <VentanaContinuidad />
     </div>
     <div v-else>
-      <VentanaInstrucciones v-if="ocultarVentana" @ocultarVentana="cerrarBienvenida" urlImagenFondo="BienvidaJuegos"
+      <!-- <VentanaInstrucciones v-if="ocultarVentana" @ocultarVentana="cerrarBienvenida" urlImagenFondo="BienvidaJuegos" :isPersonajeVisible="true"
         :ocultarBotones="ocultarBotones">
         <template #texto>
           <h2>
@@ -28,7 +28,7 @@
           </h2>
 
           <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center" @click="openFullscreen">
-            <button class="btn-primary-ghost"> COMENZAR</button>
+            <div  class="button-bs"> COMENZAR</div>
           </div>
 
 
@@ -37,43 +37,71 @@
 
         </template>
 
+      </VentanaInstrucciones> -->
+
+      <VentanaBienvenida v-if="ocultarVentana" :sliderActive="false"
+        class="animate__animated animate__delay-2s animate__fadeIn" ruta="usuario" @cerrarVentana="openFullscreen">
+        <!--  <template #titulo> Bienvenido </template> -->
+        <template #texto>
+
+
+
+          <p><strong> Las pausas activas </strong> son sesiones de actividad física desarrolladas en el entorno laboral,
+            con una duración
+            continua mínima de 10 minutos que incluye adaptación física cardiovascular, fortalecimiento muscular y
+            mejoramiento de la flexibilidad buscando reducir el riesgo cardiovascular y las lesiones musculares por
+            sobreuso asociados al desempeño laboral.
+          </p>
+          <p>
+            Las Pausas Activas serán una forma de promover la actividad física, como hábito de vida saludable, por lo
+            cual se deben desarrollar programas educativos sobre la importancia y los beneficios de la actividad física
+            regular.
+          </p>
+
+
+          <!-- <p>En el entorno laboral, la gran mayoría de trabajadores permanecen por lo menos
+            ocho horas del día, y dependiendo del trabajo, en muchas ocasiones están
+            sentados, con un nivel de actividad física mínimo. </p> -->
+        </template>
+
+      </VentanaBienvenida>
+      <VentanaInstrucciones v-if="ocultarInstrucciones" urlImagenFondo="Instrucciones" :ocultarNavegacion="true">
+        <template #texto>
+          <div>
+            <sliderInstrucciones :numerodeSliders="3" :ocultarNavegacion="false"
+              :tituloInstruccion="InstruccionesActividad">
+
+              <template #sliders>
+                <div class="item-slider">
+                  <img src="@/assets/img/sliders_camara_usuario.png" class="responsive-imagen-slider" alt="">
+                </div>
+                <div class="item-slider">
+                  <img src="@/assets/img/Intrucciones_escenario.png" class="responsive-imagen-slider" alt="">
+                </div>
+                <div class="item-slider">
+                  <img src="@/assets/img/Intrucciones_ruleta.png" class="responsive-imagen-slider" alt="">
+                </div>
+                <div class="item-slider">
+                  <img src="@/assets/img/sliders_instrucciones_balance_final.png" class="responsive-imagen-slider" alt="">
+                </div>
+              </template>
+            </sliderInstrucciones>
+          </div>
+          <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center"
+            @click="ocultarVentanaInstrucciones">
+            <div class="btn-primary"> CONTINUAR</div>
+          </div>
+
+        </template>
       </VentanaInstrucciones>
-    </div>
-
-
-
-
-    <div class="animacion-bienvenida animate__animated animate__delay-2s animate__fadeOut">
-      <!-- <VentanaBienvenida :sliderActive="true" :slider="slidersBienvenida" /> -->
 
     </div>
 
-    <!--  <VentanaBienvenida v-if="ocultarVentana" :sliderActive="false"
-      class="animate__animated animate__delay-2s animate__fadeIn" ruta="usuario">
-      <template #titulo> Bienvenido </template>
-      <template #texto>
 
 
 
-        <p>Son sesiones de actividad física desarrolladas en el entorno laboral, con una
-          duración continua mínima de 10 minutos que incluye adaptación física
-          cardiovascular, fortalecimiento muscular y mejoramiento de la flexibilidad
-          buscando reducir el riesgo cardiovascular y las lesiones musculares por sobreuso asociados al desempeño
-          laboral.
-        </p>
-        <p>
-          Las Pausas Activas serán una forma de promover la actividad física, como habito
-          de vida saludable, por lo cual se deben desarrollar programas educativos sobre
-          la importancia y los beneficios de la actividad física regular.
-        </p>
 
 
-        <p>En el entorno laboral, la gran mayoría de trabajadores permanecen por lo menos
-          ocho horas del día, y dependiendo del trabajo, en muchas ocasiones están
-          sentados, con un nivel de actividad física mínimo. </p>
-      </template>
-
-    </VentanaBienvenida> -->
   </div>
 </template>
 
@@ -82,13 +110,20 @@ import PuntosEscenario from '@/assets/svg/puntos_fondo.svg';
 import VentanaBienvenida from "@/components/VentanaBienvenida.vue";
 import VentanaInstrucciones from "@/components/VentanaInstrucciones.vue";
 import VentanaContinuidad from "@/components/VentanaContinuidad.vue";
+import sliderInstrucciones from "@/components/sliderInstrucciones.vue"
 import { ref, reactive, onMounted, computed } from "vue";
 import Sliders from "@/assets/textos/Bienvenida.json";
 import { useLocalStorage, useMouse, usePreferredDark } from '@vueuse/core'
 import { useConfigStore } from "../stores/config.js";
 import { useRouter, useRoute } from "vue-router";
 import animateCSS from "@/assets/helpers/animations.js";
+import { instruccionesBienvenida } from "@/assets/textos/TextosInstrucciones.js";
+
+//Textos Instrucciones
+const InstruccionesActividad = ref(instruccionesBienvenida)
+
 const router = useRouter()
+const ocultarInstrucciones = ref(null)
 
 const ocultarVentana = ref(false);
 const ocultarBotones = ref(false);
@@ -98,36 +133,46 @@ const config = useConfigStore();
 
 onMounted(() => {
 
- 
-
-   if (config.posicionactualEscenarioJuego > 0) {
-     setTimeout(() => {
-        mostrarVentanaContinuidad.value=true
-     },2000)
-     
-   }
 
 
+  if (config.posicionactualEscenarioJuego > 0) {
+    setTimeout(() => {
+      mostrarVentanaContinuidad.value = true
+    }, 2000)
+
+  }
 
 })
 
-const openFullscreen = () => {
-  ocultarVentana.value = false
-  router.push(`/Usuario`);
-  var targetelement = document.documentElement;
+const verifyMobile = () => {
+  let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  return isMobile
+}
 
-  if (targetelement.requestFullscreen) {
-    targetelement.requestFullscreen();
+const ocultarVentanaInstrucciones = () => {
+  router.push(`/Usuario`);
+}
+
+const openFullscreen = () => {
+  ocultarVentana.value = true
+  ocultarInstrucciones.value = !ocultarInstrucciones.value
+  if (verifyMobile()) {
+    var targetelement = document.documentElement;
+
+    if (targetelement.requestFullscreen) {
+      targetelement.requestFullscreen();
+    }
+    if (targetelement.webkitRequestFullscreen) {
+      targetelement.webkitRequestFullscreen();
+    }
+    if (targetelement.mozRequestFullScreen) {
+      targetelement.mozRequestFullScreen();
+    }
+    if (targetelement.msRequestFullscreen) {
+      targetelement.msRequestFullscreen();
+    }
   }
-  if (targetelement.webkitRequestFullscreen) {
-    targetelement.webkitRequestFullscreen();
-  }
-  if (targetelement.mozRequestFullScreen) {
-    targetelement.mozRequestFullScreen();
-  }
-  if (targetelement.msRequestFullscreen) {
-    targetelement.msRequestFullscreen();
-  }
+
 }
 
 const texto = reactive({
@@ -137,7 +182,8 @@ const texto = reactive({
 
 const cerrarBienvenida = () => {
   ocultarVentana.value = false
-  router.push(`/Usuario`);
+
+  /*  router.push(`/Usuario`); */
   /*  animateCSS(".contenedor-instrucciones", "fadeOut").then((message) => {
  
  

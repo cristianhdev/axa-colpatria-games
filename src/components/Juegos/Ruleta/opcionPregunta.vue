@@ -45,7 +45,7 @@ const secuencia = defineProps({
 
 .contenedor-opciones-pregunta {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 3fr;
     place-content: center;
     align-items: center;
 }
@@ -58,7 +58,7 @@ const secuencia = defineProps({
     align-content: center;
     justify-content: center;
     margin-right: 7px;
-    color: var(--blanco);
+    color: var(--azul-axa);
     font-size: 4.7em;
 }
 
@@ -79,8 +79,8 @@ const secuencia = defineProps({
 
 .texto-opcion {
     pointer-events: none;
-    text-align: center;
-    color: var(--blanco);
+    text-align: left;
+    color: black;
     font-size: 1.3em;
     font-family: Source Sans Pro
 }

@@ -1,25 +1,24 @@
 <template>
 
     <div :style="styleContenedor" class=" animate__animated animate__ animate__jackInTheBox">
-        <div class="texto-instrucciones center-element">
-            <div class="imagen-texto">
+        <div class="texto-instrucciones contenedor-items  center-element">
+            <div :style="styleImagenTexto">
                 <div class="texto">
                     <slot name="texto">
-                        <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus illo odit eos porro
-                            consectetur
-                            ipsum, unde impedit id consequatur deserunt sint quidem laboriosam voluptatibus doloribus.
 
-                        </h2>
                     </slot>
                 </div>
-                <div class="imagen">
-                    <img src="@/assets/img/Personajes.png" alt="" width="500">
+                <div v-if="opciones.isPersonajeVisible" class="imagen">
+                    <img src="@/assets/img/Personajes.png" alt="" class="responsive-instrucciones">
                 </div>
             </div>
 
             <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center"
-                @click="continuarActividad" >
-                <slot v-if="opciones.ocultarBotones" name="btntexto"><button class="btn-primary-ghost"> {{opciones.ocultarBotones}}JUGAR</button></slot>
+                @click="continuarActividad">
+                <slot v-if="opciones.ocultarBotones" name="btntexto">
+                    <div class="btn-primary">
+                        {{ opciones.ocultarBotones }}JUGAR</div>
+                </slot>
             </div>
 
         </div>
@@ -27,7 +26,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onBeforeMount, onMounted } from 'vue'
+import { ref, reactive, onBeforeMount, onMounted, watch } from 'vue'
 import imagenFondoBienvenidaImagen from '@/assets/img/BienvidaJuegos.png'
 import imagenFondoInstruccionesImagen from '@/assets/img/InstruccioneJuegos.png'
 
@@ -39,13 +38,16 @@ const continuarActividad = () => {
 }
 
 onBeforeMount(() => {
+    console.log(opciones.urlImagenFondo)
     if (opciones.urlImagenFondo === 'BienvidaJuegos') {
         imagenFondo.value = imagenFondoBienvenidaImagen
+        styleContenedor.backgroundImage = `url(${imagenFondo.value})`
+        styleImagenTexto.gridTemplateColumns = "2fr 1fr"
     } else {
         imagenFondo.value = imagenFondoInstruccionesImagen
+        styleContenedor.backgroundImage = `url(${imagenFondo.value})`
+        styleImagenTexto.gridTemplateColumns = "1fr"
     }
-
-    styleContenedor.backgroundImage=`url(${imagenFondo.value})`
 });
 
 
@@ -54,11 +56,25 @@ const opciones = defineProps({
         type: String,
         default: 'InstruccioneJuegos'
     },
-    ocultarBotones:{
-        type:Boolean,
-        default:false
+    ocultarBotones: {
+        type: Boolean,
+        default: false
+    },
+    isPersonajeVisible: {
+        type: Boolean,
+        default: false
     }
 });
+
+
+
+watch(opciones.isPersonajeVisible, (newSlider, oldSlider) => {
+    if (newSlider) {
+        alert(newSlider)
+    } else {
+        styleImagenTexto.gridTemplateColumns = "1fr"
+    }
+})
 
 const styleContenedor = reactive({
     backgroundImage: `url(${imagenFondo.value}.png)`,
@@ -69,21 +85,22 @@ const styleContenedor = reactive({
     width: '100vw',
     height: '105vh',
     position: 'absolute',
-    zIndex: '9999'
+    zIndex: '9999',
+    filter: 'drop-shadow(2px 4px 6px black)'
 });
+
+const styleImagenTexto = reactive({
+    display: "grid",
+    gridTemplateColumns: "2fr 1fr",
+    placeItems: "center"
+});
+
 
 
 
 </script>
 
 <style lang="css" scoped>
-.imagen-texto {
-    display: grid;
-    place-items: center;
-    grid-template-columns: 3fr 1fr;
-    align-items: center;
-}
-
 .btn-jugar {
     position: absolute;
     top: 50%;
@@ -92,11 +109,13 @@ const styleContenedor = reactive({
 }
 
 .texto-instrucciones {
-    width: 100vw;
-    height: 80vh;
+    width: 70vw;
+    height: 530px;
+    max-height: 514px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-top: 1%;
 }
 
 .texto-instrucciones div {
@@ -104,14 +123,19 @@ const styleContenedor = reactive({
 }
 
 .texto {
-    width: 39vw;
+    width: 65%;
+    height: 42em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    color: white;
+    font-family: Source Sans Pro;
+    font-size: 1em;
+    font-weight: normal;
+    grid-gap: 1rem;
 }
-
-
-
-
-
-.imagen {}
 
 .fade-enter-active,
 .fade-leave-active {

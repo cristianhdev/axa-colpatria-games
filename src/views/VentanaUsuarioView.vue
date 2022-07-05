@@ -9,11 +9,14 @@
       </object>
     </div> -->
     <!-- <VentanaBienvenida :sliderActive="true" :slider="slidersBienvenida" /> -->
-    <VentanaBienvenida v-if="ocultarVentana" :sliderActive="false" ruta="webcamera">
+    <VentanaIntroduccion v-if="ocultarVentana" :sliderActive="false" ruta="webcamera">
       <template #titulo>
+        <div class="icono-perfil">
+          <!-- <img src="@/assets/img/perfil-icon.png" alt=""> -->
+        </div>
         {{
             config.nombreUsuario == ""
-              ? "Ingresa el nombre:"
+              ? "Ingrese su nombre:"
               : `¡Hola ${capitalize}! `
         }}
       </template>
@@ -32,18 +35,18 @@
           @click="guardar = !guardar">
           GUARDAR
         </div>
-        <div class="btn-primary-vr1 flex-center-elements-row gap-3">
+        <div class="btn-primary flex-center-elements-row gap-3">
           CONTINUAR
         </div>
       </template>
-    </VentanaBienvenida>
+    </VentanaIntroduccion>
   </div>
 </template>
 
 
 <script setup>
 import PuntosEscenario from '@/assets/svg/puntos_fondo.svg';
-import VentanaBienvenida from "@/components/VentanaBienvenida.vue";
+import VentanaIntroduccion from "@/components/VentanaIntroduccion.vue";
 import { ref, onMounted, computed, watch } from "vue";
 import Sliders from "@/assets/textos/Bienvenida.json";
 import { useConfigStore } from "../stores/config.js";
@@ -89,14 +92,13 @@ const capitalize = computed(() => {
 <style lang="css" scoped>
 input#usuarionombre[type=text] {
   width: 20em;
-  height: 25px;
+  height: 2.2em;
   padding: 8px;
-  border: 1px solid #E5E5E5;
+  border:2px solid var(--azul-axa);
   margin: 8px 0 0;
-  box-shadow: 3px 3px #F0F0F0;
-  text-transform: capitalize;
-  background-color: #f0ff93;
-  border-radius: 12px;
+  /* box-shadow: 3px 3px #F0F0F0; */
+  background-color: #FFFFFF;
+ /*  border-radius: 12px; */
 }
 
 
@@ -108,4 +110,20 @@ input#usuarionombre[type=text] {
   top: 50%;
   transform: translate(-50%, -50%);
 }
+
+
+
+.icono-perfil {
+    background-image: url('@/assets/img/perfil-icon.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    width: 43vh;
+    height: 22vh;
+    position: relative;
+    top: -43px;
+    margin: 0px auto;
+}
+
+
 </style>

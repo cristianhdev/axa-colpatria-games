@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="contenedor-slider flex-center-elements-row">
+        <div class="contenedor-slider flex-center-elements-column">
             <div v-if="parentId.navegacion" :class="`prev-${parentId.id}`" >&lt;&lt;</div>
 
             <div :class="`padre-Slider-${parentId.id}`"

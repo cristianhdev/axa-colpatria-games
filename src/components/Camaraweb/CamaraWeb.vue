@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div  id="video" class="video-wrap">
-            <video ref="video" id="video" playsinline autoplay></video>
+        <div id="contenedor-video" class="video-wrap">
+            <video :style="stylevideo" ref="video" id="video" playsinline autoplay></video>
         </div>
-        
+
         <div>
             <!--   <canvas id="canvas" width="640" height="480"></canvas> -->
         </div>
@@ -18,6 +18,11 @@ const handsfree = ref(null)
 
 const video = ref(null)
 const videoReady = ref(false)
+
+const stylevideo = reactive({
+    width: String(200),
+    height: String(200)
+})
 
 
 const emit = defineEmits(['camaraLoad'])
@@ -83,10 +88,8 @@ onBeforeMount(() => {
 })
 
 onMounted(() => {
-
-
-
-
+    /* stylevideo.width = config.width
+    stylevideo.height = config.height */
 
 })
 
@@ -98,11 +101,11 @@ const config = defineProps({
     },
     width: {
         type: Number,
-        default: 600
+        default: 200
     },
     height: {
         type: Number,
-        default: 500
+        default: 200
     }
 })
 
@@ -112,14 +115,24 @@ const constraints = ref({
     audio: config.audio,
     video: {
         width: config.width, height: config.height
-    }
+    },
+    facingMode: 'user'
 })
 
 
 const init = async () => {
     try {
+        /* if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
+            console.log("Let's get this party started")
+        } */
+
+        /*    navigator.mediaDevices.getUserMedia({ video: true }) */
+
         const stream = await navigator.mediaDevices.getUserMedia(constraints.value);
         handleSuccess(stream);
+
+
+
 
     } catch (e) {
         //errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
@@ -140,5 +153,25 @@ onMounted(() => {
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
+.contenedor-video{
+    width: 100%;
+    height: 100%;
+}
+
+video {
+    width: 19rem !important;
+}
+
+#contenedor-video{
+    width:304px;
+    height:304px;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    video {
+        width: 11rem !important;
+        object-fit: cover;
+    }
+}
 </style>

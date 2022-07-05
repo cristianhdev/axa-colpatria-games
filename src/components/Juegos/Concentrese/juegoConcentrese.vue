@@ -1,48 +1,82 @@
 <template>
+    <!-- MENU PRINCIPAL -->
+    <div class="botonMenu" @click="mostrarMenu"></div>
+
+    <!-- VENTANA NIVEL -->
     <VentanaIntroNivel v-if="ocultarIntroNivel" @finAnimacionIntroNivel="finAnimacionIntro"
         @configuraActividad="configurarActividad" urlImagenFondo="marco_nivel_1">
-        <!-- <template #mensaje-nivel>
-      1
-    </template> -->
     </VentanaIntroNivel>
-    <VentanaInstrucciones v-if="ocultarInstrucciones" @ocultarVentana="ocultarVentanaInstrucciones">
-        <template #texto>
-            <h2>Para este ejercicio, debe estar de pie y en posición erguida.
 
-                Entrelace los dedos de sus manos atrás de su espalda (como se muestra en el ejemplo), realice
-                respiraciones profundas llevando los codos hacia atrás al igual que los hombros.
-            </h2>
-            <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center"
-                @click="ocultarVentanaInstrucciones">
-                <button class="btn-primary-ghost"> CONTINUAR</button>
+
+
+    <VentanaPuntosFinal v-if="mensajeFinal" @continuarTriviaEvent="continuarTrivia">
+        <template #puntos-buenos>
+            <div v-if="puntosBuenos > 0">
+                <span>¡Genial!</span>
             </div>
-
+            <div v-else>
+                <span>¡Lo sentimos!</span>
+            </div>
         </template>
-    </VentanaInstrucciones>
-    <div class="contenedor-actividad">
-        <Cronometro v-if="habilitarCronometro" :segundos="tiempoActividad" @endTime="continuarActividad" />
-
-        <div class="contenedor-items   center-element">
-            <div v-if="!opcionCorrecta" class="titulo auto">
-                <h2>Encuenta la pareja que corresponda</h2>
-
+        <template #mensaje-respuestas>
+            <div v-if="puntosBuenos > 0" class="auto">
+                <img :src="ChetList" width="180" height="180" alt="">
             </div>
-            <div :style="stylecuadriculaItems" class=" auto flex-center-elements-row gap-1">
+            <div v-else class="auto">
+                <img :src="WarnList" width="180" height="180" alt="">
+            </div>
+        </template>
+        <template #mensaje-opcion>
+            <span style="font-size:2em">{{ puntosBuenos }}</span> <span>Respuestas seguidas</span>
+        </template>
+        <template #botones>
+            <!-- <button class="btn-primary-vr1" @mousemove="confity" @click="continuarTrivia">CONTINUAR TRIVIA!</button> -->
+            <div class="btn-primary" @mousemove="confity" @click="volverEscenario">VOLVER AL
+                EJERCICIOS</div>
+            <!--  <button class="btn-primary-vr1" @mousemove="confity" id="salir">SALIR</button> -->
+        </template>
+    </VentanaPuntosFinal>
 
-                <div v-if="opcionCorrecta" class="contenedor-ejercicio-realizado">
-                    <div>
-                        <div class="auto">
-                            <h2>Ahora realiza el ejercicio.</h2>
+
+
+
+
+    <div class="contenedor-actividad">
+        <div class="contenedor-items   center-element">
+
+            <div class=" contenedor-concentrese flex-center-elements-row gap-1">
+                <div v-if="!opcionCorrecta" class="titulo auto">
+                    <h2>Encuentre la pareja de cada ejercicio. Recuerde que una vez encuentre una, será redirigido para
+                        realizar el ejercicio.</h2>
+
+                </div>
+                <div class=" auto flex-center-elements-column gap-1">
+
+                    <Cronometro v-if="mostrarcronometro" :isRun="habilitarCronometro" :segundos="tiempoActividad"
+                        @endTime="continuarActividad" />
+                    <div class="btn-ayuda tooltip" v-if="opcionCorrecta" @click="VerInstruccionesPausa">
+                        <span class="tooltiptext">Ver Instrucciones</span>
+                    </div>
+
+
+                    <div v-if="opcionCorrecta" class=" auto flex-center-elements-column gap-4">
+                        <div class="titulo auto">
+
+                            <h2>¡Hora de realizar el ejercicio! </h2>
+
                         </div>
-                        <div class="flex-center-elements-row gap-3">
-
-                            <div class="contenedor-ejercicios">
-                                <img :id="mostrarImagen" :src="mostrarImagen" alt="" width="285" height="250">
+                        <div :style="styleContenedorEjercicioRealizado" class="contenedor-ejercicio-realizado  gap-4">
+                            <div
+                                :style="{ border: `1.35px solid black`, background: `transparent url(${mostrarImagen}) no-repeat center center`, width: '320px', height: '320px', backgroundSize: '100% 100%', width: '300px' }">
+                                <!-- <img :id="mostrarImagen" :src="mostrarImagen" alt="" width="320" height="320"> -->
                             </div>
-                            <div class="contenedor-ejercicios" v-if="camaraReady">
-
-                                <div>
-                                    <CaramaWeb :width="285" :height="250" @camaraLoad="finLoadCamara" />
+                            <div v-if="camaraReady">
+                                <div class=" contenedor-camara-pausa flex-center-elements-column">
+                                    <CaramaWeb :width="250" :height="250" @camaraLoad="finLoadCamara" />
+                                    <!--  -->
+                                    <div class="flex-center-elements-column loading-camara" v-if="!camaraWebCargada">
+                                        <span class="spiner"></span>
+                                    </div>
                                 </div>
                                 <!--  <div v-else>
                         <h2>Cargando camara...</h2>
@@ -50,58 +84,149 @@
 
                             </div>
                         </div>
+                        <div v-show="ocultarBotonComenzarActividad"
+                            :class="{ 'habilitar-boton-listo': ocultarBotonComenzarActividad }"
+                            class="auto  inhabilitar-boton-listo flex-center-elements-row gap-2"
+                            style="text-align:center">
+                            <div class="button-bs" @click="OcultarBotonComenzar"> COMENZAR</div>
+
+                        </div>
+
+                    </div>
+                    <div :style="stylecuadriculaItems" v-if="!opcionCorrecta">
+                        <div v-for="(imagen, index) in imagenesTablero" :key="index"
+                            :class="`ptrueba-${imagen.nombre}`">
+                            <div :class="{ 'desahbilitado': imagen.finalizado, 'remove-click': innabilitarClick }"
+                                :id="imagen.nombre"
+                                @click="validarClick({ id: imagen.id, nombre: imagen.nombre, imagen: imagen.imagen })"
+                                :srcUrlImagen="srcUrlImagen">
+                               
+                                <ItemConcentrese :idItem="imagen.id" @clickItem="cargarPagina"
+                                    :nombreItem="imagen.nombre" :finActividad="activarBotonContinuar" />
+
+                            </div>
+                        </div>
 
                     </div>
 
                 </div>
-                <template v-if="!opcionCorrecta">
-                    <div :class="{ 'desahbilitado': imagen.finalizado, 'remove-click': innabilitarClick }"
-                        :id="imagen.nombre"
-                        @click="validarClick({ id: imagen.id, nombre: imagen.nombre, imagen: imagen.imagen })"
-                        :srcUrlImagen="srcUrlImagen" v-for="(imagen, index) in imagenesTablero" :key="index">
-                        <ItemConcentrese :idItem="imagen.id" :nombreItem="imagen.nombre" :finActividad="activarBotonContinuar" />
+                <div v-if="activarBotonContinuar" class="auto flex-center-elements-row">
+                    <div class="btn-primary" @mousemove="confity" @click="volverEscenario">VOLVER AL
+                        ESCENARIO</div>
+                </div>
+            </div>
+
+        </div>
+        <!-- VENTANA INSTRUCCIONES -->
+        <VentanaInstrucciones v-if="ocultarInstrucciones" @ocultarVentana="ocultarVentanaInstrucciones">
+            <template #texto>
+                <!-- <div class="titulo">Para este ejercicio, debe estar de pie y en posición erguida.
+
+                Entrelace los dedos de sus manos atrás de su espalda (como se muestra en el ejemplo), realice
+                respiraciones profundas llevando los codos hacia atrás al igual que los hombros.
+            </div> -->
+                <div>
+                    <sliderInstrucciones :numerodeSliders="0" :ocultarNavegacion="true"
+                        :tituloInstruccion="instruccionesActividad">
+
+                        <template #sliders>
+                            <div class="item-slider">
+                                <img src="@/assets/img/Intrucciones_concentrese.png" class="responsive-imagen-slider"
+                                    alt="">
+                            </div>
+                            <!--  <div>
+                            <img src="@/assets/img/Intrucciones_audios.png" width="800" alt="">
+                        </div>
+ -->
+                        </template>
+                    </sliderInstrucciones>
+                </div>
+                <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center"
+                    @click="ocultarVentanaInstrucciones">
+                    <div class="btn-primary"> CONTINUAR</div>
+                </div>
+
+            </template>
+        </VentanaInstrucciones>
+
+        <!-- VENTANA INSTRUCCIONES PAUSA -->
+        <InstruccionesPausa v-if="isInstruccionesPausaVisible"
+            @eventOcultarInstruccionesVentana="ocultarVentanaInstruccionesPausas"
+            :isCerrarVisible="monstrarBotonCerrarInstrucciones"
+            @eventOcultarInstrucciones="isInstruccionesPausaVisible = !isInstruccionesPausaVisible">
+            <template #texto-instrucciones>
+                <div>
+                    <img src="@/assets/img/mensaje.png" width="580" alt="">
+                </div>
+                <div class="contenedor-ejercicio-pausas  gap-1">
+
+                    <div>
+                        <div class="titulo-instrucciones-pausas auto">
+                            <div>Instrucciones</div>
+                        </div>
+                        <div>
+                            <div v-html="textoDescripcionPause" class="texto-descripcion-pausas"></div>
+                        </div>
 
                     </div>
-                </template>
+                    <div
+                        :style="{ border: `1.35px solid black`, background: `transparent url(${mostrarImagen}) no-repeat center center`, width: '320px', height: '320px', backgroundSize: '100% 100%', width: '300px' }">
+                        <!-- <img :id="mostrarImagen" :src="mostrarImagen" alt="" width="320" height="320"> -->
+                    </div>
 
-            </div>
-            <div v-if="activarBotonContinuar" class="auto flex-center-elements-row">
-                <button class="btn-primary-ghost" @mousemove="confity" @click="volverEscenario">VOLVER A
-                    ESCENARIO</button>
-            </div>
-        </div>
+                </div>
+            </template>
+        </InstruccionesPausa>
 
+        <!-- VENTANA MENU OPCIONES PRINCIPAL -->
+        <MenuPrincipal :isvisible="false" @eventInstrucciones="InstruccionesMostrar" />
     </div>
-
 </template>
 
 <script setup>
-import { ref, onBeforeMount, computed, reactive } from 'vue'
+import { ref, onMounted, onBeforeMount, computed, reactive } from 'vue'
+
+//COMPONENTES
+import sliderInstrucciones from "@/components/sliderInstrucciones.vue"
 import Cronometro from '../../Cronometro.vue'
 import CaramaWeb from '@/components/Camaraweb/CamaraWeb.vue'
 import VentanaInstrucciones from "@/components/VentanaInstrucciones.vue"
 import VentanaPuntosFinal from "@/components/VentanaPuntosFinal.vue"
 import VentanaIntroNivel from "@/components/VentanaIntroNivel.vue"
+import MenuPrincipal from '@/components/MenuPrincipal.vue';
+import InstruccionesPausa from '@/components/InstruccionesPausas.vue';
+
+//DB instruccions
+import InstruccionesEjercicio from "@/assets/textos/PausasActivas.json";
+
+
+import WarnList from '@/assets/img/warn-list.png';
+import ChetList from '@/assets/img/chek-list.png';
+
+
 import ItemConcentrese from "@/components/Juegos/Concentrese/ItemsConcentrese.vue"
 
 
 import { useConfigStore } from "../../../stores/config.js";
 import { useRouter, useRoute } from "vue-router";
 import ImagenInterrogante from '@/assets/img/manos/pregunta.png'
-import ImagenEjercicio1 from '@/assets/img/Ejercicio1.png'
-import ImagenEjercicio2 from '@/assets/img/Ejercicio2.png'
-import ImagenEjercicio3 from '@/assets/img/Ejercicio3.png'
-import ImagenEjercicio4 from '@/assets/img/Ejercicio4.png'
-import ImagenEjercicio5 from '@/assets/img/Ejercicio5.png'
-import ImagenEjercicio6 from '@/assets/img/Ejercicio6.png'
-import ImagenParlante from '@/assets/img/parlanteOn.gif'
+
 
 //Ejericicios Postura -Gif
-import Ejercicio1 from '@/assets/ejercicios/Ej1.gif'
-import Ejercicio2 from '@/assets/ejercicios/Ej2.gif'
-import Ejercicio3 from '@/assets/ejercicios/Ej3.gif'
-import Ejercicio4 from '@/assets/ejercicios/Ej4.gif'
+import Ejercicio1 from '@/assets/ejercicios/EJP11.png'
+import Ejercicio2 from '@/assets/ejercicios/EJP27.png'
+import Ejercicio3 from '@/assets/ejercicios/EJP28.png'
+import Ejercicio4 from '@/assets/ejercicios/EJP26.png'
+import Ejercicio5 from '@/assets/ejercicios/Ej1.gif'
+import Ejercicio6 from '@/assets/ejercicios/Ej2.gif'
+import Popper from "vue3-popper";
 
+//audiosSound
+import Aplausos from '@/assets/sounds/aplausos.mp3'
+import Incorrecto from '@/assets/sounds/incorrecto.mp3'
+
+//Textos 
+import { instruccionesJuegoConcentrese } from "@/assets/textos/TextosInstrucciones.js";
 
 const router = useRouter()
 
@@ -125,96 +250,183 @@ const mostrarImagen = ref('')
 const opcionCorrecta = ref(false)
 const activarBotonContinuar = ref(false)
 const innabilitarClick = ref(false)
+const camaraWebCargada = ref(false)
+const ocultarBotonComenzarActividad = ref(false)
+const monstrarBotonCerrarInstrucciones = ref(false)
 
+//Cargamos los ejercicios.
+const pausasActivasInstrucciones = ref([])
 const srcUrlImagen = ref(ImagenInterrogante)
+
+
+const mensajeFinal = ref(false)
+
+//Opciones del cronometro.
+const habilitarCronometro = ref(false)
+const mostrarcronometro = ref(false)
+
+
+const instruccionesActividad = ref(instruccionesJuegoConcentrese)
+
 
 
 const continuar = ref(false)
 
-const habilitarCronometro = ref(false)
+
 const reiniciaFiguraCheck = ref(false)
 const imagenesA = ref([])
 const imagenesB = ref([])
 const imagenesTablero = ref([])
 const resultado = ref([])
-
+const imagesActividadesPausas = ref([])
+const textoInstruccionPausa = ref('')
+const isInstruccionesPausaVisible = ref(false)
 
 const stylecuadriculaItems = reactive({
-    width: "49%",
-    height: "60vh",
+    width: "100%",
+    height: "58vh",
     display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)"
+    gridTemplateColumns: "repeat(3, 1fr)",
+    placeItems: "center",
+    gridGap: "5vh 10vh"
 })
+
+
+const styleContenedorEjercicioRealizado = reactive({
+    width: "50vw",
+    textAlign: "center",
+    display: "grid",
+    gridTemplateColumns: "1fr",
+    objectFit: "scale-down",
+
+})
+
+
 
 
 //Posicion audio aleatorio
 const posicionAudioAleatorio = ref(0)
 
-const finLoadCamara = () => { }
+const finLoadCamara = () => {
+    camaraWebCargada.value = true
+    ocultarBotonComenzarActividad.value = true
+}
+
+onMounted(() => {
+    pausasActivasInstrucciones.value = Object.values(InstruccionesEjercicio.PausasActivas).filter(pausa => {
+        return pausa.tipo == "concentrese"
+    })
+
+    /*  console.log(pausasActivasInstrucciones.value)
+     console.log(pausasActivasInstrucciones.value.sort((a, b) => {
+         return a.id - b.id
+     })) */
+
+    pausasActivasInstrucciones.value = pausasActivasInstrucciones.value.sort(() => Math.random() - 0.5);
+
+    Object.values(pausasActivasInstrucciones.value).forEach((element, index) => {
+        const { imagen } = element
+        imagesActividadesPausas.value.push({ imagen: imagen == undefined ? null : imagen, id: element.id, finalizado: false })
+    })
+
+
+    //Excluimos las imagenes que estn null, es decir no tiene imagen.
+     imagesActividadesPausas.value = Object.values(imagesActividadesPausas.value).filter(pausa => {
+         return pausa.imagen !== null
+     })
+
+
+    //Colocamos aleatorias las imagenes.
+    imagesActividadesPausas.value = imagesActividadesPausas.value.sort(() => Math.random() - 0.5);
+
+    console.log(imagesActividadesPausas.value)
+
+    /*   imagesActividadesPausas.value = imagesActividadesPausas.value.sort((a, b) => {
+          return a.id - b.id
+      }) */
+
+
+
+
+
+
+})
 
 const configurarActividad = (valor) => {
 
     if (valor == 1) {
+
+
+
         imagenesA.value = [
-            { nombre: 'ImagenA1', imagen: ImagenEjercicio1, id: 1, finalizado: false },
-            { nombre: 'ImagenA2', imagen: ImagenEjercicio2, id: 2, finalizado: false },
-            { nombre: 'ImagenA3', imagen: ImagenEjercicio3, id: 3, finalizado: false },
-            /* { nombre:'ImagenA4',imagen: ImagenEjercicio4, id: 4, finalizado: false },
-            { nombre:'ImagenA5',imagen: ImagenEjercicio5, id: 5, finalizado: false },
-            { nombre:'ImagenA6',imagen: ImagenEjercicio6, id: 6, finalizado: false } */
+            { nombre: 'ImagenA1', ...imagesActividadesPausas.value[0] },
+            { nombre: 'ImagenA2', ...imagesActividadesPausas.value[1] },
+            { nombre: 'ImagenA3', ...imagesActividadesPausas.value[2] }
+
         ]
 
         imagenesB.value = [
-            { nombre: 'ImagenB1', imagen: ImagenEjercicio1, id: 1, finalizado: false },
-            { nombre: 'ImagenB2', imagen: ImagenEjercicio2, id: 2, finalizado: false },
-            { nombre: 'ImagenB3', imagen: ImagenEjercicio3, id: 3, finalizado: false },
-            /* { nombre:'ImagenB4',imagen: ImagenEjercicio4, id: 4, finalizado: false },
-            { nombre:'ImagenB5',imagen: ImagenEjercicio5, id: 5, finalizado: false },
-            { nombre:'ImagenB6',imagen: ImagenEjercicio6, id: 6, finalizado: false } */
+            { nombre: 'ImagenB1', ...imagesActividadesPausas.value[0] },
+            { nombre: 'ImagenB2', ...imagesActividadesPausas.value[1] },
+            { nombre: 'ImagenB3', ...imagesActividadesPausas.value[2] }
+
         ]
 
 
         imagenesTablero.value = imagenesA.value.concat(imagenesB.value)
         /* imagenesA.value = imagenesA.value.sort(() => Math.random() - 0.5)
         imagenesB.value = imagenesB.value.sort(() => Math.random() - 0.5) */
-        imagenesTablero.value = imagenesTablero.value.sort(() => Math.random() - 0.5)
+        /* imagenesTablero.value = imagenesTablero.value.sort(() => Math.random() - 0.5) */
 
         stylecuadriculaItems.gridTemplateColumns = "repeat(3, 1fr)"
 
+        console.log(imagenesA.value)
+        console.log(imagenesB.value)
+
     } else {
         imagenesA.value = [
-            { nombre: 'ImagenA1', imagen: ImagenEjercicio1, id: 1, finalizado: false },
-            { nombre: 'ImagenA2', imagen: ImagenEjercicio2, id: 2, finalizado: false },
-            { nombre: 'ImagenA3', imagen: ImagenEjercicio3, id: 3, finalizado: false },
-            { nombre: 'ImagenA4', imagen: ImagenEjercicio4, id: 4, finalizado: false },
-            { nombre: 'ImagenA5', imagen: ImagenEjercicio5, id: 5, finalizado: false },
-            { nombre: 'ImagenA6', imagen: ImagenEjercicio6, id: 6, finalizado: false }
+            { nombre: 'ImagenA1', ...imagesActividadesPausas.value[0] },
+            { nombre: 'ImagenA2', ...imagesActividadesPausas.value[1] },
+            { nombre: 'ImagenA3', ...imagesActividadesPausas.value[2] },
+            { nombre: 'ImagenA4', ...imagesActividadesPausas.value[3] },
+
         ]
 
+        /*{ nombre: 'ImagenA5', imagen: ImagenEjercicio5, id: 5, finalizado: false },
+        { nombre: 'ImagenA6', imagen: ImagenEjercicio6, id: 6, finalizado: false }*/
+
         imagenesB.value = [
-            { nombre: 'ImagenB1', imagen: ImagenEjercicio1, id: 1, finalizado: false },
-            { nombre: 'ImagenB2', imagen: ImagenEjercicio2, id: 2, finalizado: false },
-            { nombre: 'ImagenB3', imagen: ImagenEjercicio3, id: 3, finalizado: false },
-            { nombre: 'ImagenB4', imagen: ImagenEjercicio4, id: 4, finalizado: false },
-            { nombre: 'ImagenB5', imagen: ImagenEjercicio5, id: 5, finalizado: false },
-            { nombre: 'ImagenB6', imagen: ImagenEjercicio6, id: 6, finalizado: false }
+            { nombre: 'ImagenB1', ...imagesActividadesPausas.value[0] },
+            { nombre: 'ImagenB2', ...imagesActividadesPausas.value[1] },
+            { nombre: 'ImagenB3', ...imagesActividadesPausas.value[2] },
+            { nombre: 'ImagenB4', ...imagesActividadesPausas.value[3] },
+
         ]
+
+        /*{ nombre: 'ImagenB5', imagen: ImagenEjercicio5, id: 5, finalizado: false },
+            { nombre: 'ImagenB6', imagen: ImagenEjercicio6, id: 6, finalizado: false }*/
 
         imagenesTablero.value = imagenesA.value.concat(imagenesB.value)
         /* imagenesA.value = imagenesA.value.sort(() => Math.random() - 0.5)
         imagenesB.value = imagenesB.value.sort(() => Math.random() - 0.5) */
-        imagenesTablero.value = imagenesTablero.value.sort(() => Math.random() - 0.5)
+       /*  imagenesTablero.value = imagenesTablero.value.sort(() => Math.random() - 0.5) */
 
         /*  imagenesA.value = imagenesA.value.sort(() => Math.random() - 0.5)
          imagenesB.value = imagenesB.value.sort(() => Math.random() - 0.5) */
 
         stylecuadriculaItems.gridTemplateColumns = "repeat(4, 1fr)"
+        stylecuadriculaItems.gridGap = "5vh 2vh"
     }
 }
+
+const textoDescripcionPause = computed(() => textoInstruccionPausa.value[0]?.instruccion)
+const mostrarVentanaInstrucciones = computed(() => isInstruccionesPausaVisible.value)
+const mostrarVentanaInstruccionesActividad = computed(() => config.mostrarInicioInstrucciones)
 
 const ocultarVentanaInstrucciones = () => {
     ocultarInstrucciones.value = !ocultarInstrucciones.value
     ocultarIntroNivel.value = true
+
 }
 
 
@@ -223,22 +435,40 @@ const finAnimacionIntro = () => {
 }
 
 
+const OcultarBotonComenzar = () => {
+    habilitarCronometro.value = !habilitarCronometro.value
+    ocultarBotonComenzarActividad.value = false
+}
+
+const buscarInstruccionesEjercicio = (id) => {
+    return Object.values(pausasActivasInstrucciones.value).filter(pausa => {
+        return pausa.id == id
+    })
+}
+
+
+const ocultarVentanaInstruccionesPausas = () => {
+    isInstruccionesPausaVisible.value = !isInstruccionesPausaVisible.value
+    opcionCorrecta.value = true
+    mostrarcronometro.value = true
+    styleContenedorEjercicioRealizado.gridTemplateColumns = "1fr 1fr"
+}
 
 const validarClick = (elementoclick) => {
 
-
-
     if (contadorClicks.value == 0) {
         opcionSeleccionada1.value = elementoclick.nombre.substr(elementoclick.nombre.length - 2, 2)
+        document.querySelector(`#${elementoclick.nombre}`).style.pointerEvents = "none"
         nombreSeleccionada1.value = elementoclick.nombre
         contadorClicks.value = contadorClicks.value + 1
 
 
     } else if (contadorClicks.value == 1) {
         opcionSeleccionada2.value = elementoclick.nombre.substr(elementoclick.nombre.length - 2, 2)
+        document.querySelector(`#${elementoclick.nombre}`).style.pointerEvents = "none"
         nombreSeleccionada2.value = elementoclick.nombre
         contadorClicks.value = contadorClicks.value + 1
-        mostrarImagen.value = elementoclick.imagen
+
 
 
     }
@@ -249,6 +479,8 @@ const validarClick = (elementoclick) => {
         let letra2 = opcionSeleccionada2.value.substr(0, opcionSeleccionada2.value.length - 1)
         let numero2 = opcionSeleccionada2.value.substr(1, opcionSeleccionada2.value.length - 1)
 
+        console.log(nombreSeleccionada1.value)
+        console.log(nombreSeleccionada2.value)
 
 
         if (letra1 === 'A' && letra2 === 'B' || letra1 === 'B' && letra2 === 'A') {
@@ -256,35 +488,106 @@ const validarClick = (elementoclick) => {
 
 
             if (numero1 === numero2) {
-                console.log('clickaca2')
+                document.querySelector(`.ptrueba-${nombreSeleccionada1.value}`).classList.add('opcion-correcto')
+                document.querySelector(`.ptrueba-${nombreSeleccionada2.value}`).classList.add('opcion-correcto')
+                document.querySelector(`#${nombreSeleccionada1.value} #imagen`).style.boxShadow = '-1px -1px 16px inset green';
+                document.querySelector(`#${nombreSeleccionada2.value} #imagen`).style.boxShadow = '-1px -1px 16px inset green';
+
+
                 puntosBuenos.value = puntosBuenos.value + 1
 
                 setTimeout(() => {
-                    document.querySelector(`#${nombreSeleccionada1.value}`).style.visibility = "hidden"
-                    document.querySelector(`#${nombreSeleccionada2.value}`).style.visibility = "hidden"
 
-                    opcionCorrecta.value = true
-                    habilitarCronometro.value = true
+                    //Si la configuracion de audio general esta en true
+                    if (config.audioPausas) {
+                        audioAplausos.value = new Audio(Aplausos)
+                        audioAplausos.value.play()
+                        audioAplausos.value.addEventListener("ended", () => {
 
-                    eliminarElemento(elementoclick.id)
+                            /* document.querySelector(`#${nombreSeleccionada1.value}`).style.visibility = "hidden"
+                            document.querySelector(`#${nombreSeleccionada2.value}`).style.visibility = "hidden" */
+
+                            console.log(elementoclick.id)
+
+                            //Buscamos la instruccion del ejercicio
+                            textoInstruccionPausa.value = Object.values(buscarInstruccionesEjercicio(elementoclick.id))
+
+                            document.querySelector(`#${nombreSeleccionada1.value} #imagen`).style.boxShadow = 'none';
+                            document.querySelector(`#${nombreSeleccionada2.value} #imagen`).style.boxShadow = 'none';
+
+                            isInstruccionesPausaVisible.value = true
+
+                            /* habilitarCronometro.value = true */
+                            eliminarElemento(elementoclick.id)
+
+
+                        })
+                    } else {
+
+                        /* stylecuadriculaItems.gridTemplateColumns = "repeat(1, 1fr)" */
+
+                        /*  document.querySelector(`#${nombreSeleccionada1.value}`).style.visibility = "hidden"
+                         document.querySelector(`#${nombreSeleccionada2.value}`).style.visibility = "hidden" */
+
+                        //Buscamos la instruccion del ejercicio
+                        textoInstruccionPausa.value = Object.values(buscarInstruccionesEjercicio(elementoclick.id))
+
+                        document.querySelector(`#${nombreSeleccionada1.value} #imagen`).style.boxShadow = 'none';
+                        document.querySelector(`#${nombreSeleccionada2.value} #imagen`).style.boxShadow = 'none';
+
+                        isInstruccionesPausaVisible.value = true
+
+                        /* habilitarCronometro.value = true */
+                        eliminarElemento(elementoclick.id)
+
+
+
+                    }
+
+
+
                 }, 1500)
                 opcionSeleccionada1.value = ''
                 opcionSeleccionada2.value = ''
             } else {
-                console.log('clickaca2')
-                innabilitarClick.value = true
+
+                if (config.audioPausas) {
+                    audioIncorrecto.value = new Audio(Incorrecto)
+                    audioIncorrecto.value.play();
+                    innabilitarClick.value = true
+                } else {
+                    innabilitarClick.value = true
+                }
+
+
+                document.querySelector(`.ptrueba-${nombreSeleccionada1.value}`).classList.add('opcion-incorrecto')
+                document.querySelector(`.ptrueba-${nombreSeleccionada2.value}`).classList.add('opcion-incorrecto')
+                document.querySelector(`#${nombreSeleccionada1.value} #imagen`).style.boxShadow = '-1px -1px 16px inset red';
+                document.querySelector(`#${nombreSeleccionada2.value} #imagen`).style.boxShadow = '-1px -1px 16px inset red';
+
                 setTimeout(() => {
                     innabilitarClick.value = false
-                     document.querySelector(`#${nombreSeleccionada1.value} #imagen`).setAttribute('src', "")
+
+
+                    document.querySelector(`#${nombreSeleccionada1.value} #imagen`).setAttribute('src', "")
                     document.querySelector(`#${nombreSeleccionada2.value} #imagen`).setAttribute('src', "")
                     document.querySelector(`#${nombreSeleccionada1.value} #imagen`).setAttribute('src', ImagenInterrogante)
                     document.querySelector(`#${nombreSeleccionada2.value} #imagen`).setAttribute('src', ImagenInterrogante)
+
+                    document.querySelector(`#${nombreSeleccionada1.value} #imagen`).style.boxShadow = 'none';
+                    document.querySelector(`#${nombreSeleccionada2.value} #imagen`).style.boxShadow = 'none';
+
+
+
+
+
+                    document.querySelector(`.ptrueba-${nombreSeleccionada1.value}`).classList.remove('opcion-incorrecto')
+                    document.querySelector(`.ptrueba-${nombreSeleccionada2.value}`).classList.remove('opcion-incorrecto')
+                    document.querySelector(`#${nombreSeleccionada1.value}`).style.pointerEvents = "all"
+                    document.querySelector(`#${nombreSeleccionada2.value}`).style.pointerEvents = "all"
+
+
                 }, 1500)
-                opcionSeleccionada1.value = ''
-                opcionSeleccionada2.value = ''
-
-
-
 
 
             }
@@ -295,13 +598,34 @@ const validarClick = (elementoclick) => {
             /*  nombreSeleccionada1.value = ''
              nombreSeleccionada2.value = '' */
         } else {
-            console.log('clickaca3')
-            innabilitarClick.value = true
+            document.querySelector(`.ptrueba-${nombreSeleccionada1.value}`).classList.add('opcion-incorrecto')
+            document.querySelector(`.ptrueba-${nombreSeleccionada2.value}`).classList.add('opcion-incorrecto')
+            document.querySelector(`#${nombreSeleccionada1.value} #imagen`).style.boxShadow = '-1px -1px 16px inset red';
+            document.querySelector(`#${nombreSeleccionada2.value} #imagen`).style.boxShadow = '-1px -1px 16px inset red';
+
+
+            if (config.audioPausas) {
+                audioIncorrecto.value = new Audio(Incorrecto)
+                audioIncorrecto.value.play();
+                innabilitarClick.value = true
+            } else {
+                innabilitarClick.value = true
+            }
             setTimeout(() => {
-                 innabilitarClick.value = false
+
+                innabilitarClick.value = false
                 document.querySelector(`#${nombreSeleccionada1.value} #imagen`).setAttribute('src', ImagenInterrogante)
                 document.querySelector(`#${nombreSeleccionada2.value} #imagen`).setAttribute('src', ImagenInterrogante)
+                document.querySelector(`.ptrueba-${nombreSeleccionada1.value}`).classList.remove('opcion-incorrecto')
+                document.querySelector(`.ptrueba-${nombreSeleccionada2.value}`).classList.remove('opcion-incorrecto')
+                document.querySelector(`#${nombreSeleccionada1.value} #imagen`).style.boxShadow = 'none';
+                document.querySelector(`#${nombreSeleccionada2.value} #imagen`).style.boxShadow = 'none';
+                document.querySelector(`#${nombreSeleccionada1.value}`).style.pointerEvents = "all"
+                document.querySelector(`#${nombreSeleccionada2.value}`).style.pointerEvents = "all"
+
             }, 1500)
+
+
             opcionSeleccionada1.value = ''
             opcionSeleccionada2.value = ''
 
@@ -312,11 +636,27 @@ const validarClick = (elementoclick) => {
 
 }
 
+const cargarPagina = (elemento) => {
+    console.log("elemento", elemento)
+    mostrarImagen.value = elemento.imagen
+
+    /* mostrarImagen.value = imagesActividadesPausas.value.filter((elemento) => {
+        return elemento.id == elementoclick.id
+    })[0].imagen
+    console.log("mostrarImagen", mostrarImagen.value) */
+}
+
 const continuarActividad = () => {
-    opcionCorrecta.value = false
-    habilitarCronometro.value = false
+
     if (puntosBuenos.value == imagenesA.value.length) {
-        activarBotonContinuar.value = true
+        activarBotonContinuar.value = false
+        mensajeFinal.value = true
+    } else {
+        monstrarBotonCerrarInstrucciones.value = false
+        isInstruccionesPausaVisible.value = false
+        opcionCorrecta.value = false
+        habilitarCronometro.value = false
+        mostrarcronometro.value = false
     }
 }
 
@@ -332,8 +672,35 @@ const eliminarElemento = (id) => {
     imagenesA.value[posicionA].finalizado = true
     imagenesB.value[posicionB].finalizado = true
 
+    document.querySelector(`.ptrueba-${nombreSeleccionada1.value}`).classList.remove('opcion-correcto')
+    document.querySelector(`.ptrueba-${nombreSeleccionada2.value}`).classList.remove('opcion-correcto')
+    document.querySelector(`.ptrueba-${nombreSeleccionada1.value}`).classList.remove('opcion-incorrecto')
+    document.querySelector(`.ptrueba-${nombreSeleccionada2.value}`).classList.remove('opcion-incorrecto')
+
+    opcionSeleccionada1.value = ''
+    opcionSeleccionada2.value = ''
+
+    /* stylecuadriculaItems.gridTemplateColumns = "repeat(3, 1fr)" */
+
+
 }
 
+const InstruccionesMostrar = () => {
+
+
+    if (isInstruccionesPausaVisible.value) {
+        ocultarInstrucciones.value = false
+    } else {
+        ocultarInstrucciones.value = true
+    }
+
+    /* isInstruccionesPausaVisible = !isInstruccionesPausaVisible */
+}
+
+const VerInstruccionesPausa = () => {
+    monstrarBotonCerrarInstrucciones.value = true
+    isInstruccionesPausaVisible.value = true
+}
 
 const puntosBuenosActividad = computed(() => {
     return puntosBuenos.value
@@ -341,34 +708,67 @@ const puntosBuenosActividad = computed(() => {
 
 const volverEscenario = () => {
     config.setActividadActual(router.currentRoute.value.path)
+    config.setActividadCompletada()
+    let posicionActual = config.posicionactualEscenarioJuego
+    let posicionActualActividades = config.posicionActualActividades
+    config.setPosicionActualActividades(posicionActualActividades + 1)
+    config.setPosicionActualUsuario(posicionActual + 1)
     ocultarInstrucciones.value = false
     router.push('/Escenario')
 }
 
+const mostrarMenu = () => {
+    config.setMenuEstadoVisible(!config.menuEstadoVisible)
+}
+
+
+
 </script>
 
 <style lang="css" scoped>
+h1 {
+    font-family: Source Sans Pro;
+    font-size: var(--h1-title-size);
+    line-height: var(--h1-title-height);
+    margin: 2px;
+}
+
+h2 {
+    font-family: Source Sans Pro;
+    font-size: var(--h2-title-size);
+    color: black;
+    font-weight: normal;
+}
+
+
+.contenedor-camara-pausa {
+    height: 100%
+}
+
+.loading-camara {
+    position: absolute;
+}
+
 .contenedor-actividad {
     width: 100vw;
     height: 100vh;
-    background-image: url('@/assets/img/fondoPantallaIntermedias.png');
+    background-image: url('@/assets/img/fondoEscenario.png');
     background-size: 100% 100%
 }
 
 
-
-.contenedor-items {
+.contenedor-concentrese {
+    width: fit-content;
+    height: 34pc;
+    display: flex;
     flex-direction: column;
-    place-items: center;
-    width: 69%;
-    height: 78vh;
-    grid-gap: 24px;
-    padding: 20px 0px;
-    background-image: url(@/assets/img/fonto.png);
-    background-repeat: no-repeat;
-    background-size: 100% 112%;
-    background-position: center center;
+    margin: 0px auto;
+    justify-content: space-evenly;
+    align-items: center;
+    align-content: center;
+    flex-wrap: nowrap;
 }
+
 
 .desahbilitado {
     filter: grayscale(1);
@@ -377,16 +777,119 @@ const volverEscenario = () => {
 }
 
 .titulo {
-    width: 39%;
-    margin: 0px auto
+    width: 80%;
+    text-align: center;
+    font-family: Source Sans Pro;
+    font-size: var(--h2-title-size);
+    color: white;
+    font-weight: normal;
 }
 
-.contenedor-ejercicio-realizado {
-    width: 50vw;
-    text-align: center
+.titulo-instrucciones-pausas {
+    width: 80%;
+    text-align: center;
+    font-family: Source Sans Pro;
+    font-size: 1.5em;
+    color: black;
+    font-weight: bold;
+    margin-bottom: 0px
 }
+
+.texto-descripcion-pausas {
+    text-align: justify;
+    font-family: Source Sans Pro;
+    font-size: 1.1em;
+    color: black;
+    font-weight: normal;
+    padding: 19px
+}
+
+
+
+
+.contenedor-ejercicio-pausas {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    place-content: center;
+    place-items: center;
+    width: 61vw;
+    margin: 0px auto;
+}
+
+
+
+
 
 .remove-click {
     pointer-events: none;
+}
+
+
+.opcion-correcto::before {
+    content: '';
+    background: url('@/assets/img/check_awert.png') no-repeat;
+    background-size: contain;
+    position: fixed;
+    width: 3vw;
+    height: 3vh;
+    transform: translate(10rem, 0.7rem);
+    float: right;
+}
+
+.opcion-incorrecto::before {
+    content: '';
+    background: url('@/assets/img/check_wrong.png') no-repeat;
+    background-size: contain;
+    position: fixed;
+    width: 3vw;
+    height: 3vh;
+    transform: translate(10rem, 0.7rem);
+    float: right;
+}
+
+.habilitar-boton-listo {
+    pointer-events: all;
+    filter: grayscale(1)
+}
+
+.inhabilitar-boton-listo {
+    pointer-events: all;
+    filter: grayscale(0)
+}
+
+
+
+
+
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
+    .responsive {
+        width: auto;
+        height: auto;
+        object-fit: scale-down;
+    }
+
+    .opcion-correcto::before {
+        content: '';
+        background: url('@/assets/img/check_awert.png') no-repeat;
+        background-size: contain;
+        position: fixed;
+        width: 3vw;
+        height: 3vh;
+        transform: translate(4.5rem, 0.7rem);
+        float: right;
+    }
+
+    .opcion-incorrecto::before {
+        content: '';
+        background: url('@/assets/img/check_wrong.png') no-repeat;
+        background-size: contain;
+        position: fixed;
+        width: 3vw;
+        height: 3vh;
+        transform: translate(4.5rem, 0.7rem);
+        float: right;
+    }
 }
 </style>

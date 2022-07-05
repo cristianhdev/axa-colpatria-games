@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import JuegoManos from "@/components/Juegos/Manos/JuegoManos.vue";
+import JuegoManos from "@/components/Juegos/Manos/juegoManos.vue";
 </script>
 
 <style lang="scss" scoped>

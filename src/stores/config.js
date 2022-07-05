@@ -8,21 +8,29 @@ export const useConfigStore = defineStore({
     titulo: useStorage('titulo', 'hola') */
     counter: 0,
     titulo: 'hola',
+    menuEstado: false,
     posicionActualEscenario: useStorage('posicionActualEscenario', 0),
-    _posicionActualActividades: useStorage('posicionActualActividades', -1),
+    _posicionActualActividades: useStorage('posicionActualActividades', 0),
     isCamaraHabilitada: useStorage('isCamaraHabilitada', false),
     usuario: useStorage('usuario', ''),
     preguntasAleatorias: useStorage('opciones', []),
-    actividad: useStorage('actividadActual', [])
+    actividad: useStorage('actividadActual', []),
+    actividadRealizadaCompletada: useStorage('actividadCompletada', []),
+    mostrarInstruccionesEnInicio: useStorage('mostrarIntruccionInicio', true),
+    audioEstadoPausas: useStorage('audioEstadoPausas', true)
   }),
   getters: {
+    menuEstadoVisible: (state) => state.menuEstado,
+    mostrarInicioInstrucciones: (state) => state.mostrarInstruccionesEnInicio,
     preguntasAleatoriasSeleccionadas: (state) => state.preguntasAleatorias,
     posicionactualEscenarioJuego: (state) => state.posicionActualEscenario,
     nombreUsuario: (state) => state.usuario,
     doubleCount: (state) => state.counter * 2,
     isCamara: (state) => state.isCamaraHabilitada,
     actividadActual: (state) => state.actividad,
-    posicionActualActividades: (state) =>state._posicionActualActividades
+    actividadCompletada: (state) => state.actividadRealizadaCompletada,
+    audioPausas: (state) => state.audioEstadoPausas,
+    posicionActualActividades: (state) => state._posicionActualActividades
   },
   actions: {
     increment() {
@@ -34,8 +42,17 @@ export const useConfigStore = defineStore({
     inhabilitarCamara() {
       this.isCamaraHabilitada = false
     },
+    setInstrucionesDeInicio() {
+      this.mostrarInstruccionesEnInicio = false
+    },
     setNombreUsuario(nombre) {
       this.usuario = nombre
+    },
+    setMenuEstadoVisible(estado) {
+      this.menuEstado = estado
+    },
+    setAudioPausas(estado) {
+      this.audioEstadoPausas = estado
     },
     setPosicionActualUsuario(posicion) {
       this.posicionActualEscenario = posicion
@@ -52,9 +69,17 @@ export const useConfigStore = defineStore({
       }
 
     },
+    setActividadCompletada() {
+      this.actividadRealizadaCompletada.push(1)
+    },
     reiniciarActividadActual(infoActividad) {
-      this.actividad= infoActividad
-
+      this.actividad = infoActividad
+    },
+    reiniciarTodo(infoActividad) {
+      this.posicionActualEscenario = 0
+      this._posicionActualActividades = 0
+      this.actividad=[]
+      this.actividadRealizadaCompletada = []
     }
   },
   persist: {

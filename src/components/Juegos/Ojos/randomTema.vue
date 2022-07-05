@@ -2,12 +2,13 @@
   <div>
     <div class="
         contenedor-temas
-        border-axa
         flex-center-elements-column 
         gap-3
       " v-for="(recuadros, index) in cantidadTemas" :key="`recuadros-${index}`">
       <RandomTemaItem class="flex-center-elements-column  gap-3 " @finSeleccionTemas="temasSeleccionados" />
-        
+      <div class="auto flex-center-elements-row gap-2" style="text-align:center">
+        <div class="btn-primary" @click="continuarActividad">CONTINUAR</div>
+      </div>
     </div>
   </div>
 </template>
@@ -16,7 +17,7 @@
 import { ref, onBeforeMount, onMounted, computed, defineEmits } from "vue";
 import RandomTemaItem from './randomTemaItem.vue'
 
-const emit = defineEmits(['finSeleccionTemasAleatorios'])
+const emit = defineEmits(['finSeleccionTemasAleatorios','continuar'])
 
 
 const temas = defineProps({
@@ -30,7 +31,7 @@ const temas = defineProps({
 })
 
 onMounted(() => {
-  
+
 
 })
 
@@ -40,10 +41,13 @@ onBeforeMount(() => {
 
 });
 
+const continuarActividad = () => {
+    emit("continuar")
+}
 
 
-const temasSeleccionados = (tema) =>{
-  emit("finSeleccionTemasAleatorios",tema)
+const temasSeleccionados = (tema) => {
+  emit("finSeleccionTemasAleatorios", tema)
 }
 
 
@@ -54,11 +58,13 @@ const temasSeleccionados = (tema) =>{
 <style lang="css" scoped>
 .contenedor-temas {
   width: 35vw;
-  height: 43vh;
+  height: fit-content;
   z-index: 99999999;
-  background-color: #004E54;
-  color: var(--blanco);
-  margin-bottom:12px;
-  text-align:center
+  background-color: white;
+  color: black;
+  margin-bottom: 12px;
+  text-align: center;
+  padding: 43px 23px;
+  border-radius: 23px;
 }
 </style>

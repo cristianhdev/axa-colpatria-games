@@ -1,48 +1,52 @@
 <template>
     <div class="container">
-       
-        <VentanaBienvenida v-if="ocultarVentana" :sliderActive="false">
-            <template #titulo>
-                <img v-if="!camaraReady" src="@/assets/img/camarawebImagen.png" alt="" width="240">
+
+        <VentanaIntroduccion v-if="ocultarVentana" :sliderActive="false">
+            <template #titulo v-if="!camaraReady">
+                <div class="camara-web">
+
+                </div>
+                <!-- <img  src="" alt="" width="240"> -->
             </template>
             <template #texto>
 
                 <div class="contenedor-camara" v-if="camaraReady">
-
-                    <div>
-                        <CaramaWeb :width="200" :height="200" @camaraLoad="finLoadCamara" />
+                    <CaramaWeb :width="200" :height="200" @camaraLoad="finLoadCamara" />
+                    <div class="flex-center-elements-row center-element" v-if="!camaraWebCargada">
+                        <span class="spiner"></span>
                     </div>
-                    <!--  <div v-else>
-                        <h2>Cargando camara...</h2>
-                    </div> -->
+
+
+
 
                 </div>
                 <div v-else>
                     <!-- <img src="/src/img/camaraweb.png" alt="" width="240"> -->
-                    <h2>Permitir el acceso a la cámara web.</h2>
+                    <div class="titulos-ventanas-intro">¿Permite el acceso a su cámara web?</div>
                 </div>
 
             </template>
             <template #button-ventana>
-                <div v-if="!camaraReady" class="flex-center-elements-row gap-3">
-                    <div class="btn-primary-vr1" @click="config.habilitarCamara()">SI</div>
-                    <div class="btn-primary-vr1" @click="habilitarCamara">NO</div>
+                <div v-if="!camaraReady" class="flex-center-elements-row gap-4">
+                    <div class="btn-primary" @click="config.habilitarCamara()">SI</div>
+                    <div class="btn-primary" @click="habilitarCamara">NO</div>
                 </div>
                 <div v-else>
-                    <div :class="{ 'disable-button': !camaraWebCargada }"
-                        class="btn-primary-vr1 flex-center-elements-row gap-3" @click="habilitarCamara">
+                    <!--  :class="{ 'disable-button': !camaraWebCargada }" -->
+                    <div
+                        class="btn-primary flex-center-elements-row gap-4" @click="habilitarCamara">
                         CONTINUAR
                     </div>
                 </div>
             </template>
 
-        </VentanaBienvenida>
+        </VentanaIntroduccion>
     </div>
 </template>
 
 <script setup>
 
-import VentanaBienvenida from "@/components/VentanaBienvenida.vue";
+import VentanaIntroduccion from "@/components/VentanaIntroduccion.vue";
 import { ref, onMounted, onBeforeMount, computed } from "vue";
 import { useConfigStore } from "../stores/config.js";
 import party from "party-js";
@@ -133,11 +137,33 @@ const habilitarCamara = () => {
 }
 
 .puntos-escena {
-  width: 94vw;
-  height: 910px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+    width: 94vw;
+    height: 910px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.camara-web {
+    background-image: url('@/assets/img/camara-icono.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    width: 43vh;
+    height: 22vh;
+    position: relative;
+    top: -43px;
+    margin: 0px auto;
+}
+
+.title {
+    text-align: center
+}
+
+
+.contenedor-camara {
+    margin-top: -2rem
 }
 </style>

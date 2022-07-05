@@ -2,19 +2,18 @@
     <div>
         <div class="interrogacion ">
             <slot name="texto">
-                Selecciona las siguientes imagenes:
+                <div class="tema-texto">Selecciona las siguientes imagenes:<br><br>
+                 <bold>{{ tema }}</bold></div>
             </slot>
 
             <!--  {{temas.opciones}} -->
         </div>
-        <div class="tema-texto">
-            {{ tema }}
-        </div>
+      
         <div class="tema-texto flex-center-elements-row gap-2">
 
-            <div v-if="finGiros">
+            <div class="contenedor-imagenes" v-if="finGiros">
                 <img :src="imagen.imagen" v-for="(imagen, index) in filtrarImagenes" :key="`imagen-${index}`"
-                    width="130" alt="">
+                    class="imagen-fruta" alt="">
             </div>
         </div>
     </div>
@@ -29,9 +28,9 @@ import ImagenNaranja from '@/assets/img/naranja.png';
 import ImagenAni1 from '@/assets/img/ani1.png';
 import ImagenAni2 from '@/assets/img/ani2.png';
 import ImagenAni3 from '@/assets/img/ani3.png';
-import ImagenCalculadora from '@/assets/img/calculadora.png';
-import ImagenPc from '@/assets/img/pc.png';
-import ImagenLibro from '@/assets/img/libros.png';
+import ImagenCalculadora from '@/assets/img/ani3.png';
+import ImagenPc from '@/assets/img/ani1.png';
+import ImagenLibro from '@/assets/img/ani2.png';
 const temas = ref(["animal", "oficina", "fruta"]);
 const tema = ref("")
 const temaSeleccionado = ref("")
@@ -103,7 +102,7 @@ const generarPosicionaleatoria = () => {
 
 
 const filtrarImagenes = computed(() => {
-    
+
     return Object.values(imagenes.value).filter((element) => {
         return element.tipo == tema.value.toLocaleLowerCase()
     })
@@ -114,11 +113,44 @@ const filtrarImagenes = computed(() => {
 </script>
 
 <style lang="css" scoped>
+.imagen-fruta {
+    width: 15vh
+}
+
 .interrogacion {
     font-size: 2.1em
 }
 
 .tema-texto {
-    font-size: 2.1em
+    font-family: Source Sans Pro;
+    font-size: 1em;
+    color: black;
+    font-weight: normal;
+    line-height: 2pc;
+}
+
+
+.contenedor-imagenes {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 30vw;
+}
+
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
+    /* CSS */
+    .imagen-fruta {
+        width: 21vh
+    }
+
+    .interrogacion {
+        font-size: 1.1em
+    }
+
+    .tema-texto {
+        font-size: 1em
+    }
 }
 </style>
