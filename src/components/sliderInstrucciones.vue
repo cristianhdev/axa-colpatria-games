@@ -99,8 +99,11 @@ const prev = () => {
             });
 
         });
+
+        console.log(Math.round(contenedorItemsSliders.width)/4)
+
         gsap.to(`.contenedor-items-slider`, {
-            x: `+=-${Math.round(contenedorItemsSliders.width) + 39}px`
+            x: `+=-103vh`
             , onComplete: () => {
                 finAnimacionSlider.value = false
                 sliderActual.value++
@@ -127,7 +130,7 @@ const next = () => {
 
         });
         gsap.to(`.contenedor-items-slider`, {
-            x: `+=${Math.round(contenedorItemsSliders.width) + 39}px`, ease: 'Power.easeInOut', onComplete: () => {
+            x: `+=103vh`, ease: 'Power.easeInOut', onComplete: () => {
                 finAnimacionSlider.value = false
                 sliderActual.value--
                 /* tituloTexto.value = imagen.tituloInstruccion[sliderActual.value] */
@@ -170,7 +173,7 @@ const navegacion = () => {
 
 <style lang="scss" scoped>
 .contenedor-slider {
-    width: 100%;
+    width: fit-content;
     height: 40vh;
     overflow: hidden;
 }
@@ -178,7 +181,7 @@ const navegacion = () => {
 .contenedor-items-slider {
     display: flex;
     margin: 0px auto;
-    width: 692px;
+    width: 100vh;
     /*     overflow: hidden; */
     flex-wrap: nowrap;
     justify-content: start;
@@ -203,7 +206,7 @@ const navegacion = () => {
 
 .titulo {
     text-align: center;
-    height: 24vh;
+    height: fit-content;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -214,7 +217,11 @@ const navegacion = () => {
     font-size: var(--h2-title-size);
     color: black;
     font-weight: normal;
-    text-align: left
+    text-align: left;
+    height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 //MediaDevices/* Media querys*/

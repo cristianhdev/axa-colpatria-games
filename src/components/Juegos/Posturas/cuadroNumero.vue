@@ -27,48 +27,9 @@ import { ref, computed, reactive, onMounted, onBeforeMount, watch, defineEmits }
 import gsap from "gsap";
 import Sonidos from '@/assets/helpers/sounds.js'
 
-
-//Ejericicios Postura -Gif
-import ImagenEjercicio1 from '@/assets/img/Ejercicio1.png'
-import Ejercicio1 from '@/assets/ejercicios/EJ_P1.gif'
-import Ejercicio2 from '@/assets/ejercicios/EJ_P2.gif'
-import Ejercicio3 from '@/assets/ejercicios/EJ_P3.gif'
-import Ejercicio4 from '@/assets/ejercicios/EJ_P4.gif'
-import Ejercicio5 from '@/assets/ejercicios/EJ_P5.gif'
-import Ejercicio6 from '@/assets/ejercicios/EJ_P6.gif'
-import Ejercicio7 from '@/assets/ejercicios/EJ_P7.gif'
-import Ejercicio8 from '@/assets/ejercicios/EJ_P8.gif'
-import Ejercicio9 from '@/assets/ejercicios/EJ_P9.png'
-import Ejercicio10 from '@/assets/ejercicios/EJ_P10.png'
-import Ejercicio11 from '@/assets/ejercicios/EJ_P11.gif'
-import Ejercicio12 from '@/assets/ejercicios/EJ_P12.png'
-import Ejercicio13 from '@/assets/ejercicios/EJ_P13.png'
-import Ejercicio14 from '@/assets/ejercicios/EJ_P14.gif'
-import Ejercicio15 from '@/assets/ejercicios/EJ_P15.gif'
-import Ejercicio16 from '@/assets/ejercicios/EJ_P16.gif'
-import Ejercicio17 from '@/assets/ejercicios/EJ_P17.gif'
-import Ejercicio18 from '@/assets/ejercicios/EJ_P18.png'
-import Ejercicio19 from '@/assets/ejercicios/EJ_P19.png'
-import Ejercicio20 from '@/assets/ejercicios/EJ_P20.png'
-import Ejercicio21 from '@/assets/ejercicios/EJ_P21.png'
-import Ejercicio22 from '@/assets/ejercicios/EJ_P22.png'
-import Ejercicio23 from '@/assets/ejercicios/EJ_P23.png'
-import Ejercicio24 from '@/assets/ejercicios/EJ_P24.gif'
-import Ejercicio25 from '@/assets/ejercicios/EJ_P25.gif'
-import Ejercicio26 from '@/assets/ejercicios/EJ_P26.gif'
-import Ejercicio27 from '@/assets/ejercicios/EJ_P27.gif'
-
-
-
-
-/* import Imagen1Figuras from '@/assets/img/Ejercicio1.png'
-import Imagen2Figuras from '@/assets/img/Ejercicio2.png'
-import Imagen3Figuras from '@/assets/img/Ejercicio3.png'
-import Imagen4Figuras from '@/assets/img/Ejercicio4.png'
-import Imagen5Figuras from '@/assets/img/Ejercicio5.png'
-import Imagen6Figuras from '@/assets/img/Ejercicio6.png' */
 import Interrogante from '@/assets/img/manos/pregunta.png'
 import { useConfigStore } from "../../../stores/config.js";
+import { arrayImagenesPausas } from '@/assets/helpers/imagenes.js'
 
 //Sonidos
 import Aplausos from '@/assets/sounds/aplausos.mp3'
@@ -77,7 +38,7 @@ import Incorrecto from '@/assets/sounds/incorrecto.mp3'
 const audioIncorrecto = ref(null)
 const audioCorrecto = ref(null)
 
-const emit = defineEmits(['ocultarVentana', 'finAnimacion', 'finAnimacionFlip', 'OpcionCorrecto'])
+const emit = defineEmits(['ocultarVentana', 'finAnimacion', 'finAnimacionFlip', 'OpcionCorrecto', 'OpcionInCorrecto'])
 
 
 const mostrarNumero = ref(false)
@@ -87,85 +48,9 @@ const imagenCorrecta = ref('')
 
 const config = useConfigStore()
 
-onMounted(() => {
-
-    imagenCorrecta.value = secuencia.srcUrlImagen
-    if (secuencia.girarOpciones) {
-
-        gsap.to(`.contenedor-opciones`, {
-            alpha: 1,
-            delay: 0.9,
-            rotationY: -180,
-            transformStyle: "preserve-3d",
-            transformPerspective: 1000,
-            duration: 0.4,
-            stagger: {
-                grid: [7, 1],
-                from: "center",
-                amount: 1.5,
-            }, onComplete: () => {
-                stylePointerEvents.pointerEvents = 'all'
-                /* emit('finAnimacionFlip') */
 
 
-            }, onUpdate: function () {
-
-            }
-        });
-    }
-})
-
-onBeforeMount(() => {
-
-    document.body.focus()
-
-})
-
-
-
-
-
-
-
-
-const imagenes = ref([
-    { imagen: Ejercicio1, id: 0, numero: secuencia.numero },
-    { imagen: Ejercicio2, id: 1, numero: secuencia.numero },
-    { imagen: Ejercicio3, id: 2, numero: secuencia.numero },
-    { imagen: Ejercicio4, id: 3, numero: secuencia.numero },
-    { imagen: Ejercicio5, id: 4, numero: secuencia.numero },
-    { imagen: Ejercicio6, id: 5, numero: secuencia.numero },
-    { imagen: Ejercicio7, id: 6, numero: secuencia.numero },
-    { imagen: Ejercicio8, id: 7, numero: secuencia.numero },
-    { imagen: Ejercicio9, id: 8, numero: secuencia.numero },
-    { imagen: ImagenEjercicio1, id: 9, numero: secuencia.numero },
-    { imagen: ImagenEjercicio1, id: 10, numero: secuencia.numero },
-    { imagen: Ejercicio10, id: 11, numero: secuencia.numero },
-    { imagen: ImagenEjercicio1, id: 12, numero: secuencia.numero },
-    { imagen: ImagenEjercicio1, id: 13, numero: secuencia.numero },
-    { imagen: Ejercicio11, id: 14, numero: secuencia.numero },
-    { imagen: Ejercicio12, id: 15, numero: secuencia.numero },
-    { imagen: Ejercicio13, id: 16, numero: secuencia.numero },
-    { imagen: Ejercicio14, id: 17, numero: secuencia.numero },
-    { imagen: Ejercicio15, id: 18, numero: secuencia.numero },
-    { imagen: Ejercicio16, id: 19, numero: secuencia.numero },
-    { imagen: Ejercicio17, id: 20, numero: secuencia.numero },
-    { imagen: Ejercicio18, id: 21, numero: secuencia.numero },
-    { imagen: Ejercicio19, id: 22, numero: secuencia.numero },
-    { imagen: Ejercicio20, id: 23, numero: secuencia.numero },
-    { imagen: Ejercicio21, id: 24, numero: secuencia.numero },
-    { imagen: ImagenEjercicio1, id: 25, numero: secuencia.numero },
-    { imagen: Ejercicio23, id: 26, numero: secuencia.numero },
-    { imagen: Ejercicio24, id: 27, numero: secuencia.numero },
-    { imagen: Ejercicio25, id: 28, numero: secuencia.numero },
-    { imagen: ImagenEjercicio1, id: 29, numero: secuencia.numero },
-    { imagen: ImagenEjercicio1, id: 30, numero: secuencia.numero },
-    { imagen: ImagenEjercicio1, id: 31, numero: secuencia.numero },
-    { imagen: ImagenEjercicio1, id: 32, numero: secuencia.numero },
-    { imagen: ImagenEjercicio1, id: 34, numero: secuencia.numero },
-    { imagen: Ejercicio26, id: 35, numero: secuencia.numero },
-    { imagen: Ejercicio27, id: 36, numero: secuencia.numero }
-])
+const imagenes = ref(arrayImagenesPausas)
 
 
 
@@ -177,7 +62,7 @@ const secuencia = defineProps({
     correcto: Boolean,
     opcion: Number,
     girarOpciones: Boolean,
-    idImagenEjericicio:Number
+    idImagenEjericicio: Number
 })
 
 
@@ -222,9 +107,44 @@ const stylePointerEvents = reactive({
 })
 
 
+onMounted(() => {
+
+    imagenCorrecta.value = secuencia.srcUrlImagen
+    if (secuencia.girarOpciones) {
+
+        gsap.to(`.contenedor-opciones`, {
+            alpha: 1,
+            delay: 0.9,
+            rotationY: -180,
+            transformStyle: "preserve-3d",
+            transformPerspective: 1000,
+            duration: 0.4,
+            stagger: {
+                grid: [7, 1],
+                from: "center",
+                amount: 1.5,
+            }, onComplete: () => {
+                stylePointerEvents.pointerEvents = 'all'
+                /* emit('finAnimacionFlip') */
+
+
+            }, onUpdate: function () {
+
+            }
+        });
+    }
+})
+
+onBeforeMount(() => {
+
+    document.body.focus()
+
+})
+
+
 
 watch(() => secuencia.srcUrlImagen, (newCorrecto, oldCorrecto) => {
-   
+
     imagenCorrecta.value = `url(${newCorrecto})`
     /*  if(newCorrecto!=="/src/assets/img/manos/pregunta.png"){
         
@@ -237,7 +157,7 @@ watch(() => secuencia.correcto, (newCorrecto, oldCorrecto) => {
 });
 
 watch(() => secuencia.srcUrlImagen, (imagenNew, imagenOld) => {
-   
+
 });
 
 watch(() => secuencia.girarOpciones, (newGiroOpcion, oldGiroOpcion) => {
@@ -284,7 +204,7 @@ const validarClick = (id) => {
     //emit('clickFicha',id)
     let idItem = id
 
-console.log(parseInt(secuencia.opcion), parseInt(idItem))
+
 
     if (parseInt(secuencia.opcion) === parseInt(idItem)) {
         if (audioCorrecto.value == null) {
@@ -293,18 +213,14 @@ console.log(parseInt(secuencia.opcion), parseInt(idItem))
 
             document.getElementById(`contenedor-${idItem}`).classList.add('opcion-correcto')
             let recuadro = document.querySelectorAll(`.item-image-img`)
-          
-            document.getElementById(`contenedor-${idItem}`).style.border = '1px solid green';
 
-            //`#contenedor-${id}`).classList.add('opcion-correcto')
-            /*  imagenCorrecta.value =  */
-            let imagen = imagenes.value.filter((element)=>{
+
+            let imagen = imagenes.value.filter((element) => {
                 return element.id == secuencia.idImagenEjericicio
             })[0].imagen
+            recuadro[idItem - 1].style.boxShadow = '-1px -1px 16px inset green';
             mostrarNumero.value = true
-            console.log("imagen",imagen)
-            console.log("recuadro",recuadro[idItem])
-            /* recuadro[idItem - 1].setAttribute('src', imagen) */
+
             imagenCorrecta.value = imagen
             if (config.audioPausas) {
                 audioCorrecto.value = new Audio(Aplausos)
@@ -331,17 +247,20 @@ console.log(parseInt(secuencia.opcion), parseInt(idItem))
         respuestaCorrecta.value = true
     } else {
         /* stylePointerEvents.pointerEvents = 'all' */
-     
+
 
         document.getElementById(`contenedor-${idItem}`).classList.add('opcion-incorrecto')
-        let recuadro = document.querySelectorAll(`.item-image`)
+        let recuadro = document.querySelectorAll(`.item-image-img`)
 
-        /* recuadro[idItem - 1].style.border = '1px solid red';
-        /*   stylePointerEvents.backgroundColor = 'red' */
-        /*styleInterrogante.border = '1px solid red'; */
+        recuadro[idItem - 1].style.boxShadow = '-1px -1px 16px inset red';
+
+
         if (config.audioPausas) {
             audioIncorrecto.value = new Audio(Incorrecto)
             audioIncorrecto.value.play()
+            emit("OpcionInCorrecto")
+        } else {
+            emit("OpcionInCorrecto")
         }
 
         /* if (audioIncorrecto.value == null) {

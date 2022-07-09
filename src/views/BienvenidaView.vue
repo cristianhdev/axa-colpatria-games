@@ -68,22 +68,29 @@
       <VentanaInstrucciones v-if="ocultarInstrucciones" urlImagenFondo="Instrucciones" :ocultarNavegacion="true">
         <template #texto>
           <div>
-            <sliderInstrucciones :numerodeSliders="3" :ocultarNavegacion="false"
+            <sliderInstrucciones :numerodeSliders="4" :ocultarNavegacion="false"
               :tituloInstruccion="InstruccionesActividad">
 
               <template #sliders>
-                <div class="item-slider">
-                  <img src="@/assets/img/sliders_camara_usuario.png" class="responsive-imagen-slider" alt="">
+                <div id="contenedor-sliders" style="display: flex;justify-content: space-between;align-items: center;align-content: center;width: fit-content">
+                  <div class="item-slider">
+                    <img src="@/assets/img/sliders_camara_usuario.png" class="responsive-imagen-slider" alt="">
+                  </div>
+                  <div class="item-slider">
+                    <img src="@/assets/img/Intrucciones_escenario.png" class="responsive-imagen-slider" alt="">
+                  </div>
+                  <div class="item-slider">
+                    <img src="@/assets/img/Intrucciones_audios.png" class="responsive-imagen-slider" alt="">
+                  </div>
+                  <div class="item-slider">
+                    <img src="@/assets/img/Intrucciones_ruleta.png" class="responsive-imagen-slider" alt="">
+                  </div>
+                  <div class="item-slider">
+                    <img src="@/assets/img/sliders_instrucciones_balance_final.png" class="responsive-imagen-slider"
+                      alt="">
+                  </div>
                 </div>
-                <div class="item-slider">
-                  <img src="@/assets/img/Intrucciones_escenario.png" class="responsive-imagen-slider" alt="">
-                </div>
-                <div class="item-slider">
-                  <img src="@/assets/img/Intrucciones_ruleta.png" class="responsive-imagen-slider" alt="">
-                </div>
-                <div class="item-slider">
-                  <img src="@/assets/img/sliders_instrucciones_balance_final.png" class="responsive-imagen-slider" alt="">
-                </div>
+
               </template>
             </sliderInstrucciones>
           </div>
@@ -248,5 +255,11 @@ const slidersBienvenida = ref([]);
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.item-slider img {
+    object-fit: cover;
+    width: 46vw !important;
+    height: fit-content;
 }
 </style>

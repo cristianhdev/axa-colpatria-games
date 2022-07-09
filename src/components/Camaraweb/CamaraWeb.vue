@@ -154,7 +154,7 @@ onMounted(() => {
 </script>
 
 <style lang="css" scoped>
-.contenedor-video{
+.contenedor-video {
     width: 100%;
     height: 100%;
 }
@@ -163,15 +163,23 @@ video {
     width: 19rem !important;
 }
 
-#contenedor-video{
-    width:304px;
-    height:304px;
+#contenedor-video {
+    width: 304px;
+    height: 304px;
 }
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
     video {
         width: 11rem !important;
         object-fit: cover;
+    }
+
+    #contenedor-video {
+        width: 70vh;
+        height: 224px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 </style>

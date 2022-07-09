@@ -41,23 +41,32 @@
             <!--  -->
             <Cronometro v-if="mostrarcronometro" :isRun="habilitarCronometro" :segundos="15"
                 @endTime="activarNavegacionSliders" />
-            <div class="btn-ayuda tooltip" v-if="isInstruccionesPausaVisible" @click="VerInstruccionesPausa">
+            <Cronometro v-if="mostrarcronometroPausa" :isRun="habilitarCronometroPausa" :segundos="15"
+                @endTime="finTiempoCronometro = !finTiempoCronometro" />
+            <div class="btn-ayuda tooltip" v-if="mostrarcronometroPausa" @click="VerInstruccionesPausa">
                 <span class="tooltiptext">Ver Instrucciones</span>
             </div>
+
             <div v-if="intentosActividad != 3" class="contenedor-opciones  flex-center-elements-column ">
                 <div v-if="mensajes">
                     <div v-if="!continuarActividad">
-                        <div class="auto">
-                            <div class="titulo">¡Hora de memorizar la secuencia! Cuando esté listo, de clic en
-                                continuar.
-                            </div>
+                        <div class=" titulo auto">
+                            <h4>Si por recomendación médica no debe realizar el ejercicio, por favor
+                                abstenerse.</h4>
+                            <h3>Cuando esté listo, de clic encontinuar.</h3>
+                            <h2>¡Hora de memorizar la secuencia! </h2>
+
+
                         </div>
 
                     </div>
                     <div v-else>
-                        <div class="titulo">Dando clic sobre los íconos de las flechas fije los ejercicios
-                            correspondientes
-                            a la secuencia memorizada anteriormente ¡gánele al tiempo y logre hacerla correctamente!
+                        <div class="titulo-instruccion">
+                            Haciendo uso de las flechas, fije la secuencia memorizada.
+                            Si ya tiene fijada la secuencia correcta, debe dar clic sobre comprobar. Si responde
+                            correctamente deberá realizar la misma con sus manos.
+                            Si por el contrario, no acierta, deberá dar clic sobre el botón modificar hasta acertar la
+                            secuencia memorizada.<br><br>
                         </div>
                     </div>
                 </div>
@@ -65,25 +74,33 @@
                 <div class="contenedor-opciones-items ">
 
                     <div class=" flex-center-elements-row gap-3">
+                        <div v-if="mostrarTituloPausasActivas" class="titulo auto">
+                            <div>¡Hora de realizar la pausa activa! Siga la secuencia con sus manos.
+                            </div>
+                        </div>
                         <div :style="styleCuadricula" class="gap-1">
 
                             <div v-for="i in cantidadItemSliders" :key="`_${i}`">
 
-                                <ItemSliders :finTime="navegacionsEstado" :ocultarNavegacion="!ocultarPaginacion"
-                                    :id="i" @validarOpciones="validarRespuesta" :comprobar="false" />
+                                <ItemSliders :finTime="navegacionsEstado"
+                                    :finTimeOpcionesActividad="isInstruccionesPausaVisible"
+                                    :ocultarNavegacion="!ocultarPaginacion" :id="i" @validarOpciones="validarRespuesta"
+                                    :comprobar="false" />
                             </div>
 
 
                         </div>
                     </div>
-                    <div class="auto  flex-center-elements-row gap-3" v-if="mostrarCamara">
-                        <div v-if="continuarActividad" class="titulo auto">
-                            <div class="titulo">¡Hora de realizar la pausa activa! Siga la secuencia con sus manos.
-                            </div>
-                        </div>
+                    <div class="auto  flex-center-elements-column gap-3" v-if="mostrarCamara">
                         <CaramaWeb :width="140" :height="140" @camaraLoad="finLoadCamara" />
-                        <div v-if="finTiempoCronometro" class="btn-primary" @click="volverEscenario">VOLVER AL
+                        <div v-if="!finTiempoCronometro" class="btn-primary" @click="volverEscenario">VOLVER AL
                             ESCENARIO</div>
+                        <div v-if="ocultarBotonComenzarActividad"
+                            :class="{ 'habilitar-boton-listo': ocultarBotonComenzarActividad }"
+                            class="auto  inhabilitar-boton-listo flex-center-elements-row gap-2"
+                            style="text-align:center">
+                            <div class="button-bs" @click="OcultarBotonComenzar"> COMENZAR</div>
+                        </div>
                     </div>
                 </div>
 
@@ -94,17 +111,19 @@
                 </div>
                 <div>
                     <div class="auto flex-center-elements-row gap-2" style="text-align:center">
-                        
-                        <div v-if="ocultarBotonComenzarActividad">
-                            <div v-if="activarBotonComprobar" class="btn-primary" @click="comprobarRespuesta">COMPROBAR
+
+
+
+
+
+                        <div>
+                            <div v-if="activarBotonComprobar" class="btn-primary" @click="comprobarRespuesta">
+                                COMPROBAR
                             </div>
-                            <div v-if="activarBotonRepetir" class="btn-primary" @click="repetirOpciones">MODIFICAR</div>
+                            <div v-if="activarBotonRepetir" class="btn-primary" @click="repetirOpciones">MODIFICAR
+                            </div>
                         </div>
-                        <div v-else :class="{ 'habilitar-boton-listo': ocultarBotonComenzarActividad }"
-                            class="auto  inhabilitar-boton-listo flex-center-elements-row gap-2"
-                            style="text-align:center">
-                            <div class="button-bs" @click="OcultarBotonComenzar"> COMENZAR</div>
-                        </div>
+
 
 
 
@@ -133,7 +152,7 @@
 
                     </div>
                     <div
-                        :style="{ border: `1.35px solid black`, background: `transparent url(${mostrarImagen}) no-repeat center center`, width: '320px', height: '320px', backgroundSize: '100% 100%', width: '300px' }">
+                        :style="{ border: `1.35px solid black`, background: `transparent url(${ImagenManoCompleta}) no-repeat center center`, width: '320px', height: '320px', backgroundSize: '100% 100%', width: '300px' }">
                         <!-- <img :id="mostrarImagen" :src="mostrarImagen" alt="" width="320" height="320"> -->
                     </div>
 
@@ -165,6 +184,8 @@ import { instruccionesJuegoManos } from "@/assets/textos/TextosInstrucciones.js"
 //DB instruccions
 import InstruccionesEjercicio from "@/assets/textos/PausasActivas.json";
 
+import ImagenManoCompleta from '@/assets/img/manos/manosCompleta.gif';
+
 const instruccionesActividad = ref(instruccionesJuegoManos)
 
 
@@ -188,19 +209,34 @@ const mensajes = ref(true)
 const ocultarPaginacion = ref(true)
 const intentosActividad = ref(0)
 const ocultarIntroNivel = ref(false)
+const isVisibleNivel = ref(false)
 const mostrarCamara = ref(false)
 const activarCronometro = ref(false)
 const correcto = ref(false)
+
+
+//Puntos
+const puntosBuenos = ref(0)
+const puntosMalos = ref(0)
 const puntosTotales = ref(0)
+
 const isInstruccionesPausaVisible = ref(false)
+const mostrarTituloPausasActivas = ref(false)
 const textoDescripcionPause = ref('')
 
 
 
 //Opciones del cronometro.
 const habilitarCronometro = ref(false)
+const habilitarCronometroPausa = ref(false)
 const mostrarcronometro = ref(false)
-const ocultarBotonComenzarActividad = ref(true)
+const mostrarcronometroPausa = ref(false)
+const ocultarBotonComenzarActividad = ref(false)
+const monstrarBotonCerrarInstrucciones = ref(false)
+
+//Imagen manos completa.
+
+
 
 onMounted(() => {
 
@@ -235,22 +271,29 @@ const opcinesValidacion = reactive({
     posicionSlider: null,
     actual: null,
     respuesta: [],
-    orderArray: []
+    orderArray: [],
+    finalizado:false
 });
 
 
 const ocultarVentanaInstrucciones = () => {
     ocultarInstrucciones.value = !ocultarInstrucciones.value
-    ocultarIntroNivel.value = true
+    if (isVisibleNivel.value == false) {
+        ocultarIntroNivel.value = true
+        isVisibleNivel.value = true
+    }
 
 }
 
 const activarNavegacionSliders = () => {
     mostrarcronometro.value = false
-    activarBotonComprobar.value = true
     activarCronometro.value = false
-    finTiempoCronometro.value = false
+    finTiempoCronometro.value = true
     ocultarPaginacion.value = true
+
+    //-----------------
+    activarBotonRepetir.value = false
+    activarBotonComprobar.value = true
 }
 
 const repetirOpciones = () => {
@@ -273,12 +316,18 @@ const repetirOpciones = () => {
 }
 
 const OcultarBotonComenzar = () => {
-    habilitarCronometro.value = !habilitarCronometro.value
-    ocultarBotonComenzarActividad.value = true
+    ocultarBotonComenzarActividad.value = false
+    habilitarCronometroPausa.value = true
+
 }
 
 const validarRespuesta = (comprobar) => {
+    console.log(`.prev-${comprobar.posicionSlider + 1}`)
 
+    /* document.querySelector(`.prev-${comprobar.posicionSlider+1}`).style.cursor = 'pointer'
+    document.querySelector(`.next-${comprobar.posicionSlider+1}`).style.cursor = 'pointer'
+    document.querySelector(`.prev-${comprobar.posicionSlider+1}`).style.filter = 'opacity(1)'
+    document.querySelector(`.next-${comprobar.posicionSlider+1}`).style.filter = 'opacity(1)' */
     opcinesValidacion.posicionSlider = comprobar.posicionSlider
     opcinesValidacion.actual = comprobar.actual.value
     opcinesValidacion.respuesta = comprobar.validacionArray.value
@@ -292,13 +341,17 @@ const comprobarRespuesta = () => {
     activarBotonRepetir.value = true
     ocultarPaginacion.value = true
 
-    opcinesValidacion.orderArray.forEach(element => {
+    opcinesValidacion.orderArray.forEach((element,index) => {
         if (element.posicion == element.respuesta) {
             correcto.value = true
+            aumentarPuntosBuenos()
             puntosTotales.value = puntosTotales.value + 1
-            document.querySelector(`.contenedor-imagenes-${element.slider + 1} `).style.pointerEvent = 'none'
+            /* document.querySelector(`.contenedor-imagenes-${element.slider + 1} `).style.display='none' */
             //document.querySelector(`.contenedor-imagenes-${element.slider + 1} `).style.pointerEvent = 'none'
-
+            document.querySelector(`.prev-${element.slider + 1}`).style.visibility = 'hidden'
+            document.querySelector(`.next-${element.slider + 1}`).style.visibility = 'hidden'
+            /*  document.querySelector(`.prev-${element.slider + 1}`).classList.add('disabled-click')
+            document.querySelector(`.next-${element.slider + 1}`).classList.add('disabled-click') */
             document.querySelector(`.contenedor-imagenes-${element.slider + 1}  #sliders-order-${element.posicion} img`).style.boxShadow = '-1px -1px 16px inset green';
             document.querySelector(`.contenedor-imagenes-${element.slider + 1}  #sliders-order-${element.posicion} img`).style.borderRadius = '12px';
             document.querySelector(`.contenedor-imagenes-${element.slider + 1}  #sliders-order-${element.posicion} img`).style.border = '1px solid #4caf50';
@@ -306,7 +359,7 @@ const comprobarRespuesta = () => {
             document.querySelector(`.contenedor-imagenes-${element.slider + 1} #sliders-order-${element.posicion}`).classList.add('opcion-correcta-item')
         } else {
             correcto.value = false
-
+            aumentarPuntosMalos()
             document.querySelector(`.contenedor-imagenes-${element.slider + 1}  #sliders-order-${element.posicion} img`).style.boxShadow = '-1px -1px 16px inset red';
             document.querySelector(`.contenedor-imagenes-${element.slider + 1}  #sliders-order-${element.posicion} img`).style.borderRadius = '12px';
             document.querySelector(`.contenedor-imagenes-${element.slider + 1}  #sliders-order-${element.posicion} img`).style.boder = '1px solid #4caf50';
@@ -355,15 +408,20 @@ const finAnimacionIntro = () => {
 const VerInstruccionesPausa = () => {
     monstrarBotonCerrarInstrucciones.value = true
     isInstruccionesPausaVisible.value = true
-    ocultarBotonComenzarActividad.value = false
+    /* ocultarBotonComenzarActividad.value = false */
+
 }
 
 const ocultarVentanaInstruccionesPausas = () => {
     isInstruccionesPausaVisible.value = !isInstruccionesPausaVisible.value
-    ocultarBotonComenzarActividad.value = false
+    ocultarBotonComenzarActividad.value = true
+    mostrarTituloPausasActivas.value = true
+    mostrarcronometroPausa.value = true
+
 }
 
 const volverEscenario = () => {
+    guardarPuntos()
     config.setActividadActual(router.currentRoute.value.path)
     config.setActividadCompletada()
     let posicionActual = config.posicionactualEscenarioJuego
@@ -379,11 +437,42 @@ const mostrarMenu = () => {
 }
 
 
+const aumentarPuntosMalos = () => {
+    puntosMalos.value = puntosMalos.value + 1
+}
+
+const aumentarPuntosBuenos = () => {
+    puntosBuenos.value = puntosBuenos.value + 1
+}
+
+const guardarPuntos = () => {
+    let puntos_finales = puntosBuenos.value - puntosMalos.value
+    if (puntos_finales < 0) {
+        puntos_finales = puntos_finales * -1
+    }
+    config.setPuntosGlobales(puntos_finales)
+}
+
 </script>
 
 <style lang="css" scoped>
+h2 {
+    font-family: Source Sans Pro;
+    font-size: 1em;
+    color: black;
+    font-weight: 500;
+}
+
 h1 {
+    font-family: Source Sans Pro;
     text-align: center;
+}
+
+h3 {
+    font-family: Source Sans Pro;
+    font-size: 1em;
+    color: black;
+    font-weight: normal;
 }
 
 /* .contenedor-actividad {
@@ -398,6 +487,11 @@ h1 {
     background-size: 100% 100%
 }
  */
+
+ .disabled-click {
+    filter:grayscale(0);
+    pointer-events: none
+ }
 
 
 .contenedor-actividad {
@@ -419,7 +513,7 @@ h1 {
 .contenedor-opciones {
     width: 70vw;
     grid-gap: 1, 4rem;
-    height: 33rem;
+    height: 26rem;
     margin: 0px auto
         /* margin-top: 4em;*/
 }
@@ -458,14 +552,6 @@ h1 {
     margin-bottom: 0px
 }
 
-.texto-descripcion-pausas {
-    text-align: justify;
-    font-family: Source Sans Pro;
-    font-size: 1.1em;
-    color: black;
-    font-weight: normal;
-    padding: 19px
-}
 
 
 
@@ -480,13 +566,44 @@ h1 {
 }
 
 
+.opcion-correcta-item::before {
+    content: '';
+    background: url(/src/assets/img/check_awert.png) no-repeat;
+    background-size: contain;
+    position: fixed;
+    width: 3vw;
+    height: 3vh;
+    transform: translate(8.3rem, 1rem);
+    float: right;
+}
+
+.opcion-incorrecta-item::before {
+    content: '';
+    background: url(/src/assets/img/check_wrong.png) no-repeat;
+    background-size: contain;
+    position: fixed;
+    width: 3vw;
+    height: 3vh;
+    transform: translate(8.3rem, 1rem);
+    float: right;
+}
 
 .titulo {
     font-family: Source Sans Pro;
     font-size: var(--h2-title-size);
     color: black;
     font-weight: normal;
-    width: 100%
+    width: 100%;
+    text-align: center
         /* margin-bottom: 4vh; */
+}
+
+.titulo-instruccion {
+    font-family: Source Sans Pro;
+    font-size: var(--h2-title-size);
+    color: black;
+    font-weight: normal;
+    width: 99%;
+    text-align: center
 }
 </style>

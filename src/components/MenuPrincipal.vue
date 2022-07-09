@@ -279,5 +279,9 @@ hr {
         height: 19%;
     }
 
+    .config-opciones {
+    height: 77vh;
+}
+
 }
 </style>

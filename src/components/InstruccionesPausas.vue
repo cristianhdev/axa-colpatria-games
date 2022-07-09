@@ -20,7 +20,7 @@
                             </div>
                         </Popper>
                     </div> -->
-
+                    
                 </div>
 
 
@@ -173,7 +173,7 @@ const ocultarIntrucciones = () => {
 
 .contenedor-central-menu {
    width: 73vw;
-    height: 84vh;
+    height: 90vh;
     max-height: 650px;
     background-color: white;
     border-radius: 32px;

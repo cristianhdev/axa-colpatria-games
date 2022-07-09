@@ -26,7 +26,7 @@ import { ref, reactive, onMounted, onUnmounted, onBeforeMount, defineEmits, watc
 import Sonidos from '@/assets/helpers/sounds.js'
 
 
-const emit = defineEmits(['endTime'])
+const emit = defineEmits(['endTime','tiempoActual'])
 
 const FULL_DASH_ARRAY = ref(283);
 const WARNING_THRESHOLD = ref(10);
@@ -134,6 +134,7 @@ const startTimer = () => {
   timerInterval.value = setInterval(() => {
     timePassed.value = timePassed.value += 1;
     timeLeft.value = TIME_LIMIT - timePassed.value;
+    emit('tiempoActual',timeLeft.value)
     document.getElementById("base-timer-label").innerHTML = formatTime(
       timeLeft.value
     );
@@ -145,6 +146,10 @@ const startTimer = () => {
       onTimesUp();
     }
   }, 1000);
+}
+
+const stopTimer = () => {
+   clearInterval(timerInterval.value);
 }
 
 
@@ -282,6 +287,15 @@ onUnmounted(() => {
 
   100% {
     opacity: 0
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  .base-timer__label {
+    top: 35%;
+    font-size: 2em;
+    left: 68%;
+    transform: translate(-50%, -50%);
   }
 }
 </style>

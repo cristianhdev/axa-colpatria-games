@@ -1,4 +1,6 @@
 <template>
+  <!-- MENU PRINCIPAL -->
+  <div class="botonMenu" @click="mostrarMenu"></div>
   <VentanaIntroNivel v-if="ocultarIntroNivel" @finAnimacionIntroNivel="finAnimacionIntro"
     urlImagenFondo="marco_nivel_1">
     <!-- <template #mensaje-nivel>
@@ -7,18 +9,43 @@
   </VentanaIntroNivel>
   <VentanaInstrucciones v-if="ocultarInstrucciones">
     <template #texto>
-      <h2>Para este ejercicio, mantenga la cabeza recta. La idea es que mueva los ojos hacia todas las direcciones
-        (arriba,
-        abajo, derecha e izquierda).
 
-        Para lograr esto, debe seguir con la vista los elementos que aparecerán en la pantalla, y de acuerdo al tema que
-        le salga en el juego (ej: animales), debe dar clic sobre estos, siempre siguiendo de forma concentrada los
-        elementos que vayan apareciendo.</h2>
+      <div>
+        <sliderInstrucciones :numerodeSliders="0" :ocultarNavegacion="true" :tituloInstruccion="instruccionesActividad">
+
+          <template #sliders>
+            <div class="item-slider">
+              <div class="juego-visual-slider">
+                <div>
+                  <img src="@/assets/img/slider_Juego_ojos.gif" class="responsive-imagen-slider" alt="" />
+                </div>
+                <div>
+                  <img src="@/assets/svg/silla.svg" class="responsive-imagen-slider" alt="" />
+                </div>
+                <div>
+                  <img src="@/assets/svg/computador.svg" class="responsive-imagen-slider" alt="" />
+                </div>
+                <div>
+                  <img src="@/assets/svg/lampara.svg" class="responsive-imagen-slider" alt="" />
+                </div>
+              </div>
+
+            </div>
+            <!--  <div>
+                            <img src="@/assets/img/Intrucciones_audios.png" width="800" alt="">
+                        </div>
+ -->
+          </template>
+        </sliderInstrucciones>
+      </div>
       <div class="btn-jugar auto flex-center-elements-row gap-2" style="text-align:center"
         @click="ocultarVentanaInstrucciones">
         <div class="btn-primary"> CONTINUAR</div>
       </div>
+
     </template>
+
+
   </VentanaInstrucciones>
   <!--  <VentanaBienvenida  :sliderActive="false" ruta="webcamera">
       <template #titulo>
@@ -43,7 +70,7 @@
         CONTINUAR
       </template>
     </VentanaBienvenida> -->
-  <VentanaPuntosFinal v-if="mostrarMensajeFinal" @continuarTriviaEvent="continuarTrivia"
+  <VentanaPuntosFinal v-if="mostrarMensaje" @continuarTriviaEvent="continuarTrivia"
     @volverEscenarioEvent="volverEscenario">
     <template #puntos-buenos>
       <div v-if="puntos_correctos > 0">
@@ -70,7 +97,7 @@
       <!--  <button class="btn-primary-vr1" @mousemove="confity" id="salir">SALIR</button> -->
     </template>
   </VentanaPuntosFinal>
-  <!--  <div v-if="mostrarMensajeFinal"
+  <!--  <div v-if="mostrarMensaje"
     class="mensaje-puntos center-element flex-center-elements-column gap-2 border-axa padding-2 animate__animated animate__fadeIn">
     <div>
       <h1>
@@ -115,38 +142,43 @@
 
 
       <div ref="tamanoContenedor" id="contenedor-elemento-random" class="contenedor-mensaje center-element ">
-        <!--  -->
+        <!--   -->
         <div v-show="isTemasRandomVisible">
-          <Cronometro v-if="mostrarcronometro" :isRun="habilitarCronometro" :segundos="25" @endTime="limpiarTiempo" />
+          <Cronometro v-if="mostrarcronometro" :isRun="habilitarCronometro" :segundos="30"  @endTime="limpiarTiempo"/>
         </div>
         <div :id="`objetos-volador-abajo-${index + 1} `" :style="styleObjectPositionAbajo"
           class="objetos-actividad-1 flex-center-elements-row" v-for="(imagen, index) in imagenes_aleatorias"
           :key="index" @click="validarClick(imagen.tipo, `objetos-volador-abajo-${index + 1} `)">
+          
           <ContenedorImagenes :id="index + 1" :srcImagen="imagenes_aleatorias[index].imagen"
             class="animate__animated animate__heartBeat animate__infinite" />
         </div>
         <div :id="`objetos-volador-arriba-${index + 1} `" :style="styleObjectPositionArriba"
           class="objetos-actividad-2 flex-center-elements-column" v-for="(imagen, index) in imagenes_aleatorias"
           :key="index" @click="validarClick(imagen.tipo, `objetos-volador-arriba-${index + 1} `)">
+          
           <ContenedorImagenes :id="index + 1" :srcImagen="imagenes_aleatorias[index].imagen"
             class="animate__animated animate__heartBeat animate__infinite" />
         </div>
         <div :id="`objetos-volador-derecha-${index + 1} `" :style="styleObjectPositionDerecha"
           class="objetos-actividad-3 flex-center-elements-column" v-for="(imagen, index) in imagenes_aleatorias"
           :key="index" @click="validarClick(imagen.tipo, `objetos-volador-derecha-${index + 1} `)">
+          
           <ContenedorImagenes :id="index + 1" :srcImagen="imagenes_aleatorias[index].imagen"
             class="animate__animated animate__heartBeat animate__infinite" />
         </div>
         <div :id="`objetos-volador-izquierda-${index + 1} `" :style="styleObjectPositionIzquierda"
           class="objetos-actividad-4 flex-center-elements-column" v-for="(imagen, index) in imagenes_aleatorias"
           :key="index" @click="validarClick(imagen.tipo, `objetos-volador-izquierda-${index + 1} `)">
+          
           <ContenedorImagenes :id="index + 1" :srcImagen="imagenes_aleatorias[index].imagen"
             class="animate__animated animate__heartBeat animate__infinite" />
         </div>
       </div>
     </div>
 
-
+    <!-- VENTANA MENU OPCIONES PRINCIPAL -->
+    <MenuPrincipal :isvisible="false" @eventInstrucciones="InstruccionesMostrar" />
   </div>
 </template>
 
@@ -154,6 +186,7 @@
 import { ref, watch, reactive, onBeforeMount, onMounted, computed } from "vue";
 
 //COMPONENTES
+import sliderInstrucciones from "@/components/sliderInstrucciones.vue"
 import ContenedorImagenes from "./contendorImagen.vue";
 import RandomTemas from "./randomTema.vue";
 import anime from 'animejs/lib/anime.es.js';
@@ -163,6 +196,7 @@ import VentanaInstrucciones from "@/components/VentanaInstrucciones.vue"
 /* import VentanaBienvenida from "@/components/VentanaBienvenida.vue"; */
 import VentanaPuntosFinal from "@/components/VentanaPuntosFinal.vue"
 import VentanaIntroNivel from "@/components/VentanaIntroNivel.vue"
+import MenuPrincipal from '@/components/MenuPrincipal.vue';
 import { useConfigStore } from "../../../stores/config.js";
 
 //Imagenes
@@ -172,12 +206,19 @@ import ImagenBanano from '@/assets/img/banano.png';
 import ImagenFresa from '@/assets/img/fresa.png';
 import ImagenUvas from '@/assets/img/uvas.png';
 import ImagenNaranja from '@/assets/img/naranja.png';
-import ImagenAni1 from '@/assets/img/ani1.png';
-import ImagenAni2 from '@/assets/img/ani2.png';
-import ImagenAni3 from '@/assets/img/ani3.png';
+import ImagenLampara from '@/assets/img/ani1.png';
+import ImagenComputador from '@/assets/img/ani2.png';
+import ImagenSilla from '@/assets/img/ani3.png';
 import ImagenCalculadora from '@/assets/img/calculadora.png';
 import ImagenPc from '@/assets/img/pc.png';
 import ImagenLibro from '@/assets/img/libros.png';
+
+//Textos Instrucciones
+import { instruccionesJuegoOjos } from "@/assets/textos/TextosInstrucciones.js";
+
+const isVisibleNivel = ref(false)
+const isInstruccionesPausaVisible = ref(false)
+
 
 
 
@@ -204,10 +245,11 @@ const tiempoElemenos = ref(2500)
 const ocultarInstrucciones = ref(true)
 const ocultarIntroNivel = ref(false)
 const cargarActividad = ref(false)
-const mostrarMensajeFinal = ref(false)
+const mostrarMensaje = ref(false)
 const temas = ref(["animal", "colores", "oficina", "paises"]);
 const tamanoContenedor = ref(null)
 
+const instruccionesActividad = ref(instruccionesJuegoOjos)
 
 //Opciones del cronometro.
 const habilitarCronometro = ref(false)
@@ -216,14 +258,16 @@ const mostrarcronometro = ref(false)
 
 const ocultarVentanaInstrucciones = () => {
   ocultarInstrucciones.value = !ocultarInstrucciones.value
-  ocultarIntroNivel.value = true
+  if (isVisibleNivel.value == false) {
+    ocultarIntroNivel.value = true
+    isVisibleNivel.value = true
+  }
 
 }
 
 const finAnimacionIntro = () => {
   ocultarIntroNivel.value = false
   cargarActividad.value = true
-  inicioActividad()
 }
 
 
@@ -245,11 +289,11 @@ const imagenes = reactive({
     { imagen: ImagenBanano, tipo: "fruta" },
     { imagen: ImagenNaranja, tipo: "fruta" },
     { imagen: ImagenFresa, tipo: "fruta" },
-    { imagen: ImagenAni1, tipo: "animal" },
-    { imagen: ImagenAni2, tipo: "animal" },
-    { imagen: ImagenAni3, tipo: "animal" }
-    /*     { imagen: ImagenAni1, tipo: "animal" },
-    { imagen: ImagenAni2, tipo: "animal" },
+    { imagen: ImagenLampara, tipo: "oficina" },
+    { imagen: ImagenComputador, tipo: "oficina" },
+    { imagen: ImagenSilla, tipo: "oficina" }
+    /*     { imagen: ImagenLampara, tipo: "animal" },
+    { imagen: ImagenComputador, tipo: "animal" },
     { imagen: ImagenCalculadora, tipo: "oficina" },
     { imagen: ImagenPc, tipo: "oficina" },
     { imagen: ImagenLibro, tipo: "oficina" },
@@ -268,6 +312,11 @@ const styleObjectPositionArriba = reactive({
   height: '15vh',
   cursor: "pointer"
 });
+
+
+const mostrarMenu = () => {
+  config.setMenuEstadoVisible(!config.menuEstadoVisible)
+}
 
 
 const styleObjectPositionAbajo = reactive({
@@ -320,11 +369,15 @@ onBeforeMount(() => {
 
 });
 
-const inicioActividad = () => {
+const InstruccionesMostrar = () => {
+  if (isInstruccionesPausaVisible.value) {
+    ocultarInstrucciones.value = false
+  } else {
+    ocultarInstrucciones.value = true
+  }
 
-
+  /* isInstruccionesPausaVisible = !isInstruccionesPausaVisible */
 }
-
 
 const continuarActividad = () => {
   isTemasRandomVisible.value = true
@@ -379,7 +432,10 @@ const animarElementsoAleatorios = () => {
 
 
 const validarClick = (elemento, id) => {
+  
   let busqueda = Object.values(temasSeleccionadosArray.value)
+  console.log(elemento)
+  console.log(busqueda[0].toLowerCase(), elemento.toLowerCase())
   if (busqueda[0].toLowerCase() == elemento.toLowerCase()) {
     document.getElementById(`${id}`).style.filter = "drop-shadow(2px 4px 6px green)";
     puntos_correctos.value = puntos_correctos.value + 1
@@ -406,7 +462,8 @@ const limpiarTiempo = () => {
     elemento.style.visibility = 'hidden'
   })
 
-  mostrarMensajeFinal.value = true
+  mostrarMensaje.value = true
+  config.setPuntosGlobales(puntos_correctos.value)
   isTemasRandomVisible.value = false
 }
 
@@ -567,6 +624,12 @@ const volverEscenario = () => {
 
 }
 
+.contenedor-slider {
+  width: 100%;
+  height: 40vh;
+  overflow: hidden;
+}
+
 .objetos-actividad-1 {
   display: inline-block
 }
@@ -580,6 +643,31 @@ const volverEscenario = () => {
   display: block
 }
 
+.juego-visual-slider {
+  display: flex;
+  place-content: center;
+  align-items: center;
+  gap: 7px;
+  justify-content: space-between;
+}
+
+.juego-visual-slider div {
+  border: 1px solid var(--azul-axa);
+  border-radius: 23px;
+  width: 11vw;
+  height: 20vh;
+  display: flex;
+  place-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.item-slider img {
+  object-fit: scale-down;
+  width: 22vh;
+  height: fit-content;
+  border-radius: 23px;
+}
 
 .contenedor-temas-aleatorios {
   width: 70vw

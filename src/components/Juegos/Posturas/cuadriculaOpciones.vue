@@ -88,7 +88,8 @@
                 </div>
 
                 <!--  -->
-                <Cronometro v-if="mostrarcronometro" :isRun="habilitarCronometro" segundos="12" @endTime="FinOpcion" />
+                <Cronometro v-if="mostrarcronometro" :isRun="habilitarCronometro" :segundos="actualizarTiempoPausa"
+                    @endTime="FinOpcion" />
                 <div class="btn-ayuda tooltip" v-if="opcionCorrecta" @click="VerInstruccionesPausa">
                     <span class="tooltiptext">Ver Instrucciones</span>
                 </div>
@@ -112,9 +113,11 @@
                             <div v-if="!continuar"
                                 class="contenedor-opciones   animate__animated animate__fadeIn  animate__zoomIn">
 
-                                <CuadriculaNumero v-if="visible" :numero="imagen.valorCheck" :posicion="index + 1" :idImagenEjericicio="imagen.IdInstruccion"
+                                <CuadriculaNumero v-if="visible" :numero="imagen.valorCheck" :posicion="index + 1"
+                                    :idImagenEjericicio="imagen.idInstruccion"
                                     :opcion="opcionIdInterroganteSeleccionada" :girarOpciones="girarOpcionesFiguras"
                                     @finAnimacionFlip="finAnimacionFlip" @OpcionCorrecto="opcionSiguiente"
+                                    @OpcionInCorrecto="aumentarPuntosMalos"
                                     :srcUrlImagen="mostrarImagen ? imagen.imagen : Interrogante">
 
                                 </CuadriculaNumero>
@@ -124,8 +127,13 @@
                     </div>
                 </div>
                 <div v-if="opcionCorrecta">
-                    <div class="auto">
-                        <div class="title">¡Hora de realizar el ejercicio!</div>
+                    <div class="titulo auto">
+                        <h4>Si por recomendación médica no debe realizar el ejercicio, por favor
+                            abstenerse.</h4>
+                        <h3>Cuando esté listo para hacer la pausa activa, debe dar clic sobre el botón comenzar para que
+                            el tiempo del cronómetro inicie.</h3>
+                        <h2>¡Hora de realizar el ejercicio!</h2>
+
                     </div>
                     <div class="contenedor-ejercicio-realizado  gap-4">
                         <div :style="styleItemsCuadricula">
@@ -151,9 +159,9 @@
                     </div> -->
 
                     </div>
-                    <div class="auto flex-center-elements-row gap-2" style="text-align:center;height:5vh">
+                    <!--  <div class="auto flex-center-elements-row gap-2" style="text-align:center;height:5vh">
                         <div v-if="finTiempo" class="btn-primary" @click="continuarSiguienteActividad">CONTINUAR</div>
-                    </div>
+                    </div> -->
                 </div>
                 <div v-if="ocultarBotonComenzarActividad"
                     :class="{ 'habilitar-boton-listo': ocultarBotonComenzarActividad }"
@@ -189,10 +197,14 @@
                         </div>
 
                     </div>
-                    <div
+                    <!-- <div
                         :style="{ background: `transparent url(${opcionImagenInterroganteSeleccionada}) no-repeat center center`, width: '320px', height: '320px', backgroundSize: '100% 100%', width: '300px' }">
-                        <!-- <img :id="mostrarImagen" :src="mostrarImagen" alt="" width="320" height="320"> -->
+                        <img :id="mostrarImagen" :src="mostrarImagen" alt="" width="320" height="320">
+                    </div> -->
+                    <div>
+                        <VideoPausas :videoPausa="videoPausa" :mostrarImagen="opcionImagenInterroganteSeleccionada" />
                     </div>
+
 
                 </div>
             </template>
@@ -219,6 +231,7 @@ import InstruccionesPausa from '@/components/InstruccionesPausas.vue';
 import CaramaWeb from '@/components/Camaraweb/CamaraWeb.vue'
 import MenuPrincipal from '@/components/MenuPrincipal.vue';
 import Interrogante from '@/assets/img/manos/pregunta.png'
+import VideoPausas from '@/components/videoPausas.vue';
 
 //Imagenes Demo
 import WarnList from '@/assets/img/warn-list.png';
@@ -242,6 +255,7 @@ const numero = ref(null)
 const visible = ref(true)
 const ocultarInstrucciones = ref(true)
 const ocultarIntroNivel = ref(false)
+const isVisibleNivel = ref(false)
 const imagenRamdom = ref(false)
 const cargarActividad = ref(false)
 const mensajeFinal = ref(false)
@@ -270,6 +284,7 @@ const mostrarCronometro = ref(false)
 const opcionSeleccionada = ref(null)
 const IsVisibleInstruccion = ref(false)
 const BotonInicio = ref(true)
+const tiempoActividad = ref(10)
 
 
 //Opciones del cronometro.
@@ -290,21 +305,21 @@ onMounted(() => {
     })
     pausasActivasInstrucciones.value = pausasActivasInstrucciones.value.sort(() => Math.random() - 0.5);
 
-    console.log(pausasActivasInstrucciones)
+
 
     imagenesReferencia.value = imagenesReferencia.value.sort(() => Math.random() - 0.5)
 
 
     Object.values(pausasActivasInstrucciones.value).forEach((element, index) => {
         const { imagen } = element
-        imagesActividadesPausas.value.push({ imagen: imagen == undefined ? null : imagen, IdInstruccion: element.id })
+        imagesActividadesPausas.value.push({ imagen: imagen == undefined ? null : imagen, idInstruccion: element.id })
     })
 
 
     //Excluimos las imagenes que estn null, es decir no tiene imagen.
-     imagesActividadesPausas.value = Object.values(imagesActividadesPausas.value).filter(pausa => {
-         return pausa.imagen !== null
-     })
+    imagesActividadesPausas.value = Object.values(imagesActividadesPausas.value).filter(pausa => {
+        return pausa.imagen !== null
+    })
 
 
     //Colocamos aleatorias las imagenes.
@@ -333,8 +348,7 @@ const configurarActividad = (valor) => {
             { id: 4, ...imagesActividadesPausas.value[3], valorCheck: 4 }
         ]
 
-        console.log(imagenesReferenciaRandom.value)
-        console.log(imagenesReferencia.value)
+
 
         styleCuadricula.gridGap = "5vh 20vh"
         styleCuadricula.gridTemplateColumns = `repeat(2,1fr)`
@@ -342,12 +356,12 @@ const configurarActividad = (valor) => {
 
     } else {
         imagenesReferenciaRandom.value = [
-            {  id: 1,...imagesActividadesPausas.value[0], valorCheck: 1 },
-            {  id: 2,...imagesActividadesPausas.value[1], valorCheck: 2 },
-            {  id: 3,...imagesActividadesPausas.value[2], valorCheck: 3 },
-            {  id: 4,...imagesActividadesPausas.value[3], valorCheck: 4 },
-            {  id: 5,...imagesActividadesPausas.value[4], valorCheck: 5 },
-            {  id: 6,...imagesActividadesPausas.value[5], valorCheck: 6 }
+            { id: 1, ...imagesActividadesPausas.value[0], valorCheck: 1 },
+            { id: 2, ...imagesActividadesPausas.value[1], valorCheck: 2 },
+            { id: 3, ...imagesActividadesPausas.value[2], valorCheck: 3 },
+            { id: 4, ...imagesActividadesPausas.value[3], valorCheck: 4 },
+            { id: 5, ...imagesActividadesPausas.value[4], valorCheck: 5 },
+            { id: 6, ...imagesActividadesPausas.value[5], valorCheck: 6 }
         ]
 
         imagenesReferencia.value = [
@@ -434,11 +448,15 @@ const stylecontendorInterrogante = reactive({
 
 const textoDescripcionPause = computed(() => textoInstruccionPausa.value[0]?.instruccion)
 const mostrarVentanaInstrucciones = computed(() => isInstruccionesPausaVisible.value)
+const actualizarTiempoPausa = computed(() => tiempoActividad.value)
 
 
 const ocultarVentanaInstrucciones = () => {
     ocultarInstrucciones.value = !ocultarInstrucciones.value
-    ocultarIntroNivel.value = true
+    if (isVisibleNivel.value == false) {
+        ocultarIntroNivel.value = true
+        isVisibleNivel.value = true
+    }
 
 }
 
@@ -479,14 +497,43 @@ const finLoadCamara = () => {
 }
 
 
+const aumentarPuntosMalos = () => {
+    puntosMalos.value = puntosMalos.value + 1
+}
+
+const aumentarPuntosBuenos = () => {
+    puntosBuenos.value = puntosBuenos.value + 1
+}
+
+const guardarPuntos = () => {
+    let puntos_finales = puntosBuenos.value - puntosMalos.value
+    if (puntos_finales < 0) {
+        puntos_finales = puntos_finales * -1
+    }
+    config.setPuntosGlobales(puntos_finales)
+}
+
+
+const configurarTiempoPausas = (id) => {
+    console.log(id)
+    console.log(imagesActividadesPausas.value)
+    //Configuracion de tiempo para el cronometro dependiento de las pausas.
+    let tiempoPausa = Object.values(imagesActividadesPausas.value).filter((elementPausaId) => {
+        return elementPausaId.idInstruccion == id
+    })
+
+    console.log(tiempoPausa)
+
+    //Configuramos el tiempo de la pausa de acuerdo a lo programado en el archivo pausas
+    tiempoActividad.value = 0 //Reiniciamos el tiempo
+    tiempoActividad.value = tiempoPausa[0].tiempo
+}
+
 const continuarSiguienteActividad = () => {
-
-
-
-
     if ((Object.values(imagenesReferenciaRandom.value).length) == 0) {
 
         mensajeFinal.value = true
+        guardarPuntos()
     } else {
         camaraWebCargada.value = false
         habilitarCronometro.value = false
@@ -550,8 +597,6 @@ const continuarActividad = () => {
 
 const opcionSiguiente = (idInstruccion) => {
 
-
-
     isInstruccionesPausaVisible.value = true
     mostrarMensajesIntroduccion.value = false
 
@@ -559,8 +604,20 @@ const opcionSiguiente = (idInstruccion) => {
         return element.id == idInstruccion
     })
 
-    textoInstruccionPausa.value = buscarInstruccionesEjercicio(Object.values(elementClickCorrecto)[0].IdInstruccion)
-    puntosBuenos.value = puntosBuenos.value + 1
+    textoInstruccionPausa.value = buscarInstruccionesEjercicio(Object.values(elementClickCorrecto)[0].idInstruccion)
+
+    //Buscamos el id de la instruccion correspondiente a la pausa.
+    /*   let idClick = Object.values(imagenesReferencia.value).filter((elementPausaId) => {
+          return elementPausaId.idInstruccion == idInstruccion
+      })[0]?.idIntrucciones
+  
+      console.log(Object.values(elementClickCorrecto)[0].idInstruccion)
+      console.log(idClick) */
+
+    configurarTiempoPausas(Object.values(elementClickCorrecto)[0].idInstruccion)
+
+    /* puntosBuenos.value = puntosBuenos.value + 1 */
+    aumentarPuntosBuenos()
 
 
 }
@@ -568,6 +625,7 @@ const opcionSiguiente = (idInstruccion) => {
 
 const ocultarVentanaInstruccionesPausas = () => {
     mostrarcronometro.value = true
+    ocultarBotonComenzarActividad.value = true
     isInstruccionesPausaVisible.value = !isInstruccionesPausaVisible.value
     opcionCorrecta.value = true
     finTiempo.value = false
@@ -617,7 +675,7 @@ const FinOpcion = () => {
         mostrarcronometro.value = false
         monstrarBotonCerrarInstrucciones.value = false
         isInstruccionesPausaVisible.value = false
-
+        continuarSiguienteActividad()
 
     }
 
@@ -669,9 +727,25 @@ const OcultarBotonComenzar = () => {
 </script>
 
 <style lang="css" scoped>
+h2 {
+    font-family: Source Sans Pro;
+    font-size: 1em;
+    color: black;
+    font-weight: 500;
+    text-align: center
+}
+
+h3 {
+    font-family: Source Sans Pro;
+    font-size: 1em;
+    color: black;
+    font-weight: normal;
+    text-align: center
+}
+
 .contenedor-ejercicio-realizado {
-    width: 70vw;
-    height: 58vh;
+    width: 100%;
+    height: 44vh;
     text-align: center;
     display: flex;
     align-items: center;
@@ -715,6 +789,7 @@ const OcultarBotonComenzar = () => {
 .imagen-random-img img {
     width: auto;
     height: 21rem;
+    padding: 14px
 }
 
 
@@ -733,6 +808,16 @@ const OcultarBotonComenzar = () => {
     background-image: url('@/assets/img/fondoEscenario.png');
     background-size: 100% 100%;
 
+}
+
+
+.titulo {
+    width: 80%;
+    text-align: center;
+    font-family: Source Sans Pro;
+    font-size: var(--h2-title-size);
+    color: black;
+    font-weight: normal;
 }
 
 
@@ -755,15 +840,7 @@ const OcultarBotonComenzar = () => {
     margin-bottom: 2px;
 }
 
-.texto-descripcion-pausas {
-    text-align: justify;
-    font-family: Source Sans Pro;
-    font-size: 1.1em;
-    color: black;
-    font-weight: normal;
-    padding: 19px;
-    height: 30vh;
-}
+
 
 
 

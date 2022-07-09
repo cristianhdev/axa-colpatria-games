@@ -4,8 +4,7 @@ import { useStorage } from '@vueuse/core'
 export const useConfigStore = defineStore({
   id: 'counter',
   state: () => ({
-    /* counter: useStorage('contador', 0),
-    titulo: useStorage('titulo', 'hola') */
+    puntosGlobales: useStorage('puntosGlobalesActividad', 0),
     counter: 0,
     titulo: 'hola',
     menuEstado: false,
@@ -30,7 +29,8 @@ export const useConfigStore = defineStore({
     actividadActual: (state) => state.actividad,
     actividadCompletada: (state) => state.actividadRealizadaCompletada,
     audioPausas: (state) => state.audioEstadoPausas,
-    posicionActualActividades: (state) => state._posicionActualActividades
+    posicionActualActividades: (state) => state._posicionActualActividades,
+    puntosGlobalesActividad: (state) => state.puntosGlobales
   },
   actions: {
     increment() {
@@ -69,6 +69,9 @@ export const useConfigStore = defineStore({
       }
 
     },
+    setPuntosGlobales(puntos) {
+      this.puntosGlobales = this.puntosGlobales + puntos
+    },
     setActividadCompletada() {
       this.actividadRealizadaCompletada.push(1)
     },
@@ -78,7 +81,8 @@ export const useConfigStore = defineStore({
     reiniciarTodo(infoActividad) {
       this.posicionActualEscenario = 0
       this._posicionActualActividades = 0
-      this.actividad=[]
+      this.puntosGlobales = 0
+      this.actividad = []
       this.actividadRealizadaCompletada = []
     }
   },

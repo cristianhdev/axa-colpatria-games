@@ -184,9 +184,9 @@ const styleOvalo = reactive({
 
 
 onMounted(() => {
-    /*  rutasActividad.value = rutasActividad.value.reverse() */
-    /*  let temporal = rutasActividad.value.sort(() => Math.random() - 0.5)
-     rutasActividad.value = temporal */
+     rutasActividad.value = rutasActividad.value.reverse()
+     let temporal = rutasActividad.value.sort(() => Math.random() - 0.5)
+     rutasActividad.value = temporal
     /* console.log(rutasActividad.value) */
     //console.log()
 

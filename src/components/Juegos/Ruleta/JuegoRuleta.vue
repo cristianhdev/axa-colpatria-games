@@ -505,6 +505,7 @@ const opcionCorrecta = (correcta, actual, id) => {
                             puntosBuenos.value = puntosBuenos.value + 1
                             if (puntosBuenos.value == 3) {
                                 mostrarMensaje.value = true
+                                config.setPuntosGlobales(puntosBuenos.value)
                                 acomuladorPuntos.value = acomuladorPuntos.value + 5
                             } else {
                                 rotate.value.restart()
@@ -530,6 +531,7 @@ const opcionCorrecta = (correcta, actual, id) => {
                         puntosBuenos.value = puntosBuenos.value + 1
                         if (puntosBuenos.value == 3) {
                             mostrarMensaje.value = true
+                            config.setPuntosGlobales(puntosBuenos.value)
                             acomuladorPuntos.value = acomuladorPuntos.value + 5
                         } else {
                             rotate.value.restart()

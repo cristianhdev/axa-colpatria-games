@@ -1,20 +1,25 @@
 export const instruccionesBienvenida = [
-    '!Para empezar, deberá diligenciar sus datos y activar su cámara web! Si no tienes una, no te preocupes, igual podrás continuar.',//slider1
-    'Cuando sea redirigido al escenario, su personaje irá avanzando automáticamente sin que Ud deba realizar ningún clic sobre la pantalla. Al llegar a cada estación deberá seguir las instrucciones para realizar cada uno de los minijuegos que presentan las pausas activas. No olvide seguir detalladamente cada una de las instrucciones que se muestran al ingresar a los juegos.',//slider2
-    'Durante su recorrido y luego de realizar correctamente 2 pausas activas, tendrá un gran reto de conocimiento ¿estás listo? ',//slider3
-    'Al finalizar todo el recorrido de cada uno de los escenarios, se presentará un balance con los resultados y beneficios obtenidos por la correcta realización de las pausas activas. <br><br>Recuerde que realizar pausas activas ayuda a reducir el estrés (barra de medición azul), aumentar la energía (barra de medición verde) y favorecer la salud (barra de medición roja) de los trabajadores, por ello, es muy importante realizarlas.'//slider4
+    '¡Para empezar, deberá colocar su nombre y autorizar el acceso a su cámara web! <br><br> Si no tiene cámara web, no se preocupe, igual podrá jugar.',//slider1
+    'Cada vez que sea redirigido a un escenario (encontrará 2 en el juego a medida que avance), el personaje avanzará automáticamente, no hace falta que de clic sobre ningún punto de la pantalla.<br><br>Al llegar a cada estación, debe primero leer atentamente las instrucciones que se presentan para realizar cada uno de los juegos que mostrarán las pausas activas.',//slider2
+    'Durante su recorrido deberá realizar correctamente los juegos que muestran las pausas activas a ejecutar. Encontrará diferentes mecánicas de juegos antes de pasar a realizar cada pausa activa.',//slider3
+    'Luego de ejecutar 2 dinámicas de juegos y realizar las pausas activas propuestas, tendrá un gran reto de conocimiento donde deberá responder de forma asertiva tres preguntas que se presentarán a través de la actividad de la ruleta ¿estás listo?',//slider4
+    'Al finalizar todo el recorrido de cada uno de los escenarios, se presentará un balance con los resultados y beneficios obtenidos por la correcta realización de las pausas activas. <br><br> Recuerde que realizar pausas activas ayuda a reducir el estrés (barra de medición azul), aumentar la energía (barra de medición verde) y favorecer la salud (barra de medición roja) de los trabajadores, por ello, es muy importante realizarlas.'//slider5
 ]
 
 
 export const instruccionesJuegoConcentrese = [
-    'Voltee las fichas que se encuentran con el signo (?), dando clic sobre sus dos opciones para encontrar las parejas correspondientes a cada una de las pausas activas. <br><br> Una vez consiga una pareja, será hora de realizar el ejercicio. Recuerde leer atentamente las instrucciones de cada una de las pausas activas antes de continuar.',
+    'Dar clic sobre dos de los recuadros que se encuentran con el signo de interrogación (?) para encontrar la pareja de cada pausa activa.<br><br> Una vez encontrada cada pareja, deberá realizar la pausa activa. Recuerde leer atentamente las instrucciones de cada una de ellas antes de continuar.',
 ]
 
 export const instruccionesJuegoManos = [
-    `Memorice la secuencia de ejercicios que se presentan en la pantalla inicial y de clic sobre continuar.
-    Será redirigido a una segunda pantalla, en ésta, deberá repetir la secuencia memorizada en la pantalla anterior dando clic sobre los íconos de las flechas, fije los ejercicios correspondientes a la secuencia memorizada ¡gánele al tiempo y logre hacerla correctamente!
+    `Memorice la secuencia de los ejercicios de las manos que se presentan en la primera pantalla.<br><br>
+    Al continuar, deberá reflejar haciendo uso de las flechas, la secuencia presentada en la primera pantalla.<br><br>
+    Una vez responda correctamente, deberá realizar la secuencia presentada con sus manos. Recuerde leer atentamente las instrucciones de cada una antes de continuar.
      `,
 ]
+
+
+
 
 export const instruccionesJuegoPosturas = [
     `Memorice la ubicación de cada una de las pausas activas. <br><br>
@@ -24,12 +29,16 @@ export const instruccionesJuegoPosturas = [
 ]
 
 export const instruccionesJuegoPosturaAudios = [
-    `Memorice el sonido de cada una de las pausas activas dando clic sobre el símbolo del megáfono. <br> <br>
-Al continuar, aparecerá aleatoriamente una de ellas.  Deberá escuchar el sonido correspondiente a la pausa activa, dando clic sobre el megáfono nuevamente. Dando clic sobre el símbolo (?) podrá seleccionar la opción que considere correcta. 
-Al responder bien, deberá realizar la pausa activa propuesta. Lea atentamente las instrucciones antes de continuar con el ejercicio. 
-`,
+    `Memorice y escuche el sonido de cada una de las pausas activas que se presentan en la primera pantalla dando clic sobre el megáfono.<br> <br>
+    Al continuar, escuche el sonido de la pausa activa que se le esté preguntando en la segunda pantalla, dando nuevamente clic sobre el megáfono y seleccione la opción que considere correcta.<br><br> 
+    Una vez responda correctamente, deberá realizar la pausa activa. Recuerde leer atentamente las instrucciones de cada una antes de continuar.`,
 ]
 
 export const instruccionesJuegoRuleta = [
-    'Al dar clic sobre continuar, la ruleta girará automáticamente. Tendrá un reto de conocimiento, deberá responder correctamente mínimo 3 preguntas relacionadas con pausas activas para poder continuar <br><br>  ¡Mucha suerte!',
+    'Al dar clic sobre continuar la ruleta girará automáticamente.<br><br> Deberá responder correctamente mínimo 3 preguntas relacionadas con pausas activas para continuar avanzando en el escenario.<br><br></br>¡Mucha suerte!',
 ]
+
+export const instruccionesJuegoOjos = [
+    'Para este ejercicio, mantenga la cabeza recta. Con la vista seguir  los elementos que aparecerán en la pantalla de todas las direcciones (arriba, abajo, derecha e izquierda), y de acuerdo al tema seleccionado en el juego (ej: oficina), debe dar clic sobre estos, siempre siguiendo de forma concentrada los elementos que vayan apareciendo.',
+]
+

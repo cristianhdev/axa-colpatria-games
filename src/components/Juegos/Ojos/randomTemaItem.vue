@@ -3,12 +3,13 @@
         <div class="interrogacion ">
             <slot name="texto">
                 <div class="tema-texto">Selecciona las siguientes imagenes:<br><br>
-                 <bold>{{ tema }}</bold></div>
+                    <bold>{{ tema }}</bold>
+                </div>
             </slot>
 
             <!--  {{temas.opciones}} -->
         </div>
-      
+
         <div class="tema-texto flex-center-elements-row gap-2">
 
             <div class="contenedor-imagenes" v-if="finGiros">
@@ -63,9 +64,16 @@ onBeforeMount(() => {
 })
 
 const generarTemasAleatorios = () => {
+    finGiros.value = true
+    temaSeleccionado.value = temas.value.sort(() => Math.random() - 0.5)[1]
+    tema.value = temaSeleccionado.value.charAt(0).toUpperCase() + temaSeleccionado.value.slice(1);
+    emit("finSeleccionTemas", tema.value.toLocaleLowerCase())
+}
+
+const aleatorios = () => {
     /**
-     * ! la linea inferior no tomarla encuenta.
-     */
+    * ! la linea inferior no tomarla encuenta.
+    */
     /* temas.value=temas.value.sort(() =>{ Math.random()-0.5}) */
     let numero = 0;
     giros.value = generarGirosAleatorios()

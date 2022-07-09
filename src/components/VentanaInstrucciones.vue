@@ -111,7 +111,7 @@ const styleImagenTexto = reactive({
 .texto-instrucciones {
     width: 70vw;
     height: 530px;
-    max-height: 514px;
+    max-height: 535px;
     display: flex;
     flex-direction: column;
     justify-content: center;

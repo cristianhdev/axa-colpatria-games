@@ -70,19 +70,17 @@
 
         <div class="contenedor-parlantes  center-element">
             <!--  -->
-            <Cronometro v-if="mostrarcronometro" :isRun="habilitarCronometro" :segundos="tiempoActividad"
+            <Cronometro v-if="mostrarcronometro" :isRun="habilitarCronometro" :segundos="actualizarTiempoPausa"
                 @endTime="activarNavegacionSliders" />
             <div class="btn-ayuda tooltip" v-if="mostrarTooltip" @click="VerInstruccionesPausa">
                 <span class="tooltiptext">Ver Instrucciones</span>
             </div>
             <div v-if="!continuar" class="titulo">
 
-                <div>Escuche cada uno de los audios y relacionalo con las imagenes, cuando estes listo da
-                    clic en continuar.</div>
+                <div>Memorice y escuche el sonido de cada una de las pausas activas que se presentan, dando clic sobre
+                    el megáfono. Cuando esté listo debe dar clic sobre continuar.</div>
             </div>
             <div v-if="!continuar" class="contenedor-opciones flex-center-elements-column gap-1">
-
-
                 <div :style="styleParlantes">
                     <div v-for="(imagen, index) in imagenes" :key="imagen + '-' + index">
 
@@ -112,13 +110,20 @@
 
             </div>
             <div v-if="continuar" class="flex-center-elements-row gap-1">
-                <div v-if="!mostrarCamaraCalentamiento">
-                    <div class="titulo">Escuche el audio, según el sonido a que ejercicio hace referencia</div>
-                </div>
-                <div v-else>
-                    <div class="title">¡Hora de realizar el ejercicio!</div>
-                </div>
+                <div class="titulo auto">
+                    <div v-if="!mostrarCamaraCalentamiento">
+                        <div>Escuche el audio dando clic sobre el megáfono, este sonido ¿a cuál pausa activa pertenece?
+                        </div>
+                    </div>
+                    <div v-else>
+                        <h4>Si por recomendación médica no debe realizar el ejercicio, por favor
+                            abstenerse.</h4>
 
+                        <h3>Cuando esté listo para hacer la pausa activa, debe dar clic sobre el botón comenzar para que
+                            el tiempo del cronómetro inicie.</h3>
+                        <h2>¡Hora de realizar el ejercicio!</h2>
+                    </div>
+                </div>
             </div>
             <div class="parlante-pregunta flex-center-elements-row gap-4">
 
@@ -150,7 +155,7 @@
                                     <img id="imagen-pregunta-ejercicio" :src="imagenCorrecta" width="350" height="350"
                                         alt="">
                                 </div>
-                                <div class=" contenedor-camara-pausa flex-center-elements-column">
+                                <div v-if="camaraReady" class=" contenedor-camara-pausa flex-center-elements-column">
                                     <CaramaWeb :width="250" :height="250" @camaraLoad="finLoadCamara" />
                                     <!--  -->
                                     <div class="flex-center-elements-column loading-camara" style="position: absolute;"
@@ -181,7 +186,7 @@
                             :class="{ 'imagenes-opciones-click': opcionClicked, 'diabled-click-filter': !habilitarOpciones }"
                             v-for="img in imagenes" :key="`img-${img.id}`" :id="`figura-click-${img.id}`"
                             @click="comprobarRespuesta(img.id)">
-                            
+
                             <img :src="mostrarImagen ? img.imagen : Interrogante" width="130" height="150" alt="">
                         </div>
                     </div>
@@ -260,36 +265,7 @@ import ImagenParlante from '@/assets/img/paralanteIcono.png'
 import WarnList from '@/assets/img/warn-list.png';
 import ChetList from '@/assets/img/chek-list.png';
 
-//Ejericicios Postura -Gif
 
-import ImagenEjercicio1 from '@/assets/img/Ejercicio1.png'
-import Ejercicio1 from '@/assets/ejercicios/EJ_P1.gif'
-import Ejercicio2 from '@/assets/ejercicios/EJ_P2.gif'
-import Ejercicio3 from '@/assets/ejercicios/EJ_P3.gif'
-import Ejercicio4 from '@/assets/ejercicios/EJ_P4.gif'
-import Ejercicio5 from '@/assets/ejercicios/EJ_P5.gif'
-import Ejercicio6 from '@/assets/ejercicios/EJ_P6.gif'
-import Ejercicio7 from '@/assets/ejercicios/EJ_P7.gif'
-import Ejercicio8 from '@/assets/ejercicios/EJ_P8.gif'
-import Ejercicio9 from '@/assets/ejercicios/EJ_P9.png'
-import Ejercicio10 from '@/assets/ejercicios/EJ_P10.png'
-import Ejercicio11 from '@/assets/ejercicios/EJ_P11.gif'
-import Ejercicio12 from '@/assets/ejercicios/EJ_P12.png'
-import Ejercicio13 from '@/assets/ejercicios/EJ_P13.png'
-import Ejercicio14 from '@/assets/ejercicios/EJ_P14.gif'
-import Ejercicio15 from '@/assets/ejercicios/EJ_P15.gif'
-import Ejercicio16 from '@/assets/ejercicios/EJ_P16.gif'
-import Ejercicio17 from '@/assets/ejercicios/EJ_P17.gif'
-import Ejercicio18 from '@/assets/ejercicios/EJ_P18.png'
-import Ejercicio19 from '@/assets/ejercicios/EJ_P19.png'
-import Ejercicio20 from '@/assets/ejercicios/EJ_P20.png'
-import Ejercicio21 from '@/assets/ejercicios/EJ_P21.png'
-import Ejercicio22 from '@/assets/ejercicios/EJ_P22.png'
-import Ejercicio23 from '@/assets/ejercicios/EJ_P23.png'
-import Ejercicio24 from '@/assets/ejercicios/EJ_P24.gif'
-import Ejercicio25 from '@/assets/ejercicios/EJ_P25.gif'
-import Ejercicio26 from '@/assets/ejercicios/EJ_P26.gif'
-import Ejercicio27 from '@/assets/ejercicios/EJ_P27.gif'
 
 //Sonidos
 import Soundlife from '@/assets/sounds/life.mp3'
@@ -321,6 +297,7 @@ const isInstruccionesPausaVisible = ref(false)
 const camaraReady = computed(() => config.isCamara)
 const ocultarIntroNivel = ref(false)
 const ocultarInstrucciones = ref(true)
+const isVisibleNivel = ref(false)
 const mostrarOpcionesrandomAudios = ref(false)
 const finTime = ref(false)
 const reiniciarCronometro = ref(false)
@@ -332,7 +309,9 @@ const aleatorioSonidos = ref([])
 const opcionClicked = ref(false)
 const continuar = ref(false)
 const cronometroMostrarOpciones = ref(false)
+//Puntos
 const puntosBuenos = ref(0)
+const puntosMalos = ref(0)
 const mensajeFinal = ref(false)
 
 const repetirAudio = ref(false)
@@ -371,22 +350,20 @@ onMounted(() => {
 
     Object.values(pausasActivasInstrucciones.value).forEach((element, index) => {
         const { imagen } = element
-        imagesActividadesPausas.value.push({ imagen: imagen == undefined ? null : imagen, idIntrucciones: element.id, finalizado: false })
+        imagesActividadesPausas.value.push({ imagen: imagen == undefined ? null : imagen, idIntrucciones: element.id, finalizado: false, tiempo: element.tiempo })
     })
 
 
     //Excluimos las imagenes que estn null, es decir no tiene imagen.
-     imagesActividadesPausas.value = Object.values(imagesActividadesPausas.value).filter(pausa => {
-         return pausa.imagen !== null
-     })
+    imagesActividadesPausas.value = Object.values(imagesActividadesPausas.value).filter(pausa => {
+        return pausa.imagen !== null
+    })
 
 
     //Colocamos aleatorias las imagenes.
     imagesActividadesPausas.value = imagesActividadesPausas.value.sort(() => Math.random() - 0.5);
 
     console.log(imagesActividadesPausas.value)
-
-    console.log(pausasActivasInstrucciones.value)
 })
 
 
@@ -400,8 +377,8 @@ const mostrarMenu = () => {
 
 
 const continuarAtividad = () => {
-    continuar.value = !continuar.value
-    mostrarOpcionesrandomAudios.value = !mostrarOpcionesrandomAudios.value
+    continuar.value = true
+    mostrarOpcionesrandomAudios.value = true
 
     styleContentPrueba.gridTemplateColumns = `repeat(${imagenes.value.length / 2},1fr)`
     generarSonidosAleatorios()
@@ -409,6 +386,7 @@ const continuarAtividad = () => {
 
 const textoDescripcionPause = computed(() => textoInstruccionPausa.value[0]?.instruccion)
 const mostrarVentanaInstrucciones = computed(() => isInstruccionesPausaVisible.value)
+const actualizarTiempoPausa = computed(() => tiempoActividad.value)
 
 const configurarActividad = (valor) => {
 
@@ -437,12 +415,12 @@ const configurarActividad = (valor) => {
 
     } else {
         imagenes.value = [
-            { id: 1, ...imagesActividadesPausas.value[0] ,audio: Soundlife },
-            { id: 2, ...imagesActividadesPausas.value[1] ,audio: Soundcoin },
-            { id: 3, ...imagesActividadesPausas.value[2] ,audio: Soundjump },
-            { id: 4, ...imagesActividadesPausas.value[3],audio: Soundcartoon1 },
-            { id: 5, ...imagesActividadesPausas.value[4] ,audio: Soundcartoon2 },
-            { id: 6, ...imagesActividadesPausas.value[5] ,audio: Soundcartoon3 }
+            { id: 1, ...imagesActividadesPausas.value[0], audio: Soundlife },
+            { id: 2, ...imagesActividadesPausas.value[1], audio: Soundcoin },
+            { id: 3, ...imagesActividadesPausas.value[2], audio: Soundjump },
+            { id: 4, ...imagesActividadesPausas.value[3], audio: Soundcartoon1 },
+            { id: 5, ...imagesActividadesPausas.value[4], audio: Soundcartoon2 },
+            { id: 6, ...imagesActividadesPausas.value[5], audio: Soundcartoon3 }
         ]
 
 
@@ -475,7 +453,10 @@ const habilitarOpciones = computed(() => habilitarOpcionesClick.value)
 
 const ocultarVentanaInstrucciones = () => {
     ocultarInstrucciones.value = !ocultarInstrucciones.value
-    ocultarIntroNivel.value = true
+    if (isVisibleNivel.value == false) {
+        ocultarIntroNivel.value = true
+        isVisibleNivel.value = true
+    }
 }
 
 const generarSonidosAleatorios = () => {
@@ -510,7 +491,8 @@ const styleParlantes = reactive({
     gridGap: "2vh",
     placeContent: "center",
     textAlign: "center",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+    height: "65vh"
 });
 
 
@@ -521,12 +503,28 @@ const styleContentPrueba = reactive({
 
 
 
+const aumentarPuntosMalos = () => {
+    puntosMalos.value = puntosMalos.value + 1
+}
+
+const aumentarPuntosBuenos = () => {
+    puntosBuenos.value = puntosBuenos.value + 1
+}
+
+const guardarPuntos = () => {
+    let puntos_finales = puntosBuenos.value - puntosMalos.value
+    if (puntos_finales < 0) {
+        puntos_finales = puntos_finales * -1
+    }
+    config.setPuntosGlobales(puntos_finales)
+}
 
 
 const activarNavegacionSliders = () => {
     if (puntosBuenos.value == imagenes.value.length) {
         /*  finTime.value = true */
         mensajeFinal.value = true
+        guardarPuntos()
         cronometroMostrarOpciones.value = false
         repetirAudio.value = false
         habilitarCronometro.value = false
@@ -618,7 +616,7 @@ const comprobarRespuesta = (id) => {
     if (imagenes.value[aleatorioSonidos.value[posicionAudioAleatorio.value]]?.id == id) {
         cronometroMostrarOpciones.value = true
         limpiarFiltro()
-        console.log(`#figura-click-${id} `)
+
         imagenCorrecta.value = imagenes.value[aleatorioSonidos.value[posicionAudioAleatorio.value]].imagen
         document.querySelector(`#figura-click-${id} img`).style.boxShadow = '-1px -1px 16px inset green';
         document.querySelector(`#figura-click-${id} img`).style.border = '1px solid green';
@@ -638,7 +636,15 @@ const comprobarRespuesta = (id) => {
         isInstruccionesPausaVisible.value = true
 
         posicionAudioAleatorio.value = posicionAudioAleatorio.value + 1
-        puntosBuenos.value = puntosBuenos.value + 1
+        /* puntosBuenos.value = puntosBuenos.value + 1 */
+        aumentarPuntosBuenos()
+
+
+        //Buscamos el id de la instruccion correspondiente a la pausa.
+        let idClick = Object.values(imagenes.value).filter((elementPausaId) => {
+            return elementPausaId.id == id
+        })[0].idIntrucciones
+        configurarTiempoPausas(idClick)
         /* aleatorioSonidos.value.splice(0, 1) */
         /*   if (audioAplausos.value == null) {
   
@@ -665,7 +671,7 @@ const comprobarRespuesta = (id) => {
 
     } else {
         limpiarFiltro()
-        console.log(`#figura-click-${id} `)
+
         document.querySelector(`#figura-click-${id} img`).style.boxShadow = '-1px -1px 16px inset red';
         document.querySelector(`#figura-click-${id} img`).style.border = '1px solid red';
         /* document.querySelector(`#figura-click-${id} img`).style.borderRadius = '12px'; */
@@ -690,9 +696,25 @@ const comprobarRespuesta = (id) => {
         setTimeout(() => {
             document.querySelector(`#imagen-pregunta`).style.border = 'none';
         }, 2500)
+        aumentarPuntosMalos()
     }
 }
 
+
+const configurarTiempoPausas = (id) => {
+
+    console.log(imagesActividadesPausas.value)
+    //Configuracion de tiempo para el cronometro dependiento de las pausas.
+    let tiempoPausa = Object.values(imagesActividadesPausas.value).filter((elementPausaId) => {
+        return elementPausaId.idIntrucciones == id
+    })
+
+    console.log(tiempoPausa)
+
+    //Configuramos el tiempo de la pausa de acuerdo a lo programado en el archivo pausas
+    tiempoActividad.value = 0 //Reiniciamos el tiempo
+    tiempoActividad.value = tiempoPausa[0].tiempo
+}
 
 const InstruccionesMostrar = () => {
     if (isInstruccionesPausaVisible.value) {
@@ -742,6 +764,9 @@ const ocultarVentanaInstruccionesPausas = () => {
     mostrarOpcionesrandomAudios.value = false
     mostrarcronometro.value = true
     mostrarTooltip.value = true
+    ocultarBotonComenzarActividad.value = true
+
+
 }
 
 const finLoadCamara = () => {
@@ -758,14 +783,32 @@ const OcultarBotonComenzar = () => {
 
 
 <style lang="css" scoped>
-.titulo {
-    width: 100%;
+h2 {
+    font-family: Source Sans Pro;
+    font-size: 1em;
     color: black;
+    font-weight: 500;
+    text-align: center
+}
+
+h3 {
+    font-family: Source Sans Pro;
+    font-size: 1em;
+    color: black;
+    font-weight: normal;
+    text-align: center
+}
+
+
+.titulo {
+    width: 80%;
+    text-align: center;
     font-family: Source Sans Pro;
     font-size: var(--h2-title-size);
+    color: black;
     font-weight: normal;
-    text-align: center;
 }
+
 
 
 
@@ -803,7 +846,7 @@ const OcultarBotonComenzar = () => {
 }
 
 .contenedor-ejercicio-imagen-camara {
-    height: 65vh !important
+    height: 49vh !important
 }
 
 /* .camara {
@@ -865,6 +908,11 @@ const OcultarBotonComenzar = () => {
     height: 33vh;
     grid-gap: 31px;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    position: relative
 }
 
 
@@ -971,15 +1019,8 @@ const OcultarBotonComenzar = () => {
     margin-bottom: 12px
 }
 
-.texto-descripcion-pausas {
-    text-align: justify;
-    font-family: Source Sans Pro;
-    font-size: 1.1em;
-    color: black;
-    font-weight: normal;
-    padding: 19px;
-    height: 30vh
-}
+
+
 
 
 

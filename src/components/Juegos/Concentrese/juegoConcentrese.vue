@@ -41,33 +41,42 @@
 
 
 
+
     <div class="contenedor-actividad">
+
         <div class="contenedor-items   center-element">
 
             <div class=" contenedor-concentrese flex-center-elements-row gap-1">
                 <div v-if="!opcionCorrecta" class="titulo auto">
-                    <h2>Encuentre la pareja de cada ejercicio. Recuerde que una vez encuentre una, será redirigido para
-                        realizar el ejercicio.</h2>
-
+                    <h2>Encuentre la pareja de cada pausa activa, una vez encontrada cada pareja, deberá realizar la
+                        pausa activa.</h2>
                 </div>
                 <div class=" auto flex-center-elements-column gap-1">
 
-                    <Cronometro v-if="mostrarcronometro" :isRun="habilitarCronometro" :segundos="tiempoActividad"
-                        @endTime="continuarActividad" />
+
+                    <Cronometro v-if="mostrarcronometro" :isCronometroPausa="detenerTiempo"
+                        :isRun="habilitarTiempoCronometro" :segundos="actualizarTiempoPausa"
+                        @endTime="continuarActividad" @tiempoActual="tiempoActualCronometro" />
                     <div class="btn-ayuda tooltip" v-if="opcionCorrecta" @click="VerInstruccionesPausa">
                         <span class="tooltiptext">Ver Instrucciones</span>
                     </div>
 
 
-                    <div v-if="opcionCorrecta" class=" auto flex-center-elements-column gap-4">
+                    <div v-if="opcionCorrecta" class=" auto flex-center-elements-column gap-3">
                         <div class="titulo auto">
+                            <h4>Si por recomendación médica no debe realizar el ejercicio, por favor
+                                abstenerse.</h4>
 
-                            <h2>¡Hora de realizar el ejercicio! </h2>
+                            <h3>Cuando esté listo para hacer la pausa activa, debe dar clic sobre el botón comenzar para
+                                que el tiempo del cronómetro inicie.</h3>
+                            <h2>¡Hora de realizar el ejercicio!</h2>
+
 
                         </div>
-                        <div :style="styleContenedorEjercicioRealizado" class="contenedor-ejercicio-realizado  gap-4">
+                        <div :style="styleContenedorEjercicioRealizado"
+                            class="size-imagen-pausas contenedor-ejercicio-realizado  gap-4">
                             <div
-                                :style="{ border: `1.35px solid black`, background: `transparent url(${mostrarImagen}) no-repeat center center`, width: '320px', height: '320px', backgroundSize: '100% 100%', width: '300px' }">
+                                :style="{ border: `1.35px solid black`, background: `transparent url(${mostrarImagen}) no-repeat center center`, backgroundSize: '100% 100%', width: '-webkit-fill-available', maxWidth: '25vw', height: '22vw' }">
                                 <!-- <img :id="mostrarImagen" :src="mostrarImagen" alt="" width="320" height="320"> -->
                             </div>
                             <div v-if="camaraReady">
@@ -84,7 +93,7 @@
 
                             </div>
                         </div>
-                        <div v-show="ocultarBotonComenzarActividad"
+                        <div v-if="ocultarBotonComenzarActividad"
                             :class="{ 'habilitar-boton-listo': ocultarBotonComenzarActividad }"
                             class="auto  inhabilitar-boton-listo flex-center-elements-row gap-2"
                             style="text-align:center">
@@ -100,8 +109,8 @@
                                 :id="imagen.nombre"
                                 @click="validarClick({ id: imagen.id, nombre: imagen.nombre, imagen: imagen.imagen })"
                                 :srcUrlImagen="srcUrlImagen">
-                               
-                                <ItemConcentrese :idItem="imagen.id" @clickItem="cargarPagina"
+
+                                <ItemConcentrese :idItem="imagen.id" @clickItem="cargarImagen"
                                     :nombreItem="imagen.nombre" :finActividad="activarBotonContinuar" />
 
                             </div>
@@ -114,6 +123,9 @@
                     <div class="btn-primary" @mousemove="confity" @click="volverEscenario">VOLVER AL
                         ESCENARIO</div>
                 </div>
+            </div>
+            <div v-if="monstrarMensajeCambio" class="mensaje-cambio ">
+                CAMBIO...
             </div>
 
         </div>
@@ -169,11 +181,18 @@
                         </div>
 
                     </div>
-                    <div
-                        :style="{ border: `1.35px solid black`, background: `transparent url(${mostrarImagen}) no-repeat center center`, width: '320px', height: '320px', backgroundSize: '100% 100%', width: '300px' }">
-                        <!-- <img :id="mostrarImagen" :src="mostrarImagen" alt="" width="320" height="320"> -->
-                    </div>
+                    <div>
 
+                        <VideoPausas :videoPausa="videoPausa" :mostrarImagen="mostrarImagen" />
+                        <!-- <div v-show="videoPausa">
+                           
+                        </div>
+                        <div v-show="!videoPausa"
+                            :style="{ border: `1.35px solid black`, background: `transparent url(${mostrarImagen}) no-repeat center center`, width: '320px', height: '320px', backgroundSize: '100% 100%', width: '300px' }">
+                            
+                        </div> -->
+
+                    </div>
                 </div>
             </template>
         </InstruccionesPausa>
@@ -185,7 +204,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeMount, computed, reactive } from 'vue'
-
+import animateCSS from "@/assets/helpers/animations.js";
 //COMPONENTES
 import sliderInstrucciones from "@/components/sliderInstrucciones.vue"
 import Cronometro from '../../Cronometro.vue'
@@ -195,6 +214,7 @@ import VentanaPuntosFinal from "@/components/VentanaPuntosFinal.vue"
 import VentanaIntroNivel from "@/components/VentanaIntroNivel.vue"
 import MenuPrincipal from '@/components/MenuPrincipal.vue';
 import InstruccionesPausa from '@/components/InstruccionesPausas.vue';
+import VideoPausas from '@/components/videoPausas.vue';
 
 //DB instruccions
 import InstruccionesEjercicio from "@/assets/textos/PausasActivas.json";
@@ -212,14 +232,9 @@ import { useRouter, useRoute } from "vue-router";
 import ImagenInterrogante from '@/assets/img/manos/pregunta.png'
 
 
-//Ejericicios Postura -Gif
-import Ejercicio1 from '@/assets/ejercicios/EJP11.png'
-import Ejercicio2 from '@/assets/ejercicios/EJP27.png'
-import Ejercicio3 from '@/assets/ejercicios/EJP28.png'
-import Ejercicio4 from '@/assets/ejercicios/EJP26.png'
-import Ejercicio5 from '@/assets/ejercicios/Ej1.gif'
-import Ejercicio6 from '@/assets/ejercicios/Ej2.gif'
 import Popper from "vue3-popper";
+
+import anime from 'animejs/lib/anime.es.js';
 
 //audiosSound
 import Aplausos from '@/assets/sounds/aplausos.mp3'
@@ -227,6 +242,7 @@ import Incorrecto from '@/assets/sounds/incorrecto.mp3'
 
 //Textos 
 import { instruccionesJuegoConcentrese } from "@/assets/textos/TextosInstrucciones.js";
+
 
 const router = useRouter()
 
@@ -241,23 +257,34 @@ const tiempoActividad = ref(10)
 const audioAplausos = ref(null)
 const audioIncorrecto = ref(null)
 const contadorClicks = ref(0)
+//Puntos
 const puntosBuenos = ref(0)
+const puntosMalos = ref(0)
+
 const opcionSeleccionada1 = ref('')
 const opcionSeleccionada2 = ref('')
 const nombreSeleccionada1 = ref('')
 const nombreSeleccionada2 = ref('')
+
+// Variables pausas
 const mostrarImagen = ref('')
+const mostrarImagenId = ref('')
+const validarCambioActividad = ref(null)
+const videoPausa = ref(null)
+
+
 const opcionCorrecta = ref(false)
 const activarBotonContinuar = ref(false)
 const innabilitarClick = ref(false)
 const camaraWebCargada = ref(false)
-const ocultarBotonComenzarActividad = ref(false)
+const ocultarBotonComenzarActividad = ref(true)
 const monstrarBotonCerrarInstrucciones = ref(false)
 
 //Cargamos los ejercicios.
 const pausasActivasInstrucciones = ref([])
 const srcUrlImagen = ref(ImagenInterrogante)
 
+const continuar = ref(false)
 
 const mensajeFinal = ref(false)
 
@@ -268,19 +295,21 @@ const mostrarcronometro = ref(false)
 
 const instruccionesActividad = ref(instruccionesJuegoConcentrese)
 
+//DetenerCronometro
+const detenerCronometro = ref(false)
+const tiempoValidado = ref(false)
 
 
-const continuar = ref(false)
-
-
-const reiniciaFiguraCheck = ref(false)
 const imagenesA = ref([])
 const imagenesB = ref([])
 const imagenesTablero = ref([])
-const resultado = ref([])
 const imagesActividadesPausas = ref([])
 const textoInstruccionPausa = ref('')
 const isInstruccionesPausaVisible = ref(false)
+const isVisibleNivel = ref(false)
+
+//MensajeCambio.
+const monstrarMensajeCambio = ref(false)
 
 const stylecuadriculaItems = reactive({
     width: "100%",
@@ -293,12 +322,13 @@ const stylecuadriculaItems = reactive({
 
 
 const styleContenedorEjercicioRealizado = reactive({
-    width: "50vw",
     textAlign: "center",
     display: "grid",
     gridTemplateColumns: "1fr",
     objectFit: "scale-down",
-
+    placeContent: "center",
+    placeItems: "center",
+    width: "70%"
 })
 
 
@@ -313,9 +343,19 @@ const finLoadCamara = () => {
 }
 
 onMounted(() => {
+
+    /*  animateCSS(".mensaje-cambio", "bounceInLeft").then((message) => {
+        
+     }); */
+
+
+
+
     pausasActivasInstrucciones.value = Object.values(InstruccionesEjercicio.PausasActivas).filter(pausa => {
         return pausa.tipo == "concentrese"
     })
+
+    /* animarVideo() */
 
     /*  console.log(pausasActivasInstrucciones.value)
      console.log(pausasActivasInstrucciones.value.sort((a, b) => {
@@ -324,33 +364,67 @@ onMounted(() => {
 
     pausasActivasInstrucciones.value = pausasActivasInstrucciones.value.sort(() => Math.random() - 0.5);
 
+
+
     Object.values(pausasActivasInstrucciones.value).forEach((element, index) => {
         const { imagen } = element
-        imagesActividadesPausas.value.push({ imagen: imagen == undefined ? null : imagen, id: element.id, finalizado: false })
+        imagesActividadesPausas.value.push({ imagen: imagen == undefined ? null : imagen, id: element.id, video: element.video, cambio: element.cambio, finalizado: false, tiempo: element.tiempo })
     })
 
 
+
+
     //Excluimos las imagenes que estn null, es decir no tiene imagen.
-     imagesActividadesPausas.value = Object.values(imagesActividadesPausas.value).filter(pausa => {
-         return pausa.imagen !== null
-     })
+    imagesActividadesPausas.value = Object.values(imagesActividadesPausas.value).filter(pausa => {
+        return pausa.imagen !== null
+    })
 
 
     //Colocamos aleatorias las imagenes.
     imagesActividadesPausas.value = imagesActividadesPausas.value.sort(() => Math.random() - 0.5);
 
-    console.log(imagesActividadesPausas.value)
 
+    console.log(imagesActividadesPausas.value)
     /*   imagesActividadesPausas.value = imagesActividadesPausas.value.sort((a, b) => {
           return a.id - b.id
       }) */
 
-
-
-
-
-
 })
+
+const tiempoActualCronometro = (tiempo) => {
+
+    if (validarCambioActividad.value) {
+        if (Math.round((tiempoActividad.value / 2)) == tiempo) {
+            if (tiempoValidado.value == false) {
+                detenerCronometro.value = true
+                monstrarMensajeCambio.value = true
+                mostrarcronometro.value = false
+                /* anime({
+                   targets: '.mensaje-cambio',
+                   keyframes: [
+                       { translateX: -1300 },
+                   ],
+                   duration: 4000,
+                   easing: 'easeOutElastic(1, .8)',
+                   loop: false
+               }); */
+
+                setTimeout(() => {
+                    mostrarcronometro.value = true
+                    tiempoActividad.value = tiempo
+                    monstrarMensajeCambio.value = false
+                    detenerCronometro.value = false
+                    habilitarCronometro.value = true
+                }, 7000)
+            }
+            tiempoValidado.value = true
+            validarCambioActividad.value = null
+        }
+    }
+
+
+
+}
 
 const configurarActividad = (valor) => {
 
@@ -380,8 +454,7 @@ const configurarActividad = (valor) => {
 
         stylecuadriculaItems.gridTemplateColumns = "repeat(3, 1fr)"
 
-        console.log(imagenesA.value)
-        console.log(imagenesB.value)
+
 
     } else {
         imagenesA.value = [
@@ -409,7 +482,7 @@ const configurarActividad = (valor) => {
         imagenesTablero.value = imagenesA.value.concat(imagenesB.value)
         /* imagenesA.value = imagenesA.value.sort(() => Math.random() - 0.5)
         imagenesB.value = imagenesB.value.sort(() => Math.random() - 0.5) */
-       /*  imagenesTablero.value = imagenesTablero.value.sort(() => Math.random() - 0.5) */
+        /*  imagenesTablero.value = imagenesTablero.value.sort(() => Math.random() - 0.5) */
 
         /*  imagenesA.value = imagenesA.value.sort(() => Math.random() - 0.5)
          imagenesB.value = imagenesB.value.sort(() => Math.random() - 0.5) */
@@ -422,10 +495,18 @@ const configurarActividad = (valor) => {
 const textoDescripcionPause = computed(() => textoInstruccionPausa.value[0]?.instruccion)
 const mostrarVentanaInstrucciones = computed(() => isInstruccionesPausaVisible.value)
 const mostrarVentanaInstruccionesActividad = computed(() => config.mostrarInicioInstrucciones)
+const actualizarTiempoPausa = computed(() => tiempoActividad.value)
+const detenerTiempo = computed(() => detenerCronometro.value)
+const habilitarTiempoCronometro = computed(() => habilitarCronometro.value)
+
 
 const ocultarVentanaInstrucciones = () => {
     ocultarInstrucciones.value = !ocultarInstrucciones.value
-    ocultarIntroNivel.value = true
+    if (isVisibleNivel.value == false) {
+        ocultarIntroNivel.value = true
+        isVisibleNivel.value = true
+    }
+
 
 }
 
@@ -449,9 +530,16 @@ const buscarInstruccionesEjercicio = (id) => {
 
 const ocultarVentanaInstruccionesPausas = () => {
     isInstruccionesPausaVisible.value = !isInstruccionesPausaVisible.value
+    ocultarBotonComenzarActividad.value = true
     opcionCorrecta.value = true
     mostrarcronometro.value = true
-    styleContenedorEjercicioRealizado.gridTemplateColumns = "1fr 1fr"
+    if (camaraWebCargada.value) {
+        styleContenedorEjercicioRealizado.gridTemplateColumns = "1fr 1fr"
+    } else {
+        styleContenedorEjercicioRealizado.gridTemplateColumns = "repeat( auto-fit, minmax(250px, 1fr))"
+    }
+
+
 }
 
 const validarClick = (elementoclick) => {
@@ -479,8 +567,7 @@ const validarClick = (elementoclick) => {
         let letra2 = opcionSeleccionada2.value.substr(0, opcionSeleccionada2.value.length - 1)
         let numero2 = opcionSeleccionada2.value.substr(1, opcionSeleccionada2.value.length - 1)
 
-        console.log(nombreSeleccionada1.value)
-        console.log(nombreSeleccionada2.value)
+
 
 
         if (letra1 === 'A' && letra2 === 'B' || letra1 === 'B' && letra2 === 'A') {
@@ -494,7 +581,8 @@ const validarClick = (elementoclick) => {
                 document.querySelector(`#${nombreSeleccionada2.value} #imagen`).style.boxShadow = '-1px -1px 16px inset green';
 
 
-                puntosBuenos.value = puntosBuenos.value + 1
+                //puntosBuenos.value = puntosBuenos.value + 1
+                aumentarPuntosBuenos()
 
                 setTimeout(() => {
 
@@ -507,7 +595,7 @@ const validarClick = (elementoclick) => {
                             /* document.querySelector(`#${nombreSeleccionada1.value}`).style.visibility = "hidden"
                             document.querySelector(`#${nombreSeleccionada2.value}`).style.visibility = "hidden" */
 
-                            console.log(elementoclick.id)
+                            /*   console.log(elementoclick.id) */
 
                             //Buscamos la instruccion del ejercicio
                             textoInstruccionPausa.value = Object.values(buscarInstruccionesEjercicio(elementoclick.id))
@@ -516,6 +604,7 @@ const validarClick = (elementoclick) => {
                             document.querySelector(`#${nombreSeleccionada2.value} #imagen`).style.boxShadow = 'none';
 
                             isInstruccionesPausaVisible.value = true
+
 
                             /* habilitarCronometro.value = true */
                             eliminarElemento(elementoclick.id)
@@ -539,14 +628,12 @@ const validarClick = (elementoclick) => {
 
                         /* habilitarCronometro.value = true */
                         eliminarElemento(elementoclick.id)
-
-
-
                     }
 
 
 
                 }, 1500)
+
                 opcionSeleccionada1.value = ''
                 opcionSeleccionada2.value = ''
             } else {
@@ -577,10 +664,6 @@ const validarClick = (elementoclick) => {
                     document.querySelector(`#${nombreSeleccionada1.value} #imagen`).style.boxShadow = 'none';
                     document.querySelector(`#${nombreSeleccionada2.value} #imagen`).style.boxShadow = 'none';
 
-
-
-
-
                     document.querySelector(`.ptrueba-${nombreSeleccionada1.value}`).classList.remove('opcion-incorrecto')
                     document.querySelector(`.ptrueba-${nombreSeleccionada2.value}`).classList.remove('opcion-incorrecto')
                     document.querySelector(`#${nombreSeleccionada1.value}`).style.pointerEvents = "all"
@@ -589,6 +672,7 @@ const validarClick = (elementoclick) => {
 
                 }, 1500)
 
+                aumentarPuntosMalos()
 
             }
 
@@ -628,29 +712,49 @@ const validarClick = (elementoclick) => {
 
             opcionSeleccionada1.value = ''
             opcionSeleccionada2.value = ''
-
+            aumentarPuntosMalos()
         }
 
+
         contadorClicks.value = 0
+
     }
 
 }
 
-const cargarPagina = (elemento) => {
-    console.log("elemento", elemento)
-    mostrarImagen.value = elemento.imagen
-
-    /* mostrarImagen.value = imagesActividadesPausas.value.filter((elemento) => {
-        return elemento.id == elementoclick.id
-    })[0].imagen
-    console.log("mostrarImagen", mostrarImagen.value) */
+const aumentarPuntosMalos = () => {
+    puntosMalos.value = puntosMalos.value + 1
 }
+
+const aumentarPuntosBuenos = () => {
+    puntosBuenos.value = puntosBuenos.value + 1
+}
+
+
+const cargarImagen = (elemento) => {
+
+    mostrarImagen.value = elemento.imagen
+    mostrarImagenId.value = elemento.id
+
+    let busquedaVideoForId = Object.values(imagesActividadesPausas.value).filter((elementoImagen) => {
+        return elementoImagen.id == mostrarImagenId.value
+    })
+
+    console.log(busquedaVideoForId[0])
+
+    validarCambioActividad.value = busquedaVideoForId[0].cambio
+    console.log(validarCambioActividad.value)
+    videoPausa.value = busquedaVideoForId[0].video
+
+}
+
 
 const continuarActividad = () => {
 
     if (puntosBuenos.value == imagenesA.value.length) {
         activarBotonContinuar.value = false
         mensajeFinal.value = true
+        guardarPuntos()
     } else {
         monstrarBotonCerrarInstrucciones.value = false
         isInstruccionesPausaVisible.value = false
@@ -658,6 +762,14 @@ const continuarActividad = () => {
         habilitarCronometro.value = false
         mostrarcronometro.value = false
     }
+}
+
+const guardarPuntos = () => {
+    let puntos_finales = puntosBuenos.value - puntosMalos.value
+    if (puntos_finales < 0) {
+        puntos_finales = puntos_finales * -1
+    }
+    config.setPuntosGlobales(puntos_finales)
 }
 
 const eliminarElemento = (id) => {
@@ -668,6 +780,8 @@ const eliminarElemento = (id) => {
     let posicionB = imagenesB.value.findIndex((elementId) => {
         return elementId.id == id
     })
+
+    configurarTiempoPausas(id)
 
     imagenesA.value[posicionA].finalizado = true
     imagenesB.value[posicionB].finalizado = true
@@ -682,12 +796,22 @@ const eliminarElemento = (id) => {
 
     /* stylecuadriculaItems.gridTemplateColumns = "repeat(3, 1fr)" */
 
+    /* animarVideo() */
+}
 
+const configurarTiempoPausas = (id) => {
+    //Configuracion de tiempo para el cronometro dependiento de las pausas.
+    let tiempoPausa = Object.values(imagesActividadesPausas.value).filter((elementPausaId) => {
+        return elementPausaId.id == id
+    })[0].tiempo
+
+
+    //Configuramos el tiempo de la pausa de acuerdo a lo programado en el archivo pausas
+    tiempoActividad.value = 0 //Reiniciamos el tiempo
+    tiempoActividad.value = tiempoPausa
 }
 
 const InstruccionesMostrar = () => {
-
-
     if (isInstruccionesPausaVisible.value) {
         ocultarInstrucciones.value = false
     } else {
@@ -700,6 +824,7 @@ const InstruccionesMostrar = () => {
 const VerInstruccionesPausa = () => {
     monstrarBotonCerrarInstrucciones.value = true
     isInstruccionesPausaVisible.value = true
+
 }
 
 const puntosBuenosActividad = computed(() => {
@@ -735,10 +860,18 @@ h1 {
 
 h2 {
     font-family: Source Sans Pro;
-    font-size: var(--h2-title-size);
+    font-size: 1em;
+    color: black;
+    font-weight: 500;
+}
+
+h3 {
+    font-family: Source Sans Pro;
+    font-size: 1em;
     color: black;
     font-weight: normal;
 }
+
 
 
 .contenedor-camara-pausa {
@@ -795,14 +928,6 @@ h2 {
     margin-bottom: 0px
 }
 
-.texto-descripcion-pausas {
-    text-align: justify;
-    font-family: Source Sans Pro;
-    font-size: 1.1em;
-    color: black;
-    font-weight: normal;
-    padding: 19px
-}
 
 
 
@@ -859,6 +984,31 @@ h2 {
 
 
 
+.size-imagen-pausas {
+    width: 90%;
+    height: 40vh
+}
+
+.overflow {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    border-radius: 21px;
+    background-color: #02144df2;
+    overflow: hidden
+}
+
+.mensaje-cambio {
+    font-family: Source Sans Pro;
+    font-size: 2em;
+    color: red;
+    font-weight: 600;
+    width: fit-content;
+    height: 10vh;
+}
+
 
 
 
@@ -890,6 +1040,11 @@ h2 {
         height: 3vh;
         transform: translate(4.5rem, 0.7rem);
         float: right;
+    }
+
+    .size-imagen-pausas {
+        width: 80%;
+        height: auto
     }
 }
 </style>

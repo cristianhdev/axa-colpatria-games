@@ -34,6 +34,7 @@ import ImagenMano2 from '@/assets/img/manos/mano2.png';
 import ImagenMano3 from '@/assets/img/manos/mano3.png';
 import ImagenMano4 from '@/assets/img/manos/mano4.png';
 import ImagenMano5 from '@/assets/img/manos/mano5.png';
+import ImagenMano6 from '@/assets/img/manos/mano6.png';
 
 
 const sliderActual = ref(0)
@@ -63,7 +64,8 @@ const imagen = defineProps({
         type: Boolean,
         default: false
     },
-    finTime: Boolean// detecta cuando termina el tiempo del conometro que es un componente que esta en el padre de este componente
+    finTime: Boolean,// detecta cuando termina el tiempo del conometro que es un componente que esta en el padre de este componente
+    finTimeOpcionesActividad: Boolean// detecta cuando termina el tiempo del conometro que es un componente que esta en el padre de este componente
 })
 
 const copiaArrayValidacion = ref([])
@@ -100,7 +102,8 @@ const styleObjectNext = reactive({
     backgroundSize: 'contain', */
     width: 'min-content',
     height: '100vw',
-    visibility: 'hidden'
+    visibility: 'hidden',
+    display: 'block'
 });
 
 const styleObjectPrev = reactive({
@@ -119,7 +122,8 @@ const styleObjectPrev = reactive({
       backgroundSize: 'contain', */
     width: 'min-content',
     height: '100vw',
-    visibility: 'hidden'
+    visibility: 'hidden',
+    display: 'block'
 });
 
 
@@ -165,6 +169,15 @@ const styleContenedorPrincipal = reactive({
 }); */
 
 
+watch(() => imagen.finTimeOpcionesActividad, (nuevoFin, oldFin) => {
+
+    if (nuevoFin) {
+        styleObjectNext.display='none'
+        styleObjectPrev.display='none'
+        styleContenedorPrincipal.height='30vh'
+    }
+})
+
 //TODO:Refactorizaar las variables (estan en modo Prueba)
 watch(() => imagen.correcto, (newCorrecto, oldCorrecto) => {
     console.log(
@@ -184,7 +197,7 @@ watch(() => imagen.ocultarNavegacion, (newCorrecto, oldCorrecto) => {
         oldCorrecto
     );
 
-    if (newCorrecto==true) {
+    if (newCorrecto == true) {
         styleObjectPrev.visibility = 'visible'
         styleObjectNext.visibility = 'visible'
     } else {

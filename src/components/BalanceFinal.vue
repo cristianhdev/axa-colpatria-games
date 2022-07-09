@@ -88,15 +88,38 @@ import { ref, onMounted, onBeforeMount, computed, reactive } from "vue";
 import party from "party-js";
 import { useConfigStore } from "../stores/config.js";
 import { useRouter, useRoute } from "vue-router";
+
+
+
 const usuario = useConfigStore();
 const router = useRouter()
+const puntosFinalesActividad = ref(0)
+const puntos_energia = ref(100)
+const puntos_salud = ref(100)
+const puntos_estres = ref(100)
 
 onMounted(() => {
     let barraEnergia = document.querySelector('.barra-energia').getBoundingClientRect()
-    console.log(barraEnergia)
-    /* gsap.fromTo('.icono-energia', 1.4, { marginLeft: '7pc' }, { marginLeft: '78%', repeat: -1, repeatDelay: 1.3, yoyo: false, transformOrigin: 'center center' });
-    gsap.fromTo('.icono-salud', 2.4, { marginLeft: '7pc' }, { marginLeft: '78%', repeat: -1, repeatDelay: 1.3, yoyo: false, transformOrigin: 'center center' });
-    gsap.fromTo('.icono-estres', 1.8, { marginLeft: '7pc' }, { marginLeft: '78%', repeat: -1, repeatDelay: 1.3, yoyo: false, transformOrigin: 'center center' }); */
+
+    puntosFinalesActividad.value = usuario.puntosGlobalesActividad
+
+    if(puntosFinalesActividad.value<10){
+        puntosFinalesActividad.value=puntosFinalesActividad.value * 10
+    }
+
+
+    puntos_energia.value = Math.round(puntos_energia.value - ((puntosFinalesActividad.value / 3) / 100) * 100 - 30)
+    puntos_salud.value = Math.round(puntos_salud.value - ((puntosFinalesActividad.value / 3) / 100) * 100 - 15)
+    puntos_estres.value = Math.round(puntos_estres.value - ((puntosFinalesActividad.value / 3) / 100) * 100 - 40)
+
+
+    console.log(puntos_energia.value)
+    console.log(puntos_salud.value)
+    console.log(puntos_estres.value)
+
+    gsap.to('.icono-energia', 1.4, { marginLeft: `${puntos_energia.value}%`, repeat: 0, repeatDelay: 1.3, yoyo: true, transformOrigin: 'center center' });
+    gsap.to('.icono-salud', 2.4, { marginLeft: `${puntos_salud.value}%`, repeat: 0, repeatDelay: 1.3, yoyo: false, transformOrigin: 'center center' });
+    gsap.to('.icono-estres', 1.8, { marginLeft: `${puntos_estres.value}%`, repeat: 0, repeatDelay: 1.3, yoyo: false, transformOrigin: 'center center' });
 
     document.querySelector(".emulate-confetti-1").addEventListener("click", (e) => {
 
@@ -133,8 +156,8 @@ onMounted(() => {
 })
 
 
-const reiniciar = ()  =>{
-       router.push('/')
+const reiniciar = () => {
+    router.push('/')
 }
 
 </script>

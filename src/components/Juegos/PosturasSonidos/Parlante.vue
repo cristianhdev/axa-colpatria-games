@@ -51,7 +51,9 @@ const styleParlante = reactive({
     cursor: 'pointer',
     position: 'absolute',
     zIndex: '99999',
-    margin: '3px 7px'
+    margin: '3px 7px',
+    top: "30px",
+    left: "27px"
 });
 
 const posicionSonidos = defineProps({
@@ -79,9 +81,9 @@ const playSonido = (posicion) => {
             audio.value.play()
         } else {
             if (window.confirm("El audio esta desactivado por favor,active la opcion de sonido en el menu principal.")) {
-               
+
             }
-  
+
             /* 
              emit("finAudioAleatorio") */
         }
@@ -104,8 +106,8 @@ const playSonido = (posicion) => {
 .imagen-ejercicio {
     /*  width: 100%;
      */
-    width: -webkit-fill-available;
-    height: 32vh;
+    width: 16vw;
+    height: 27vh;
     border: 1px solid var(--azul-axa);
     border-radius: 12px;
 

@@ -182,6 +182,30 @@ h3 {
 }
 
 
+h4 {
+    font-family: Source Sans Pro;
+    font-size: 1em;
+    color: red;
+    font-weight: 400;
+}
+
+/* css textos pausas */
+.texto-descripcion-pausas {
+    text-align: justify;
+    font-family: Source Sans Pro;
+    font-size: 1.1em;
+    color: black;
+    font-weight: normal;
+    padding: 19px;
+    height: 45vh;
+    display: flex;
+    align-items: baseline;
+    justify-content: start;
+    flex-direction: column;
+}
+
+
+
 
 .texto-bienvenida {
     font-family: Source Sans Pro;
@@ -837,13 +861,31 @@ h3 {
 
 #pleaserotate-message {
     text-transform: unset !important;
-    font-size: 1.5em !important;
+    font-size: 3.5em !important;
+    line-height: 72px;
 }
+
+#pleaserotate-container {
+    width: 100vh !important;
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    align-content: center !important;
+}
+
+
+
 
 #pleaserotate-backdrop::before {
     content: url(@/assets/img/logo.png);
     position: absolute;
-    bottom: -6%;
+    bottom: -5vh;
     left: 50%;
     transform: translate(-50%, -50%)
 }
@@ -856,8 +898,8 @@ h3 {
     align-content: center;
     place-items: center;
     width: 74vw;
-    height: 88vh;
-    max-height: 700vh;
+    height: 50vw;
+    max-height: 46vw;
     grid-gap: 24px;
     background-color: white;
     border-radius: 23px;
@@ -878,7 +920,7 @@ h3 {
 /* SLIDER STYLE */
 .item-slider {
     text-align: center;
-    width: 100%;
+    width: 103vh;
 }
 
 .item-slider img {

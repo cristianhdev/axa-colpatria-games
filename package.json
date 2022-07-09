@@ -19,6 +19,7 @@
     "vue": "^3.2.31",
     "vue-router": "^4.0.14",
     "vue-toast-notification": "^3.0.4",
+    "vue3-carousel": "^0.1.40",
     "vuesax": "^3.12.2"
   },
   "devDependencies": {
