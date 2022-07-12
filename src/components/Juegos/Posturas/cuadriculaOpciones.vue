@@ -249,7 +249,7 @@ import ChetList from '@/assets/img/chek-list.png';
 
 
 //DB instruccions
-import InstruccionesEjercicio from "@/assets/textos/PausasActivas.json";
+import {PausasActivas} from "@/assets/textos/PausasActivas.js";
 
 //Textos 
 import { instruccionesJuegoPosturas } from "@/assets/textos/TextosInstrucciones.js";
@@ -323,7 +323,7 @@ onBeforeMount(() => {
 
 
 onMounted(() => {
-    pausasActivasInstrucciones.value = Object.values(InstruccionesEjercicio.PausasActivas).filter(pausa => {
+    pausasActivasInstrucciones.value = Object.values(PausasActivas).filter(pausa => {
         return pausa.tipo == "recordarPosicion"
     })
     pausasActivasInstrucciones.value = pausasActivasInstrucciones.value.sort(() => Math.random() - 0.5);

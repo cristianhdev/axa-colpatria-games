@@ -221,7 +221,7 @@ import InstruccionesPausa from '@/components/InstruccionesPausas.vue';
 import VideoPausas from '@/components/videoPausas.vue';
 
 //DB instruccions
-import InstruccionesEjercicio from "@/assets/textos/PausasActivas.json";
+import {PausasActivas} from "@/assets/textos/PausasActivas.js";
 
 
 import WarnList from '@/assets/img/warn-list.png';
@@ -359,7 +359,7 @@ onMounted(() => {
 
 
 
-    pausasActivasInstrucciones.value = Object.values(InstruccionesEjercicio.PausasActivas).filter(pausa => {
+    pausasActivasInstrucciones.value = Object.values(PausasActivas).filter(pausa => {
         return pausa.tipo == "concentrese"
     })
 

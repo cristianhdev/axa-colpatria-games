@@ -182,7 +182,7 @@ import MenuPrincipal from '@/components/MenuPrincipal.vue';
 import { instruccionesJuegoManos } from "@/assets/textos/TextosInstrucciones.js";
 
 //DB instruccions
-import InstruccionesEjercicio from "@/assets/textos/PausasActivas.json";
+import {PausasActivas} from "@/assets/textos/PausasActivas.js";
 
 import ImagenManoCompleta from '@/assets/img/manos/manosCompleta.gif';
 
@@ -240,7 +240,7 @@ const monstrarBotonCerrarInstrucciones = ref(false)
 
 onMounted(() => {
 
-    textoDescripcionPause.value = Object.values(InstruccionesEjercicio.PausasActivas).filter(pausa => {
+    textoDescripcionPause.value = Object.values(PausasActivas).filter(pausa => {
         return pausa.id == 9
     })[0].instruccion
 

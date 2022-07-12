@@ -289,7 +289,7 @@ import Toaster from '@meforma/vue-toaster';
 import Interrogante from '@/assets/img/manos/pregunta.png'
 
 //DB instruccions
-import InstruccionesEjercicio from "@/assets/textos/PausasActivas.json";
+import {PausasActivas} from "@/assets/textos/PausasActivas.js";
 
 //Textos 
 import { instruccionesJuegoPosturaAudios } from "@/assets/textos/TextosInstrucciones.js";
@@ -365,7 +365,7 @@ const monstrarMensajeCambio = ref(false)
 
 onMounted(() => {
 
-    pausasActivasInstrucciones.value = Object.values(InstruccionesEjercicio.PausasActivas).filter(pausa => {
+    pausasActivasInstrucciones.value = Object.values(PausasActivas).filter(pausa => {
         return pausa.tipo == "recordarSonido"
     })
 
