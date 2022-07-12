@@ -27,3 +27,8 @@ dist
 *.njsproj
 *.sln
 *.sw?
+
+.env
+.env.Production
+*.zip
+script_rotar pantalla.txt

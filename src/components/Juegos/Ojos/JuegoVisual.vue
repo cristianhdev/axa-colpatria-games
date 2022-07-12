@@ -665,7 +665,7 @@ const volverEscenario = () => {
 .item-slider img {
   object-fit: scale-down;
   width: 22vh;
-  height: fit-content;
+  height: 22vh;
   border-radius: 23px;
 }
 

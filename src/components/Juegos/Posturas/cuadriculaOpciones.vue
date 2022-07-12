@@ -88,8 +88,8 @@
                 </div>
 
                 <!--  -->
-                <Cronometro v-if="mostrarcronometro" :isRun="habilitarCronometro" :segundos="actualizarTiempoPausa"
-                    @endTime="FinOpcion" />
+                <Cronometro v-if="mostrarcronometro" :isCronometroPausa="detenerTiempo" :isRun="habilitarCronometro"
+                    :segundos="actualizarTiempoPausa" @endTime="FinOpcion" @tiempoActual="tiempoActualCronometro" />
                 <div class="btn-ayuda tooltip" v-if="opcionCorrecta" @click="VerInstruccionesPausa">
                     <span class="tooltiptext">Ver Instrucciones</span>
                 </div>
@@ -136,9 +136,16 @@
 
                     </div>
                     <div class="contenedor-ejercicio-realizado  gap-4">
+                        <!-- v-if="monstrarMensajeCambio" -->
+                        <!-- <div class="mensaje-cambio" >
+                            CAMBIO DE LADO...
+                        </div> -->
                         <div :style="styleItemsCuadricula">
-                            <img :id="opcionIdInterroganteSeleccionada" :src="opcionImagenInterroganteSeleccionada"
-                                alt="" style="width: auto;height: 43vh">
+                            <!--  <img :id="opcionIdInterroganteSeleccionada" :src="opcionImagenInterroganteSeleccionada"
+                                alt="" style="width: auto;height: 43vh"> -->
+                            <VideoPausas :ismonstrarMensajeCambio="monstrarMensajeCambio" :videoPausaUrl="videoPausa"
+                                :isPlayVideo="estadoVideoPause" :isPauseVideo="!estadoVideoPause"
+                                :mostrarImagenUrl="opcionImagenInterroganteSeleccionada" />
                         </div>
                         <div class="contenedor-ejercicios" v-if="camaraReady">
 
@@ -202,7 +209,8 @@
                         <img :id="mostrarImagen" :src="mostrarImagen" alt="" width="320" height="320">
                     </div> -->
                     <div>
-                        <VideoPausas :videoPausa="videoPausa" :mostrarImagen="opcionImagenInterroganteSeleccionada" />
+                        <VideoPausas :videoPausaUrl="videoPausa"
+                            :mostrarImagenUrl="opcionImagenInterroganteSeleccionada" />
                     </div>
 
 
@@ -287,12 +295,27 @@ const BotonInicio = ref(true)
 const tiempoActividad = ref(10)
 
 
-//Opciones del cronometro.
-const habilitarCronometro = ref(false)
-const mostrarcronometro = ref(false)
+
 const monstrarBotonCerrarInstrucciones = ref(false)
 
 const ocultarBotonComenzarActividad = ref(false)
+
+const validarCambioActividad = ref(null)
+
+//DetenerCronometro
+const detenerCronometro = ref(false)
+const tiempoValidado = ref(false)
+//Opciones del cronometro.
+const habilitarCronometro = ref(false)
+const mostrarcronometro = ref(false)
+
+//Variables video pausas
+const videoPausa = ref(null)
+const videoPausasRef = ref(null)
+const estadoVideoPause = ref(null)
+
+//MensajeCambio.
+const monstrarMensajeCambio = ref(false)
 
 onBeforeMount(() => {
 
@@ -311,8 +334,8 @@ onMounted(() => {
 
 
     Object.values(pausasActivasInstrucciones.value).forEach((element, index) => {
-        const { imagen } = element
-        imagesActividadesPausas.value.push({ imagen: imagen == undefined ? null : imagen, idInstruccion: element.id })
+        const { imagen, id, cambio, tiempo,video } = element
+        imagesActividadesPausas.value.push({ imagen: imagen == undefined ? null : imagen, idInstruccion: id, cambio, tiempo,video })
     })
 
 
@@ -449,6 +472,8 @@ const stylecontendorInterrogante = reactive({
 const textoDescripcionPause = computed(() => textoInstruccionPausa.value[0]?.instruccion)
 const mostrarVentanaInstrucciones = computed(() => isInstruccionesPausaVisible.value)
 const actualizarTiempoPausa = computed(() => tiempoActividad.value)
+const detenerTiempo = computed(() => detenerCronometro.value)
+const habilitarTiempoCronometro = computed(() => habilitarCronometro.value)
 
 
 const ocultarVentanaInstrucciones = () => {
@@ -524,9 +549,18 @@ const configurarTiempoPausas = (id) => {
 
     console.log(tiempoPausa)
 
-    //Configuramos el tiempo de la pausa de acuerdo a lo programado en el archivo pausas
-    tiempoActividad.value = 0 //Reiniciamos el tiempo
-    tiempoActividad.value = tiempoPausa[0].tiempo
+    console.log(tiempoActividad.value)
+    if (actualizarTiempoPausa.value !== "null") {
+        //Configuramos el tiempo de la pausa de acuerdo a lo programado en el archivo pausas
+        tiempoActividad.value = 0 //Reiniciamos el tiempo
+        tiempoActividad.value = tiempoPausa[0].tiempo
+    } else {
+        //Configuramos el tiempo de la pausa de acuerdo a lo programado en el archivo pausas
+        tiempoActividad.value = 0 //Reiniciamos el tiempo
+        tiempoActividad.value = 5
+    }
+
+
 }
 
 const continuarSiguienteActividad = () => {
@@ -552,6 +586,43 @@ const continuarSiguienteActividad = () => {
     }
 }
 
+
+const tiempoActualCronometro = (tiempo) => {
+
+    if (validarCambioActividad.value == true) {
+        console.log("tiempo", tiempo)
+        console.log("tiempo/2", (Math.round((tiempoActividad.value / 2))))
+        if (Math.round((tiempoActividad.value / 2)) == tiempo) {
+            if (tiempoValidado.value == false) {
+                estadoVideoPause.value = false
+                detenerCronometro.value = true
+                monstrarMensajeCambio.value = true
+                mostrarcronometro.value = false
+                /* anime({
+                   targets: '.mensaje-cambio',
+                   keyframes: [
+                       { translateX: -1300 },
+                   ],
+                   duration: 4000,
+                   easing: 'easeOutElastic(1, .8)',
+                   loop: false
+               }); */
+
+                setTimeout(() => {
+                    estadoVideoPause.value = true
+                    mostrarcronometro.value = true
+                    tiempoActividad.value = tiempo
+                    monstrarMensajeCambio.value = false
+                    detenerCronometro.value = false
+                    habilitarCronometro.value = true
+                    tiempoValidado.value = false
+                }, 7000)
+            }
+            tiempoValidado.value = true
+            validarCambioActividad.value = null
+        }
+    }
+}
 
 
 
@@ -605,6 +676,8 @@ const opcionSiguiente = (idInstruccion) => {
     })
 
     textoInstruccionPausa.value = buscarInstruccionesEjercicio(Object.values(elementClickCorrecto)[0].idInstruccion)
+    console.log("aca", Object.values(elementClickCorrecto)[0].cambio)
+    validarCambioActividad.value = Object.values(elementClickCorrecto)[0].cambio
 
     //Buscamos el id de la instruccion correspondiente a la pausa.
     /*   let idClick = Object.values(imagenesReferencia.value).filter((elementPausaId) => {
@@ -615,6 +688,9 @@ const opcionSiguiente = (idInstruccion) => {
       console.log(idClick) */
 
     configurarTiempoPausas(Object.values(elementClickCorrecto)[0].idInstruccion)
+    videoPausa.value = Object.values(elementClickCorrecto)[0].video
+     console.log(Object.values(elementClickCorrecto)[0])
+    console.log(videoPausa.value)
 
     /* puntosBuenos.value = puntosBuenos.value + 1 */
     aumentarPuntosBuenos()
@@ -624,6 +700,7 @@ const opcionSiguiente = (idInstruccion) => {
 
 
 const ocultarVentanaInstruccionesPausas = () => {
+
     mostrarcronometro.value = true
     ocultarBotonComenzarActividad.value = true
     isInstruccionesPausaVisible.value = !isInstruccionesPausaVisible.value
@@ -720,6 +797,7 @@ const buscarInstruccionesEjercicio = (id) => {
 }
 
 const OcultarBotonComenzar = () => {
+    estadoVideoPause.value = true
     habilitarCronometro.value = !habilitarCronometro.value
     ocultarBotonComenzarActividad.value = false
 }
@@ -865,6 +943,23 @@ h3 {
 .habilitar-boton-listo {
     pointer-events: all;
     filter: grayscale(1)
+}
+
+
+/* MESAJE CAMBIO ACTIVIDAD */
+.mensaje-cambio {
+    font-family: Source Sans Pro;
+    font-size: 2em;
+    color: white;
+    font-weight: 600;
+    width: fit-content;
+    height: 51%;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    position: absolute;
+    background-color: #000000b3;
+    padding: 0px 42px;
 }
 
 .inhabilitar-boton-listo {

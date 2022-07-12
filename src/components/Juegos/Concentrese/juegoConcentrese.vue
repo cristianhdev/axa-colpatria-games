@@ -56,7 +56,7 @@
 
                     <Cronometro v-if="mostrarcronometro" :isCronometroPausa="detenerTiempo"
                         :isRun="habilitarTiempoCronometro" :segundos="actualizarTiempoPausa"
-                        @endTime="continuarActividad" @tiempoActual="tiempoActualCronometro" />
+                        @tiempoActual="tiempoActualCronometro" @endTime="continuarActividad" />
                     <div class="btn-ayuda tooltip" v-if="opcionCorrecta" @click="VerInstruccionesPausa">
                         <span class="tooltiptext">Ver Instrucciones</span>
                     </div>
@@ -74,11 +74,16 @@
 
                         </div>
                         <div :style="styleContenedorEjercicioRealizado"
-                            class="size-imagen-pausas contenedor-ejercicio-realizado  gap-4">
-                            <div
+                            class="size-imagen-pausas contenedor-ejercicio-realizado  gap-4" style="position:relative">
+
+                            <VideoPausas ref="videoPausasRef" :ismonstrarMensajeCambio="monstrarMensajeCambio"
+                                :videoPausaUrl="videoPausa" :isPlayVideo="estadoVideoPause"
+                                :isPauseVideo="!estadoVideoPause" :mostrarImagenUrl="mostrarImagen"
+                                :mostrarimagenReferencia="false" />
+                            <!--  <div
                                 :style="{ border: `1.35px solid black`, background: `transparent url(${mostrarImagen}) no-repeat center center`, backgroundSize: '100% 100%', width: '-webkit-fill-available', maxWidth: '25vw', height: '22vw' }">
-                                <!-- <img :id="mostrarImagen" :src="mostrarImagen" alt="" width="320" height="320"> -->
-                            </div>
+                                <img :id="mostrarImagen" :src="mostrarImagen" alt="" width="320" height="320">
+                            </div> -->
                             <div v-if="camaraReady">
                                 <div class=" contenedor-camara-pausa flex-center-elements-column">
                                     <CaramaWeb :width="250" :height="250" @camaraLoad="finLoadCamara" />
@@ -124,9 +129,7 @@
                         ESCENARIO</div>
                 </div>
             </div>
-            <div v-if="monstrarMensajeCambio" class="mensaje-cambio ">
-                CAMBIO...
-            </div>
+
 
         </div>
         <!-- VENTANA INSTRUCCIONES -->
@@ -183,7 +186,8 @@
                     </div>
                     <div>
 
-                        <VideoPausas :videoPausa="videoPausa" :mostrarImagen="mostrarImagen" />
+                        <VideoPausas :videoPausaUrl="videoPausa" :mostrarImagenUrl="mostrarImagen" />
+
                         <!-- <div v-show="videoPausa">
                            
                         </div>
@@ -270,7 +274,10 @@ const nombreSeleccionada2 = ref('')
 const mostrarImagen = ref('')
 const mostrarImagenId = ref('')
 const validarCambioActividad = ref(null)
+//Variables video pausas
 const videoPausa = ref(null)
+const videoPausasRef = ref(null)
+const estadoVideoPause = ref(null)
 
 
 const opcionCorrecta = ref(false)
@@ -288,9 +295,7 @@ const continuar = ref(false)
 
 const mensajeFinal = ref(false)
 
-//Opciones del cronometro.
-const habilitarCronometro = ref(false)
-const mostrarcronometro = ref(false)
+
 
 
 const instruccionesActividad = ref(instruccionesJuegoConcentrese)
@@ -298,6 +303,9 @@ const instruccionesActividad = ref(instruccionesJuegoConcentrese)
 //DetenerCronometro
 const detenerCronometro = ref(false)
 const tiempoValidado = ref(false)
+//Opciones del cronometro.
+const habilitarCronometro = ref(false)
+const mostrarcronometro = ref(false)
 
 
 const imagenesA = ref([])
@@ -367,8 +375,8 @@ onMounted(() => {
 
 
     Object.values(pausasActivasInstrucciones.value).forEach((element, index) => {
-        const { imagen } = element
-        imagesActividadesPausas.value.push({ imagen: imagen == undefined ? null : imagen, id: element.id, video: element.video, cambio: element.cambio, finalizado: false, tiempo: element.tiempo })
+        const { imagen, id, video, cambio, tiempo } = element
+        imagesActividadesPausas.value.push({ imagen: imagen == undefined ? null : imagen, id, video, cambio, finalizado: false, tiempo })
     })
 
 
@@ -384,7 +392,6 @@ onMounted(() => {
     imagesActividadesPausas.value = imagesActividadesPausas.value.sort(() => Math.random() - 0.5);
 
 
-    console.log(imagesActividadesPausas.value)
     /*   imagesActividadesPausas.value = imagesActividadesPausas.value.sort((a, b) => {
           return a.id - b.id
       }) */
@@ -393,9 +400,10 @@ onMounted(() => {
 
 const tiempoActualCronometro = (tiempo) => {
 
-    if (validarCambioActividad.value) {
+    if (validarCambioActividad.value == true) {
         if (Math.round((tiempoActividad.value / 2)) == tiempo) {
             if (tiempoValidado.value == false) {
+                estadoVideoPause.value = false
                 detenerCronometro.value = true
                 monstrarMensajeCambio.value = true
                 mostrarcronometro.value = false
@@ -410,20 +418,19 @@ const tiempoActualCronometro = (tiempo) => {
                }); */
 
                 setTimeout(() => {
+                    estadoVideoPause.value = true
                     mostrarcronometro.value = true
                     tiempoActividad.value = tiempo
                     monstrarMensajeCambio.value = false
                     detenerCronometro.value = false
                     habilitarCronometro.value = true
+                    tiempoValidado.value = false
                 }, 7000)
             }
             tiempoValidado.value = true
             validarCambioActividad.value = null
         }
     }
-
-
-
 }
 
 const configurarActividad = (valor) => {
@@ -517,6 +524,7 @@ const finAnimacionIntro = () => {
 
 
 const OcultarBotonComenzar = () => {
+    estadoVideoPause.value = true
     habilitarCronometro.value = !habilitarCronometro.value
     ocultarBotonComenzarActividad.value = false
 }
@@ -1000,14 +1008,7 @@ h3 {
     overflow: hidden
 }
 
-.mensaje-cambio {
-    font-family: Source Sans Pro;
-    font-size: 2em;
-    color: red;
-    font-weight: 600;
-    width: fit-content;
-    height: 10vh;
-}
+
 
 
 

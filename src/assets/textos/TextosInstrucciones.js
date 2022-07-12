@@ -39,6 +39,6 @@ export const instruccionesJuegoRuleta = [
 ]
 
 export const instruccionesJuegoOjos = [
-    'Para este ejercicio, mantenga la cabeza recta. Con la vista seguir  los elementos que aparecerán en la pantalla de todas las direcciones (arriba, abajo, derecha e izquierda), y de acuerdo al tema seleccionado en el juego (ej: oficina), debe dar clic sobre estos, siempre siguiendo de forma concentrada los elementos que vayan apareciendo.',
+    'Manteniendo la cabeza recta, debe seguir con la vista los elementos que aparecerán en la pantalla (de arriba, abajo, derecha e izquierda).<br><br> Para ganar puntos, debe dar clic sobre los elementos de oficina, siguiéndolos de forma concentrada. ',
 ]
 

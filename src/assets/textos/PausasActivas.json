@@ -1,3 +1,4 @@
+
 {
     "PausasActivas": [
         {
@@ -13,7 +14,7 @@
             "instruccion": "Realizar movimientos laterales de cuello de la siguiente manera: <br> Centro – izquierda – centro – derecha – centro. <br><br> -Repetir este movimiento durante 15 segundos.",
             "id": 1,
             "tiempo": 15,
-            "imagen": "/src/assets/ejercicios/EJ_P2.gif",
+            "imagen": "/src/assets/ejercicios/EJ_P2A.gif",
             "video": ""
         },
         {
@@ -63,6 +64,7 @@
             "instruccion": "<ol><li>Colocarse de pie.</li><li>Pararse en punta de pies.</li><li>Pararse en los talones.</li></ol><br>-Repetir alternadamente estos movimientos durante 10 segundos.",
             "id": 7,
             "tiempo": 20,
+            "cambio":true,
             "imagen": "/src/assets/ejercicios/EJ_P8.gif",
             "video": "/src/assets/ejercicios/videos/EJ_P8.mp4"
         },
@@ -70,8 +72,9 @@
             "tipo": "concentrese",
             "instruccion": "<ol><li>Estirar los brazos hacia al frente.</li><li>Realizar movimientos de abrir y cerrar los brazos de forma lateral.</li></ol><br>-Repetir alternadamente estos movimientos durante 10 segundos.",
             "id": 8,
-            "tiempo": 10,
-            "imagen": "/src/assets/ejercicios/EJ_P09.gif",
+            "tiempo": 20,
+            "cambio":false,
+            "imagen": "/src/assets/ejercicios/EJ_P09.png",
             "video": ""
         },
         {
@@ -155,7 +158,7 @@
             "instruccion": " <ol><li>Entrelazar las manos por detrás de la cabeza.</li><li>Inhalar.</li><li>Llevar la cabeza hacía abajo y con los codos hacía adelante.</li><li>No mover el tronco. </li></ol><br>-Realizar este ejercicio de 10 a 15 segundos.",
             "id": 18,
             "tiempo": 15,
-            "cambio":true,
+            "cambio":false,
             "imagen": "/src/assets/ejercicios/EJ_P15.gif",
             "video": "/src/assets/ejercicios/videos/EJ_P15.mp4"
         },
@@ -292,7 +295,8 @@
             "tipo": "recordarPosicion",
             "instruccion": "<ol><li>Colocarse de pie.</li><li>Entrelazar los dedos de las manos detrás de su espalda (como se muestra en el ejemplo).</li><li>Realizar respiraciones profundas llevando los codos hacia atrás al igual que los hombros.</li></ol><br><br>Evitar aumentar la curva de la espalda.<br><br> - Realizar 3 repeticiones del ejercicio durante 5 segundos cada una.",
             "id": 34,
-            "tiempo": null,
+            "tiempo": 4,
+            "cambio":true,
             "imagen": "/src/assets/ejercicios/EJ_P26.png",
             "video": ""
         },
@@ -300,7 +304,7 @@
             "tipo": "recordarPosicion",
             "instruccion": "<ol><li>Mantener la cabeza recta.</li><li> Cerrar los ojos fuertemente y mantenerlos así por 5 segundos. </li><li>Volver a abrirlos y mantenerlos así por 5 segundos.</li></ol> <br> - Repetir este ejercicio 3 veces.",
             "id": 35,
-            "tiempo": null,
+            "tiempo": 5,
             "imagen": "/src/assets/ejercicios/EJ_P27.gif",
             "video": ""
         },
@@ -308,7 +312,7 @@
             "tipo": "recordarSonido",
             "instruccion": "<ol><li>Mantener la cabeza recta.</li><li>Sostener un lápiz o un esfero con la mano frente a usted.</li><li>Sin mover la cabeza acérquelo lentamente hacia usted.</li><li>Alejar nuevamente el lápiz o esfero.</li><li>Mantener siempre la mirada fija en el lápiz o esfero.</li></ol><br><br> Repetir 3 veces el ejercicio.",
             "id": 36,
-            "tiempo": null,
+            "tiempo": 5,
             "imagen": "/src/assets/ejercicios/EJ_P28.gif",
             "video": "/src/assets/ejercicios/videos/EJ_P28.mp4"
         },
@@ -316,7 +320,7 @@
             "tipo": "recordarSonido",
             "instruccion": "<ol><li>Llevar la mano derecha sobre el lado derecho de la cabeza.</li><li>Empujar con la mano la cabeza hacia el lado izquierdo, llevando la cabeza en sentido contrario y aplicando fuerza sobre la mano.</li></ol><br><br> - Ejecutar el ejercicio de 10 a 15 segundos y repetir hacia el otro lado.",
             "id": 37,
-            "tiempo": null,
+            "tiempo": 30,
             "cambio":true,
             "imagen": "/src/assets/ejercicios/EJ_P14.gif",
             "video": "/src/assets/ejercicios/videos/EJ_P14.mp4"
