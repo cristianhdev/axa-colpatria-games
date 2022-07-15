@@ -38,7 +38,6 @@ const continuarActividad = () => {
 }
 
 onBeforeMount(() => {
-    console.log(opciones.urlImagenFondo)
     if (opciones.urlImagenFondo === 'BienvidaJuegos') {
         imagenFondo.value = imagenFondoBienvenidaImagen
         styleContenedor.backgroundImage = `url(${imagenFondo.value})`
@@ -110,12 +109,13 @@ const styleImagenTexto = reactive({
 
 .texto-instrucciones {
     width: 70vw;
-    height: 530px;
-    max-height: 535px;
+    height: 37vw;
+    max-height: 38vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-top: 1%;
+    padding: 14px 0px;
 }
 
 .texto-instrucciones div {

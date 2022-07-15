@@ -75,38 +75,7 @@ onBeforeMount(() => {
 })
 
 onMounted(() => {
-    /* setTimeout((e) => {
-        party.confetti(this);
-    }, 1000) */
-
-
-    // From anywhere
-    //handsfree.value.data.hands.landmarks
-
-    /* hands.start() */
-    // From inside a plugin
-    /*   hands.use('logger', data => {
-          if (!data.hands) return
-  
-          // Show a log whenever the left hand is visible
-          if (data.hands.landmarksVisible[0]) {
-              console.log(' mano izquierda')
-          }
-  
-          if (data.hands.landmarksVisible[1]) {
-              console.log(' mano derecha')
-          } */
-
-    /*   document.addEventListener('handsfree-data', event => {
-          const data = event.detail
-          if (!data.hands) return
-  
-          // Show a log whenever the right hand for person #2 is visible
-          if (data.hands.landmarksVisible[3]) {
-              console.log(data.hands.landmarks[3])
-          }
-      }) */
-    /* }) */
+   
 });
 
 

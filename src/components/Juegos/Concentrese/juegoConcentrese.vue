@@ -79,7 +79,7 @@
                             <VideoPausas ref="videoPausasRef" :ismonstrarMensajeCambio="monstrarMensajeCambio"
                                 :videoPausaUrl="videoPausa" :isPlayVideo="estadoVideoPause"
                                 :isPauseVideo="!estadoVideoPause" :mostrarImagenUrl="mostrarImagen"
-                                :mostrarimagenReferencia="false" />
+                                :mostrarimagenReferencia="false" idElementCamara="camaraPausaActivdad" />
                             <!--  <div
                                 :style="{ border: `1.35px solid black`, background: `transparent url(${mostrarImagen}) no-repeat center center`, backgroundSize: '100% 100%', width: '-webkit-fill-available', maxWidth: '25vw', height: '22vw' }">
                                 <img :id="mostrarImagen" :src="mostrarImagen" alt="" width="320" height="320">
@@ -221,7 +221,7 @@ import InstruccionesPausa from '@/components/InstruccionesPausas.vue';
 import VideoPausas from '@/components/videoPausas.vue';
 
 //DB instruccions
-import {PausasActivas} from "@/assets/textos/PausasActivas.js";
+import { PausasActivas } from "@/assets/textos/PausasActivas.js";
 
 
 import WarnList from '@/assets/img/warn-list.png';
@@ -363,6 +363,8 @@ onMounted(() => {
         return pausa.tipo == "concentrese"
     })
 
+   
+
     /* animarVideo() */
 
     /*  console.log(pausasActivasInstrucciones.value)
@@ -400,22 +402,19 @@ onMounted(() => {
 
 const tiempoActualCronometro = (tiempo) => {
 
+
     if (validarCambioActividad.value == true) {
-        if (Math.round((tiempoActividad.value / 2)) == tiempo) {
-            if (tiempoValidado.value == false) {
+       
+        if (tiempoValidado.value == false) {
+            
+            if (Math.round((tiempoActividad.value / 2)) == tiempo) {
+                
+               
+
                 estadoVideoPause.value = false
                 detenerCronometro.value = true
                 monstrarMensajeCambio.value = true
                 mostrarcronometro.value = false
-                /* anime({
-                   targets: '.mensaje-cambio',
-                   keyframes: [
-                       { translateX: -1300 },
-                   ],
-                   duration: 4000,
-                   easing: 'easeOutElastic(1, .8)',
-                   loop: false
-               }); */
 
                 setTimeout(() => {
                     estadoVideoPause.value = true
@@ -424,11 +423,14 @@ const tiempoActualCronometro = (tiempo) => {
                     monstrarMensajeCambio.value = false
                     detenerCronometro.value = false
                     habilitarCronometro.value = true
-                    tiempoValidado.value = false
-                }, 7000)
+                    tiempoValidado.value = true
+                }, 4000)
+
+
             }
-            tiempoValidado.value = true
-            validarCambioActividad.value = null
+        } else {
+            estadoVideoPause.value = true
+          /*   tiempoValidado.value = false */
         }
     }
 }
@@ -457,7 +459,7 @@ const configurarActividad = (valor) => {
         imagenesTablero.value = imagenesA.value.concat(imagenesB.value)
         /* imagenesA.value = imagenesA.value.sort(() => Math.random() - 0.5)
         imagenesB.value = imagenesB.value.sort(() => Math.random() - 0.5) */
-        /* imagenesTablero.value = imagenesTablero.value.sort(() => Math.random() - 0.5) */
+        imagenesTablero.value = imagenesTablero.value.sort(() => Math.random() - 0.5)
 
         stylecuadriculaItems.gridTemplateColumns = "repeat(3, 1fr)"
 
@@ -487,9 +489,9 @@ const configurarActividad = (valor) => {
             { nombre: 'ImagenB6', imagen: ImagenEjercicio6, id: 6, finalizado: false }*/
 
         imagenesTablero.value = imagenesA.value.concat(imagenesB.value)
-        /* imagenesA.value = imagenesA.value.sort(() => Math.random() - 0.5)
+       /*  imagenesA.value = imagenesA.value.sort(() => Math.random() - 0.5)
         imagenesB.value = imagenesB.value.sort(() => Math.random() - 0.5) */
-        /*  imagenesTablero.value = imagenesTablero.value.sort(() => Math.random() - 0.5) */
+         imagenesTablero.value = imagenesTablero.value.sort(() => Math.random() - 0.5)
 
         /*  imagenesA.value = imagenesA.value.sort(() => Math.random() - 0.5)
          imagenesB.value = imagenesB.value.sort(() => Math.random() - 0.5) */
@@ -513,8 +515,6 @@ const ocultarVentanaInstrucciones = () => {
         ocultarIntroNivel.value = true
         isVisibleNivel.value = true
     }
-
-
 }
 
 
@@ -606,6 +606,8 @@ const validarClick = (elementoclick) => {
                             /*   console.log(elementoclick.id) */
 
                             //Buscamos la instruccion del ejercicio
+                            console.log(Object.values(buscarInstruccionesEjercicio(elementoclick.id)))
+                            console.log(elementoclick)
                             textoInstruccionPausa.value = Object.values(buscarInstruccionesEjercicio(elementoclick.id))
 
                             document.querySelector(`#${nombreSeleccionada1.value} #imagen`).style.boxShadow = 'none';
@@ -627,6 +629,7 @@ const validarClick = (elementoclick) => {
                          document.querySelector(`#${nombreSeleccionada2.value}`).style.visibility = "hidden" */
 
                         //Buscamos la instruccion del ejercicio
+                        console.log(Object.values(buscarInstruccionesEjercicio(elementoclick.id)))
                         textoInstruccionPausa.value = Object.values(buscarInstruccionesEjercicio(elementoclick.id))
 
                         document.querySelector(`#${nombreSeleccionada1.value} #imagen`).style.boxShadow = 'none';
@@ -748,10 +751,10 @@ const cargarImagen = (elemento) => {
         return elementoImagen.id == mostrarImagenId.value
     })
 
-    console.log(busquedaVideoForId[0])
+
 
     validarCambioActividad.value = busquedaVideoForId[0].cambio
-    console.log(validarCambioActividad.value)
+
     videoPausa.value = busquedaVideoForId[0].video
 
 }
@@ -769,6 +772,9 @@ const continuarActividad = () => {
         opcionCorrecta.value = false
         habilitarCronometro.value = false
         mostrarcronometro.value = false
+        tiempoValidado.value = false
+        validarCambioActividad.value = false
+        estadoVideoPause.value = false
     }
 }
 

@@ -100,7 +100,7 @@ const prev = () => {
 
         });
 
-        console.log(Math.round(contenedorItemsSliders.width)/4)
+        
 
         gsap.to(`.contenedor-items-slider`, {
             x: `+=-103vh`
@@ -143,22 +143,21 @@ const next = () => {
 
 
 const navegacion = () => {
-    console.log(imagen.numerodeSliders)
-    console.log(sliderActual.value)
+  
     if (sliderActual.value == imagen.numerodeSliders) {
-        console.log("fin")
+       
         styleObjectNext.filter = 'opacity(1)'
         styleObjectPrev.filter = 'opacity(0.5)'
         styleObjectNext.pointerEvents = 'all'
         styleObjectPrev.pointerEvents = 'none'
     } else if (sliderActual.value == 0) {
-        console.log("inicio")
+   
         styleObjectNext.filter = 'opacity(0.5)'
         styleObjectPrev.filter = 'opacity(1)'
         styleObjectNext.pointerEvents = 'none'
         styleObjectPrev.pointerEvents = 'all'
     } else {
-        console.log("medio")
+    
         styleObjectNext.filter = 'opacity(1)'
         styleObjectPrev.filter = 'opacity(1)'
         styleObjectNext.pointerEvents = 'all'
@@ -193,7 +192,7 @@ const navegacion = () => {
 
 .slider-instrucciones {
     width: 800px;
-    height: 410px;
+    height: 33vw;
     display: flex;
     align-items: center;
     align-content: center;
@@ -218,7 +217,7 @@ const navegacion = () => {
     color: black;
     font-weight: normal;
     text-align: left;
-    height: 20vh;
+    height: 28vh;
     display: flex;
     justify-content: center;
     align-items: center;

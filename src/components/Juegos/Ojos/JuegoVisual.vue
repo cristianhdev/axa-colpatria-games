@@ -434,8 +434,7 @@ const animarElementsoAleatorios = () => {
 const validarClick = (elemento, id) => {
   
   let busqueda = Object.values(temasSeleccionadosArray.value)
-  console.log(elemento)
-  console.log(busqueda[0].toLowerCase(), elemento.toLowerCase())
+
   if (busqueda[0].toLowerCase() == elemento.toLowerCase()) {
     document.getElementById(`${id}`).style.filter = "drop-shadow(2px 4px 6px green)";
     puntos_correctos.value = puntos_correctos.value + 1

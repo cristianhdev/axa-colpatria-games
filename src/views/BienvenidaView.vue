@@ -224,12 +224,6 @@ onMounted(() => {
     clearTimeout(instruciones)
   }, 4200);
 
-  /*     const counter = ref(config.counter) */
-
-
-  /*  config.increment()
- 
-   console.log(config.doubleCount); */
 
 });
 

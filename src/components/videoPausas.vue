@@ -1,10 +1,10 @@
 <template>
     <div>
-        <video loop="true" ref="videoPausaSeleccionado" id="videoPausa" width="320" height="320"
+        <video ref="videoPausaSeleccionado" :id="idElementCamara" width="320" height="320"
             :poster="videoPausaUrl == '' ? mostrarImagenUrl : ''">
             <source :src="videoPausaUrl == '' ? '' : videoPausaUrl" type="video/mp4">
         </video>
-     
+
         <!-- v-if="ismonstrarMensajeCambio" -->
         <div v-if="ismonstrarMensajeCambio" class="mensaje-cambio">
             CAMBIO DE LADO...
@@ -39,6 +39,10 @@ const opcionesVideo = defineProps({
     ismonstrarMensajeCambio: {
         type: Boolean,
         default: false
+    },
+    idElementCamara: {
+        type: String,
+        default: 'videoPausa'
     }
 
 
@@ -46,17 +50,19 @@ const opcionesVideo = defineProps({
 
 onMounted(() => {
 
-    videoPausaSeleccionado.value = document.getElementById('videoPausa')
-    console.log(videoPausaSeleccionado.value)
-    videoPausaSeleccionado.value.pause()
+    videoPausaSeleccionado.value = document.getElementById(`${opcionesVideo.idElementCamara}`)
+    videoPausaSeleccionado.value.autoplay = opcionesVideo.isPlayVideo
+    videoPausaSeleccionado.value.loop = opcionesVideo.isPlayVideo
+
 
 
 })
 
 watch(() => opcionesVideo.isPlayVideo, (playVideoNew, playVideoNewOld) => {
-    if (playVideoNew) {
-        playVideoPausa()
-    }
+
+
+    playVideoPausa()
+
 
 })
 
@@ -66,33 +72,34 @@ watch(() => opcionesVideo.isPauseVideo, (pauseVideoNew, pauseVideoNewOld) => {
     }
 })
 
-const detectarTiempo = () => {
+const detectarTiempo = (e) => {
 
     let tiempo;
 
-    videoTiempoActual.value = Math.floor(videoPausaSeleccionado.value.currentTime)
-    
-  /*   if (Math.floor(videoPausaSeleccionado.value.currentTime) == 1) {
-        videoPausaSeleccionado.value.pause()
-        tiempo = setTimeout(() => {
-            videoPausaSeleccionado.value.currentTime = 2
-            videoPausaSeleccionado.value.play()
-            clearTimeout(tiempo)
-        }, 4000)
-    }
-    if (Math.floor(videoPausaSeleccionado.value.currentTime) == 3) {
-        videoPausaSeleccionado.value.pause()
-        setTimeout(() => {
-            videoPausaSeleccionado.value.currentTime = 4
-            videoPausaSeleccionado.value.play()
-            clearTimeout(tiempo)
-        }, 4000)
-    }
-    if (Math.floor(videoPausaSeleccionado.value.currentTime) == 4) {
-        videoPausaSeleccionado.value.pause()
-        videoPausaSeleccionado.value.removeEventListener("timeupdate", detectarTiempo)
-        clearTimeout(tiempo)
-    } */
+
+    videoTiempoActual.value = Math.floor(e.target.currentTime)
+
+    /*   if (Math.floor(videoPausaSeleccionado.value.currentTime) == 1) {
+          videoPausaSeleccionado.value.pause()
+          tiempo = setTimeout(() => {
+              videoPausaSeleccionado.value.currentTime = 2
+              videoPausaSeleccionado.value.play()
+              clearTimeout(tiempo)
+          }, 4000)
+      }
+      if (Math.floor(videoPausaSeleccionado.value.currentTime) == 3) {
+          videoPausaSeleccionado.value.pause()
+          setTimeout(() => {
+              videoPausaSeleccionado.value.currentTime = 4
+              videoPausaSeleccionado.value.play()
+              clearTimeout(tiempo)
+          }, 4000)
+      }
+      if (Math.floor(videoPausaSeleccionado.value.currentTime) == 4) {
+          videoPausaSeleccionado.value.pause()
+          videoPausaSeleccionado.value.removeEventListener("timeupdate", detectarTiempo)
+          clearTimeout(tiempo)
+      } */
 
 }
 

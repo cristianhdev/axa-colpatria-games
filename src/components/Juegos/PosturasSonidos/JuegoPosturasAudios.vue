@@ -86,7 +86,7 @@
                     <div v-for="(imagen, index) in imagenes" :key="imagen + '-' + index">
 
                         <Parlante :srcUrl="imagen.imagen" :id="`figura-${index + 1}`"
-                            :posicion="(parseInt(imagen.id) - 1)" :fintiempo="continuar" />
+                            :posicion="(parseInt(imagen.id))" :fintiempo="continuar" />
                     </div>
                     <!-- <div class="parlante-item">
                         
@@ -371,6 +371,7 @@ onMounted(() => {
 
     pausasActivasInstrucciones.value = pausasActivasInstrucciones.value.sort(() => Math.random() - 0.5);
 
+    console.log(pausasActivasInstrucciones.value.length-1)
 
     Object.values(pausasActivasInstrucciones.value).forEach((element, index) => {
         const { imagen, id, video, cambio, tiempo } = element
@@ -471,7 +472,7 @@ const configurarActividad = (valor) => {
 const tiempoActualCronometro = (tiempo) => {
    
     if (validarCambioActividad.value == true) {
-         console.log(tiempo)
+         
         if (Math.round((tiempoActividad.value / 2)) == tiempo) {
             if (tiempoValidado.value == false) {
                 estadoVideoPause.value = false
@@ -607,6 +608,7 @@ const activarNavegacionSliders = () => {
         mostrarImagen.value = false
         mostrarTooltip.value = false
         monstrarBotonCerrarInstrucciones.value = false
+        estadoVideoPause.value = false
     }
 
 

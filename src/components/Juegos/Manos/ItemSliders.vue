@@ -180,23 +180,12 @@ watch(() => imagen.finTimeOpcionesActividad, (nuevoFin, oldFin) => {
 
 //TODO:Refactorizaar las variables (estan en modo Prueba)
 watch(() => imagen.correcto, (newCorrecto, oldCorrecto) => {
-    console.log(
-        "Watch props.selected function called with args:",
-        newCorrecto,
-        oldCorrecto
-    );
-
+   
     newCorrecto ? styleObjectValidacion.backgroundColor = 'var(--border-error-mensaje)' : styleObjectValidacion.backgroundColor = 'var(--border-success-mensaje)'
 
 });
 
 watch(() => imagen.ocultarNavegacion, (newCorrecto, oldCorrecto) => {
-    console.log(
-        "Watch props.selected function called with args:",
-        newCorrecto,
-        oldCorrecto
-    );
-
     if (newCorrecto == true) {
         styleObjectPrev.visibility = 'visible'
         styleObjectNext.visibility = 'visible'

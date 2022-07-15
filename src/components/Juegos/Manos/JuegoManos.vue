@@ -244,7 +244,6 @@ onMounted(() => {
         return pausa.id == 9
     })[0].instruccion
 
-    console.log(textoDescripcionPause.value)
 })
 
 
@@ -322,7 +321,7 @@ const OcultarBotonComenzar = () => {
 }
 
 const validarRespuesta = (comprobar) => {
-    console.log(`.prev-${comprobar.posicionSlider + 1}`)
+   
 
     /* document.querySelector(`.prev-${comprobar.posicionSlider+1}`).style.cursor = 'pointer'
     document.querySelector(`.next-${comprobar.posicionSlider+1}`).style.cursor = 'pointer'

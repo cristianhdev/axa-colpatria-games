@@ -30,6 +30,16 @@ onBeforeMount(() => {
      }, 13000) */
 })
 
+const sonidos = ref([
+    { id: 1, audio: new Audio(Soundlife) },
+    { id: 2, audio: new Audio(Soundcoin) },
+    { id: 3, audio: new Audio(Soundjump) },
+    { id: 4, audio: new Audio(Soundcartoon1) },
+    { id: 5, audio: new Audio(Soundcartoon2) },
+    { id: 6, audio: new Audio(Soundcartoon3) }
+]);
+
+
 
 
 
@@ -66,18 +76,16 @@ const posicionSonidos = defineProps({
 
 
 const playSonido = (posicion) => {
-    console.log(posicion)
-    let sonidos = [
-        new Audio(Soundlife),
-        new Audio(Soundcoin),
-        new Audio(Soundjump),
-        new Audio(Soundcartoon1),
-        new Audio(Soundcartoon2),
-        new Audio(Soundcartoon3)
-    ]
+
+
+    let audioPlay = Object.values(sonidos.value).filter((Audio) => {
+        return Audio.id == posicion
+    })
+    console.log(audioPlay)
+
     if (audio.value == null) {
         if (config.audioPausas) {
-            audio.value = sonidos[parseInt(posicion)]
+            audio.value = audioPlay[0].audio
             audio.value.play()
         } else {
             if (window.confirm("El audio esta desactivado por favor,active la opcion de sonido en el menu principal.")) {
@@ -87,6 +95,9 @@ const playSonido = (posicion) => {
             /* 
              emit("finAudioAleatorio") */
         }
+    } else {
+        audio.value = audioPlay[0].audio
+        audio.value.play()
     }
 }
 

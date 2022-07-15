@@ -194,7 +194,7 @@ onMounted(() => {
 
     coordenadasStarts.value = document.querySelectorAll('.puntos-start')
 
-    console.log(coordenadasStarts.value)
+   
 
 
 
@@ -203,9 +203,7 @@ onMounted(() => {
     posicionActual.value = config.posicionactualEscenarioJuego
     posicionActualActividades.value = config.posicionActualActividades
 
-    console.log(actividadesCompletadas.value)
-    console.log(posicionActual.value)
-    console.log(posicionActualActividades.value)
+    
 
 
     if (ocultarInstrucciones.value) {
@@ -250,11 +248,10 @@ onBeforeMount(() => {
 })
 
 const mostrarEstrella = () => {
-    console.log("posicionActualActividades.value-1", posicionActualActividades.value - 1)
+    
     let index = actividadesCompletadas.value.length - 1
     while (index >= 0) {
-        console.log(index, posicionActualActividades.value)
-        console.log(coordenadasStarts.value[index])
+       
         coordenadasStarts.value[index].style.display = 'block'
         index = index - 1
     }
@@ -385,11 +382,10 @@ const reiniciarPosiciones = () => {
 /* watch(router.params, (previous, current) => {
   console.log(`${previous} and ${current}`); // Debug info
 }) */
-
+/* 
 watch(posicionAvanceJuegoActual, (to, from) => {
-    console.log(to)
-    console.log(from)
-});
+   
+}); */
 
 
 

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="onoffswitch">
-            <input type="checkbox" @change="changeEvent" v-model="estado" name="onoffswitch"
+            <input type="checkbox" @change="changeEvent"  @click="chageStateteClick" v-model="estado" name="onoffswitch"
                 class="onoffswitch-checkbox" :id="`myonoffswitch${config.idSwitch}`" tabindex="0" checked>
             <label class="onoffswitch-label" :for="`myonoffswitch${config.idSwitch}`">
                 <span class="onoffswitch-inner"></span>
@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch} from 'vue'
 import { useConfigStore } from "../../stores/config.js";
 const audioConfig = useConfigStore();
 const emit = defineEmits(['event'])
@@ -20,9 +20,7 @@ const emit = defineEmits(['event'])
 
 
 
-const changeEstado = computed(() => {
-    return estado.value = !estado.value
-})
+
 
 const changeEvent = () => {
     console.log(estado.value)
@@ -32,9 +30,21 @@ const changeEvent = () => {
 
 const estado = ref(audioConfig.audioPausas)
 
+const changeEstado = computed(() => {
+    return audioConfig.audioPausas
+})
+
+watch(changeEstado, (pauseVideoNew, pauseVideoNewOld) => {
+    estado.value=pauseVideoNew
+})
+
 onMounted(() => {
 
 })
+
+const chageStateteClick =  () => {
+    estado.value =  true
+}
 
 const config = defineProps({
     idSwitch: {

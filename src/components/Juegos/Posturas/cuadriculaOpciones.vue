@@ -329,6 +329,7 @@ onMounted(() => {
     pausasActivasInstrucciones.value = pausasActivasInstrucciones.value.sort(() => Math.random() - 0.5);
 
 
+     
 
     imagenesReferencia.value = imagenesReferencia.value.sort(() => Math.random() - 0.5)
 
@@ -337,6 +338,8 @@ onMounted(() => {
         const { imagen, id, cambio, tiempo,video } = element
         imagesActividadesPausas.value.push({ imagen: imagen == undefined ? null : imagen, idInstruccion: id, cambio, tiempo,video })
     })
+
+
 
 
     //Excluimos las imagenes que estn null, es decir no tiene imagen.
@@ -540,16 +543,11 @@ const guardarPuntos = () => {
 
 
 const configurarTiempoPausas = (id) => {
-    console.log(id)
-    console.log(imagesActividadesPausas.value)
     //Configuracion de tiempo para el cronometro dependiento de las pausas.
     let tiempoPausa = Object.values(imagesActividadesPausas.value).filter((elementPausaId) => {
         return elementPausaId.idInstruccion == id
     })
 
-    console.log(tiempoPausa)
-
-    console.log(tiempoActividad.value)
     if (actualizarTiempoPausa.value !== "null") {
         //Configuramos el tiempo de la pausa de acuerdo a lo programado en el archivo pausas
         tiempoActividad.value = 0 //Reiniciamos el tiempo
@@ -590,8 +588,6 @@ const continuarSiguienteActividad = () => {
 const tiempoActualCronometro = (tiempo) => {
 
     if (validarCambioActividad.value == true) {
-        console.log("tiempo", tiempo)
-        console.log("tiempo/2", (Math.round((tiempoActividad.value / 2))))
         if (Math.round((tiempoActividad.value / 2)) == tiempo) {
             if (tiempoValidado.value == false) {
                 estadoVideoPause.value = false
@@ -676,7 +672,7 @@ const opcionSiguiente = (idInstruccion) => {
     })
 
     textoInstruccionPausa.value = buscarInstruccionesEjercicio(Object.values(elementClickCorrecto)[0].idInstruccion)
-    console.log("aca", Object.values(elementClickCorrecto)[0].cambio)
+   
     validarCambioActividad.value = Object.values(elementClickCorrecto)[0].cambio
 
     //Buscamos el id de la instruccion correspondiente a la pausa.
@@ -689,8 +685,8 @@ const opcionSiguiente = (idInstruccion) => {
 
     configurarTiempoPausas(Object.values(elementClickCorrecto)[0].idInstruccion)
     videoPausa.value = Object.values(elementClickCorrecto)[0].video
-     console.log(Object.values(elementClickCorrecto)[0])
-    console.log(videoPausa.value)
+    
+    
 
     /* puntosBuenos.value = puntosBuenos.value + 1 */
     aumentarPuntosBuenos()
@@ -752,6 +748,7 @@ const FinOpcion = () => {
         mostrarcronometro.value = false
         monstrarBotonCerrarInstrucciones.value = false
         isInstruccionesPausaVisible.value = false
+        estadoVideoPause.value = false
         continuarSiguienteActividad()
 
     }

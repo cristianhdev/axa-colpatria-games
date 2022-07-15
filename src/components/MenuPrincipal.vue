@@ -32,7 +32,7 @@
                             Camara:
                         </div>
                         <div>
-                            <SwitchBotonCamara :idSwitch="idSA" @event="onOffCamara" />
+                            <SwitchBotonCamara :idSwitch="idSA" @event="onOffCamara"/>
 
                         </div>
 
@@ -42,7 +42,7 @@
                             Sonido:
                         </div>
                         <div>
-                            <SwitchBotonSonido :idSwitch="idSB" @event="onOffSonido" />
+                            <SwitchBotonSonido :idSwitch="idSB" @event="onOffSonido"  />
                         </div>
                         <!--  <div style="background-color: silver;border-radius: 100%;">
                             <img :src="sonidoListo ? ImagenParlanteOn : ImagenParlanteOff" alt="" width="35"
@@ -57,7 +57,7 @@
 
                     <div class="btn-primary" @click="mostrarInstrucciones">Instrucciones</div>
                     <div class="btn-primary" @click="ReiniciarPartida">Reinciar Partida</div>
-                    <div class="btn-primary">Reinciar Configuración</div>
+                    <div class="btn-primary" @click="ReiniciarConfiguracion">Reinciar Configuración</div>
                     <div class="btn-primary" @click="ocultarMenuPrincipal">Salir</div>
 
                 </div>
@@ -82,7 +82,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { useConfigStore } from "../stores/config.js";
 import { useRouter, useRoute } from "vue-router";
 
@@ -116,6 +116,7 @@ onMounted(() => {
     usuario.value = config.nombreUsuario
 })
 
+
 const UpperCase = computed(() => {
     return usuario.value.charAt(0).toUpperCase() + usuario.value.slice(1);
 })
@@ -141,6 +142,10 @@ const ReiniciarPartida = () => {
 
 }
 
+const ReiniciarConfiguracion = () => {
+    config.reiniciarTodoActividad()
+}
+
 const mostrarInstrucciones = () => {
     emit('eventInstrucciones')
     config.setMenuEstadoVisible(false)
@@ -149,6 +154,9 @@ const mostrarInstrucciones = () => {
 const camaraReady = computed(() => config.isCamara)
 const sonidoListo = computed(() => config.audioPausas)
 const isMenuPrincipalVisible = computed(() => config.menuEstadoVisible)
+
+
+
 
 </script>
 

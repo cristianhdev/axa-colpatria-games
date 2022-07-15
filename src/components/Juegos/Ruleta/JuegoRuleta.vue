@@ -549,7 +549,7 @@ const opcionCorrecta = (correcta, actual, id) => {
         document.querySelector(`#${id}`).classList.add('opcion-incorrecto')
 
         let tituloIncorrecto = document.querySelector('.titulo-incorrecto')
-        console.log(tituloIncorrecto)
+       
         tituloIncorrecto.style.visibility = 'visible'
         gsap.fromTo('.titulo-incorrecto', { opacity: 0 }, {
             opacity: 1, duration: 1.4, onComplete: () => {

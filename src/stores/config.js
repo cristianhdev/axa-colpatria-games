@@ -78,12 +78,22 @@ export const useConfigStore = defineStore({
     reiniciarActividadActual(infoActividad) {
       this.actividad = infoActividad
     },
-    reiniciarTodo(infoActividad) {
+    reiniciarTodo() {
       this.posicionActualEscenario = 0
       this._posicionActualActividades = 0
       this.puntosGlobales = 0
       this.actividad = []
       this.actividadRealizadaCompletada = []
+    },
+    reiniciarTodoActividad() {
+      this.posicionActualEscenario = 0
+      this._posicionActualActividades = 0
+      this.puntosGlobales = 0
+      this.actividad = []
+      this.actividadRealizadaCompletada = []
+      this.isCamaraHabilitada = false
+      this.audioEstadoPausas = false
+      this.usuario= ''
     }
   },
   persist: {
@@ -91,10 +101,10 @@ export const useConfigStore = defineStore({
     storage: {},
     paths: ['nested.data'],
     beforeRestore: context => {
-      console.log('Before hydration...')
+     
     },
     afterRestore: context => {
-      console.log('After hydration...')
+     
     },
   }
 })

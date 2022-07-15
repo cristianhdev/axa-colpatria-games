@@ -1,5 +1,5 @@
 <template>
-    <div  class="overflow-menu">
+    <div class="overflow-menu">
         <div
             class="contenedor-central-menu flex-center-elements-column  gap-2 animate__animated animate__fadeIn animate__slow">
             <span v-if="isCerrarVisible" class="btn-close" @click="ocultarIntrucciones">X</span>
@@ -20,7 +20,7 @@
                             </div>
                         </Popper>
                     </div> -->
-                    
+
                 </div>
 
 
@@ -43,7 +43,7 @@ const router = useRouter()
 const usuario = ref('')
 const camaraReadyMenu = ref(false)
 const IsVisibleInstrucciones = ref(true)
-const emit = defineEmits(['eventOcultarInstruccionesVentana','eventOcultarInstrucciones'])
+const emit = defineEmits(['eventOcultarInstruccionesVentana', 'eventOcultarInstrucciones'])
 
 
 const configMenuPrincipal = defineProps({
@@ -51,7 +51,7 @@ const configMenuPrincipal = defineProps({
         type: Boolean,
         default: false
     },
-    isCerrarVisible:{
+    isCerrarVisible: {
         type: Boolean,
         default: false
     }
@@ -70,8 +70,6 @@ const ocultarIntrucciones = () => {
 </script>
 
 <style lang="css" scoped>
-
-
 .contenedor-configuracion-intruccion-ventana-pausas {
     height: 100vh;
     width: 100%;
@@ -171,19 +169,23 @@ const ocultarIntrucciones = () => {
     top: 0px;
 }
 
+
+
 .contenedor-central-menu {
-   width: 73vw;
-    height: 90vh;
-    max-height: 650px;
+    width: 78vw;
+    height: 92vh;
+    max-height: 89vh;
     background-color: white;
-    border-radius: 32px;
+    border-radius: 14px;
     padding: 14px 12px;
     overflow: hidden;
     border: 1px solid var(--azul-axa);
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) /* background: transparent url(@/assets/img/fonto.png) no-repeat center center; background-size: 100% 100%; */;
+    transform: translate(-50%, -50%)
+        /* background: transparent url(@/assets/img/fonto.png) no-repeat center center; background-size: 100% 100%; */
+    ;
 }
 
 .btn-close {
@@ -224,7 +226,7 @@ hr {
         height: 90vh;
     }
 
-    .botones-menu[data-v-e1368be2] {
+    .botones-menu {
         display: grid;
         justify-content: center;
         align-items: center;

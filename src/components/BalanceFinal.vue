@@ -113,10 +113,6 @@ onMounted(() => {
     puntos_estres.value = Math.round(puntos_estres.value - ((puntosFinalesActividad.value / 3) / 100) * 100 - 40)
 
 
-    console.log(puntos_energia.value)
-    console.log(puntos_salud.value)
-    console.log(puntos_estres.value)
-
     gsap.to('.icono-energia', 1.4, { marginLeft: `${puntos_energia.value}%`, repeat: 0, repeatDelay: 1.3, yoyo: true, transformOrigin: 'center center' });
     gsap.to('.icono-salud', 2.4, { marginLeft: `${puntos_salud.value}%`, repeat: 0, repeatDelay: 1.3, yoyo: false, transformOrigin: 'center center' });
     gsap.to('.icono-estres', 1.8, { marginLeft: `${puntos_estres.value}%`, repeat: 0, repeatDelay: 1.3, yoyo: false, transformOrigin: 'center center' });

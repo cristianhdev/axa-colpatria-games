@@ -1,7 +1,8 @@
 <template>
     <div>
         <div class="onoffswitch">
-            <input type="checkbox" @change="changeEvent" v-model="estado" name="onoffswitch"
+            
+            <input type="checkbox" @change="changeEvent" @click="chageStateteClick" v-model="estado" name="onoffswitch"
                 class="onoffswitch-checkbox" :id="`myonoffswitch${config.idSwitch}`" tabindex="0" checked>
             <label class="onoffswitch-label" :for="`myonoffswitch${config.idSwitch}`">
                 <span class="onoffswitch-inner"></span>
@@ -12,7 +13,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { useConfigStore } from "../../stores/config.js";
 const camaraConfig = useConfigStore();
 const emit = defineEmits(['event'])
@@ -21,23 +22,42 @@ const emit = defineEmits(['event'])
 
 
 const changeEstado = computed(() => {
-    return estado.value = !estado.value
+    return camaraConfig.isCamara
 })
 
+watch(changeEstado, (pauseVideoNew, pauseVideoNewOld) => {
+    /* console.log(pauseVideoNew)*/
+    estado.value = pauseVideoNew 
+})
+
+
+
 const changeEvent = () => {
+    console.log(estado.value)
     if (estado.value) {
+        estado.value = true
         camaraConfig.habilitarCamara()
     } else {
+        estado.value = false
         camaraConfig.inhabilitarCamara()
     }
     emit('event', estado.value)
 }
 
+
+
 const estado = ref(camaraConfig.isCamara)
 
 onMounted(() => {
-    /*  estado.value = config.isCamara */
+    /* setInterval(() => {
+             
+    }, 3000); */
+    
 })
+
+const chageStateteClick =  () => {
+    estado.value =  true
+}
 
 const config = defineProps({
     idSwitch: {
