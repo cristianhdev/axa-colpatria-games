@@ -1,5 +1,5 @@
 <template>
-    <div class="slider-instrucciones gap-3">
+    <div class="slider-instrucciones">
         <div class="titulo">
             <div class="intrucciones" v-html="tituloTexto"></div>
 
@@ -103,7 +103,7 @@ const prev = () => {
         
 
         gsap.to(`.contenedor-items-slider`, {
-            x: `+=-103vh`
+            x: `+=-${contenedorItemsSliders.width+32}px`
             , onComplete: () => {
                 finAnimacionSlider.value = false
                 sliderActual.value++
@@ -130,7 +130,7 @@ const next = () => {
 
         });
         gsap.to(`.contenedor-items-slider`, {
-            x: `+=103vh`, ease: 'Power.easeInOut', onComplete: () => {
+            x: `+=${contenedorItemsSliders.width+32}px`, ease: 'Power.easeInOut', onComplete: () => {
                 finAnimacionSlider.value = false
                 sliderActual.value--
                 /* tituloTexto.value = imagen.tituloInstruccion[sliderActual.value] */
@@ -172,7 +172,7 @@ const navegacion = () => {
 
 <style lang="scss" scoped>
 .contenedor-slider {
-    width: fit-content;
+    width: 100%;
     height: 40vh;
     overflow: hidden;
 }
@@ -180,7 +180,7 @@ const navegacion = () => {
 .contenedor-items-slider {
     display: flex;
     margin: 0px auto;
-    width: 100vh;
+    width: 710px;
     /*     overflow: hidden; */
     flex-wrap: nowrap;
     justify-content: start;
@@ -217,7 +217,7 @@ const navegacion = () => {
     color: black;
     font-weight: normal;
     text-align: left;
-    height: 28vh;
+    height: 32vh;
     display: flex;
     justify-content: center;
     align-items: center;

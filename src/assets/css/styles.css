@@ -193,11 +193,11 @@ h4 {
 .texto-descripcion-pausas {
     text-align: justify;
     font-family: Source Sans Pro;
-    font-size: 1.1em;
+    font-size: 1.06em;
     color: black;
     font-weight: normal;
     padding: 19px;
-    height: 21vw;
+    height: 22vw;
     display: flex;
     align-items: baseline;
     justify-content: space-evenly;
@@ -264,7 +264,7 @@ h4 {
     position: fixed;
     width: 3vw;
     height: 3vh;
-    transform: translate(9.3rem, 1rem);
+    transform: translate(7.3rem, 1rem);
     float: right;
 }
 
@@ -275,7 +275,7 @@ h4 {
     position: fixed;
     width: 3vw;
     height: 3vh;
-    transform: translate(9.3rem, 1rem);
+    transform: translate(7.3rem, 1rem);
     float: right;
 }
 
@@ -921,12 +921,16 @@ h4 {
 /* SLIDER STYLE */
 .item-slider {
     text-align: center;
-    width: 103vh;
+    width: 46rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
 }
 
 .item-slider img {
-    object-fit: cover;
-    width: 50vw;
+  /*   object-fit: cover; */
+    width: 44vw;
     height: fit-content;
 }
 

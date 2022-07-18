@@ -90,6 +90,7 @@ export const useConfigStore = defineStore({
       this._posicionActualActividades = 0
       this.puntosGlobales = 0
       this.actividad = []
+      this.preguntasAleatorias = []
       this.actividadRealizadaCompletada = []
       this.isCamaraHabilitada = false
       this.audioEstadoPausas = false

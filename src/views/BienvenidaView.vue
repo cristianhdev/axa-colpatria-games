@@ -252,8 +252,8 @@ const slidersBienvenida = ref([]);
 }
 
 .item-slider img {
-    object-fit: cover;
-    width: 46vw !important;
-    height: fit-content;
+    object-fit: scale-down;
+  /*   width: 70% !important;
+    height: 30%; */
 }
 </style>

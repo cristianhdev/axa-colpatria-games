@@ -72,7 +72,7 @@
             <!--  -->
             <Cronometro v-if="mostrarcronometro" :isCronometroPausa="detenerTiempo" :isRun="habilitarCronometro"
                 :segundos="actualizarTiempoPausa" @tiempoActual="tiempoActualCronometro"
-                @endTime="activarNavegacionSliders" />
+                @endTime="activarNavegacionSliders" :isLoop="isLoopVideo"/>
             <div class="btn-ayuda tooltip" v-if="mostrarTooltip" @click="VerInstruccionesPausa">
                 <span class="tooltiptext">Ver Instrucciones</span>
             </div>
@@ -158,7 +158,7 @@
                                     <VideoPausas ref="videoPausasRef" :ismonstrarMensajeCambio="monstrarMensajeCambio"
                                         :videoPausaUrl="videoPausa" :isPlayVideo="estadoVideoPause"
                                         :isPauseVideo="!estadoVideoPause" :mostrarImagenUrl="imagenCorrecta"
-                                        :mostrarimagenReferencia="false" />
+                                        :mostrarimagenReferencia="false" :isLoop="isLoopVideo"/>
                                 </div>
                                 <div v-if="camaraReady" class=" contenedor-camara-pausa flex-center-elements-column">
                                     <CaramaWeb :width="250" :height="250" @camaraLoad="finLoadCamara" />
@@ -349,6 +349,8 @@ const mostrarTooltip = ref(false)
 // Variables pausas
 const mostrarImagen = ref(false)
 const mostrarImagenId = ref('')
+const isLoopVideo = ref(false)
+
 const validarCambioActividad = ref(null)
 //Variables video pausas
 const videoPausa = ref(null)
@@ -363,7 +365,7 @@ const tiempoValidado = ref(false)
 const monstrarMensajeCambio = ref(false)
 
 
-onMounted(() => {
+onBeforeMount(() => {
 
     pausasActivasInstrucciones.value = Object.values(PausasActivas).filter(pausa => {
         return pausa.tipo == "recordarSonido"
@@ -425,7 +427,7 @@ const configurarActividad = (valor) => {
             { id: 1, ...imagesActividadesPausas.value[0], audio: Soundcartoon2 },
             { id: 2, ...imagesActividadesPausas.value[1], audio: Soundcartoon3 },
             { id: 3, ...imagesActividadesPausas.value[2], audio: Soundjump },
-            { id: 4, ...imagesActividadesPausas.value[3], audio: Soundcartoon2 }
+            { id: 4, ...imagesActividadesPausas.value[3], audio: Soundcartoon1 }
 
         ]
 
@@ -443,12 +445,12 @@ const configurarActividad = (valor) => {
 
     } else {
         imagenes.value = [
-            { id: 1, ...imagesActividadesPausas.value[0], audio: Soundlife },
-            { id: 2, ...imagesActividadesPausas.value[1], audio: Soundcoin },
+            { id: 1, ...imagesActividadesPausas.value[0], audio: Soundcartoon2  },
+            { id: 2, ...imagesActividadesPausas.value[1], audio: Soundcartoon3},
             { id: 3, ...imagesActividadesPausas.value[2], audio: Soundjump },
             { id: 4, ...imagesActividadesPausas.value[3], audio: Soundcartoon1 },
-            { id: 5, ...imagesActividadesPausas.value[4], audio: Soundcartoon2 },
-            { id: 6, ...imagesActividadesPausas.value[5], audio: Soundcartoon3 }
+            { id: 5, ...imagesActividadesPausas.value[4], audio:  Soundlife},
+            { id: 6, ...imagesActividadesPausas.value[5], audio: Soundcoin }
         ]
 
 
@@ -527,8 +529,9 @@ const ocultarVentanaInstrucciones = () => {
 const generarSonidosAleatorios = () => {
     let sonidosArray = []
 
-    imagenes.value.forEach(element => {
+    imagenes.value.forEach((element,index) => {
         const { id } = element
+       
         sonidosArray.push(parseInt(id) - 1)
     });
 
@@ -619,6 +622,8 @@ const activarNavegacionSliders = () => {
 
 const playSonidoAleatorio = () => {
 
+    console.log(imagenes.value)
+
 
     if (aleatorioSonidos.value.length !== 0) {
 
@@ -685,6 +690,7 @@ const comprobarRespuesta = (id) => {
 
         imagenCorrecta.value = imagenes.value[aleatorioSonidos.value[posicionAudioAleatorio.value]].imagen
         videoPausa.value = imagenes.value[aleatorioSonidos.value[posicionAudioAleatorio.value]].video
+        isLoopVideo.value = imagenes.value[aleatorioSonidos.value[posicionAudioAleatorio.value]].loop
         validarCambioActividad.value = imagenes.value[aleatorioSonidos.value[posicionAudioAleatorio.value]].cambio
         document.querySelector(`#figura-click-${id} img`).style.boxShadow = '-1px -1px 16px inset green';
         document.querySelector(`#figura-click-${id} img`).style.border = '1px solid green';
@@ -949,7 +955,7 @@ h3 {
     justify-content: center;
     width: 80vw;
     height: 87vh;
-    grid-gap: 24px;
+    grid-gap: 9px;
     padding: 20px 0px;
     background-color: white;
     border-radius: 15px;

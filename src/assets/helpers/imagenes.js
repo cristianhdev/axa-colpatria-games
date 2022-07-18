@@ -37,7 +37,7 @@ import Ejercicio31 from '@/assets/ejercicios/EJ_P27A.png'//31
 import Ejercicio32 from '@/assets/ejercicios/EJ_P31.png'//32
 import Ejercicio33 from '@/assets/ejercicios/EJ_P30.gif'//33
 import Ejercicio34 from '@/assets/ejercicios/EJ_P25.gif'//34
-import Ejercicio35 from '@/assets/ejercicios/EJ_P26.gif'//35
+import Ejercicio35 from '@/assets/ejercicios/EJ_P26.png'//35
 import Ejercicio36 from '@/assets/ejercicios/EJ_P27.gif'//36
 import Ejercicio37 from '@/assets/ejercicios/EJ_P28.gif'//37
 

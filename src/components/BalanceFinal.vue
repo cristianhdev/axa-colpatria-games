@@ -153,6 +153,7 @@ onMounted(() => {
 
 
 const reiniciar = () => {
+    usuario.reiniciarTodo()
     router.push('/')
 }
 

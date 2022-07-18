@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount, onMounted, computed, defineEmits } from "vue";
+import { ref, onBeforeMount, onMounted, computed } from "vue";
 import RandomTemaItem from './randomTemaItem.vue'
 
 const emit = defineEmits(['finSeleccionTemasAleatorios','continuar'])

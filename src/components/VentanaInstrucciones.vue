@@ -69,7 +69,7 @@ const opciones = defineProps({
 
 watch(opciones.isPersonajeVisible, (newSlider, oldSlider) => {
     if (newSlider) {
-        alert(newSlider)
+        
     } else {
         styleImagenTexto.gridTemplateColumns = "1fr"
     }

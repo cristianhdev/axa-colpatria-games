@@ -1,15 +1,15 @@
 <template>
-    <div :style="styleContenedorPrincipal" class=" flex-center-elements-column ">
+    <div class="contenedor-principal-sliders flex-center-elements-column ">
 
         <div :class="`next-${imagen.id}`" :style="styleObjectNext" @click="next()">
             <img :src="ImagenFlechaDerecha" alt="" width="38">
         </div>
-        <div class="container-slider" style="height: 369rem;overflow: hidden;">
+        <div class="container-slider slider-style-dinamic">
             <div :class="`contenedor-imagenes-${imagen.id}`" :style="[styleObjectContenedor, styleObjectValidacion]">
                 <div class="sliders-order" :id="`sliders-order-${index}`" v-for="(imag, index) in arrayAleatorio"
                     :key="imag">
                     <img :src="imag.src" alt="imagen" width="50">
-                    <!-- {{arrayAleatorio}} -->
+
                 </div>
             </div>
         </div>
@@ -134,8 +134,8 @@ const styleObjectContenedor = reactive({
     alignItems: "center",
     alignContent: "center",
     justifyContent: "flex-start",
-    height: "59%",
-    gridGap: "44px"
+    height: "fit-content",
+    gridGap: "20px"
 });
 
 const styleObjectValidacion = reactive({
@@ -146,12 +146,6 @@ const styleObjectValidacion = reactive({
 
 });
 
-const styleContenedorPrincipal = reactive({
-    /*  boxShadow: '-1px -1px 16px inset var(--border-success-mensaje)', */
-    height: "320px",
-    maxHeight: "320px",
-    width: "230px"
-});
 
 
 
@@ -172,15 +166,16 @@ const styleContenedorPrincipal = reactive({
 watch(() => imagen.finTimeOpcionesActividad, (nuevoFin, oldFin) => {
 
     if (nuevoFin) {
-        styleObjectNext.display='none'
-        styleObjectPrev.display='none'
-        styleContenedorPrincipal.height='30vh'
+        styleObjectNext.display = 'none'
+        styleObjectPrev.display = 'none'
+       /*  styleContenedorPrincipal.height = '30vh' */
+       
     }
 })
 
 //TODO:Refactorizaar las variables (estan en modo Prueba)
 watch(() => imagen.correcto, (newCorrecto, oldCorrecto) => {
-   
+
     newCorrecto ? styleObjectValidacion.backgroundColor = 'var(--border-error-mensaje)' : styleObjectValidacion.backgroundColor = 'var(--border-success-mensaje)'
 
 });
@@ -229,7 +224,7 @@ const prev = () => {
             let con = document.querySelector(`.contenedor-imagenes-${imagen.id}`).getBoundingClientRect()
 
             gsap.to(`.contenedor-imagenes-${imagen.id}`, {
-                y: `+=-${Math.round(con.width)}px`
+                y: `+=-${Math.round(con.height / 6) + 3}px`
                 , onComplete: () => {
                     finAnimacionSlider.value = false
                     sliderActual.value++
@@ -254,7 +249,7 @@ const next = () => {
             finAnimacionSlider.value = true
             let con = document.querySelector(`.contenedor-imagenes-${imagen.id}`).getBoundingClientRect()
             gsap.to(`.contenedor-imagenes-${imagen.id}`, {
-                y: `+=${Math.round(con.width)}px`, ease: 'Power.easeInOut', onComplete: () => {
+                y: `+=${Math.round(con.height / 6) + 3}px`, ease: 'Power.easeInOut', onComplete: () => {
                     finAnimacionSlider.value = false
                     sliderActual.value--
                     /*  opcinesValidacion.posicionSlider = (imagen.id - 1)
@@ -309,12 +304,13 @@ const navegacion = () => {
 }
 
 .sliders-order img {
-    width: 25vh;
-    height: 26vh;
+    width: 100%;
+    height: 23vh;
     /* box-shadow: -1px -1px 16px inset black; */
     border: 1px solid #00008F;
     margin: 0px auto;
     border-radius: 12px;
+    object-fit: scale-down;
 }
 
 
@@ -342,6 +338,41 @@ const navegacion = () => {
 }
 
 
+.slider-style-dinamic {
+    height: 266pc;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+}
+
+
+.contenedor-principal-sliders {
+    height: 320px;
+    max-height: 47vh;
+    width: 230px
+}
+
+@media (min-width: 1281px) {
+
+    /* CSS */
+  
+}
+
+/* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+
+    /* CSS */
+    .contenedor-principal-sliders {
+        height: 320px;
+        max-height: 47vh;
+        width: 230px
+    }
+}
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
 

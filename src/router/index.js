@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import BienvenidaView from '../views/BienvenidaView.vue'
+import TestPausasView from '../views/VentanaTestPausas.vue'
 
 
 
@@ -85,6 +86,11 @@ const router = createRouter({
       path: '/MenuPrincipal',
       name: 'menuprincipal',
       component: () => import('@/components/MenuPrincipal.vue')
+    },
+    {
+      path: '/TestPausas/:id',
+      name: 'testPausas',
+      component: () => import('../views/VentanaTestPausas.vue')
     },
     { path: '/:pathMatch(.*)*', redirect: '/' }
   ]

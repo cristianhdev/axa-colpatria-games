@@ -50,15 +50,17 @@
             <div v-if="intentosActividad != 3" class="contenedor-opciones  flex-center-elements-column ">
                 <div v-if="mensajes">
                     <div v-if="!continuarActividad">
-                        <div class=" titulo auto">
+                        <!-- <div class=" titulo auto">
                             <h4>Si por recomendación médica no debe realizar el ejercicio, por favor
                                 abstenerse.</h4>
                             <h3>Cuando esté listo, de clic encontinuar.</h3>
                             <h2>¡Hora de memorizar la secuencia! </h2>
+                        </div> -->
 
-
+                        <div class="titulo-instruccion">
+                            ¡Hora de memorizar la secuencia!
+                            <br><br>Cuando esté listo, debe dar clic sobre continuar.
                         </div>
-
                     </div>
                     <div v-else>
                         <div class="titulo-instruccion">
@@ -182,7 +184,7 @@ import MenuPrincipal from '@/components/MenuPrincipal.vue';
 import { instruccionesJuegoManos } from "@/assets/textos/TextosInstrucciones.js";
 
 //DB instruccions
-import {PausasActivas} from "@/assets/textos/PausasActivas.js";
+import { PausasActivas } from "@/assets/textos/PausasActivas.js";
 
 import ImagenManoCompleta from '@/assets/img/manos/manosCompleta.gif';
 
@@ -240,8 +242,9 @@ const monstrarBotonCerrarInstrucciones = ref(false)
 
 onMounted(() => {
 
+    console.log(PausasActivas) 
     textoDescripcionPause.value = Object.values(PausasActivas).filter(pausa => {
-        return pausa.id == 9
+        return pausa.id == 10
     })[0].instruccion
 
 })
@@ -271,7 +274,7 @@ const opcinesValidacion = reactive({
     actual: null,
     respuesta: [],
     orderArray: [],
-    finalizado:false
+    finalizado: false
 });
 
 
@@ -321,7 +324,7 @@ const OcultarBotonComenzar = () => {
 }
 
 const validarRespuesta = (comprobar) => {
-   
+
 
     /* document.querySelector(`.prev-${comprobar.posicionSlider+1}`).style.cursor = 'pointer'
     document.querySelector(`.next-${comprobar.posicionSlider+1}`).style.cursor = 'pointer'
@@ -340,7 +343,7 @@ const comprobarRespuesta = () => {
     activarBotonRepetir.value = true
     ocultarPaginacion.value = true
 
-    opcinesValidacion.orderArray.forEach((element,index) => {
+    opcinesValidacion.orderArray.forEach((element, index) => {
         if (element.posicion == element.respuesta) {
             correcto.value = true
             aumentarPuntosBuenos()
@@ -378,6 +381,17 @@ const comprobarRespuesta = () => {
         mostrarcronometro.value = true
         habilitarCronometro.value = false
         styleCuadricula.gridTemplateColumns = "repeat(2,1fr)"
+        let contenedores = document.querySelectorAll('.contenedor-principal-sliders')
+
+
+        Object.values(contenedores).forEach(element => {
+
+            element.style.height = "332px ";
+            element.style.maxHeight= "25vh";
+            /* element.style.display = "none" */
+        });
+
+
 
     } else {
         puntosTotales.value = 0
@@ -487,10 +501,10 @@ h3 {
 }
  */
 
- .disabled-click {
-    filter:grayscale(0);
+.disabled-click {
+    filter: grayscale(0);
     pointer-events: none
- }
+}
 
 
 .contenedor-actividad {
@@ -572,7 +586,7 @@ h3 {
     position: fixed;
     width: 3vw;
     height: 3vh;
-    transform: translate(8.3rem, 1rem);
+    transform: translate(7.3rem, 1rem) !important;
     float: right;
 }
 
@@ -583,7 +597,7 @@ h3 {
     position: fixed;
     width: 3vw;
     height: 3vh;
-    transform: translate(8.3rem, 1rem);
+    transform: translate(7.3rem, 1rem) !important;
     float: right;
 }
 

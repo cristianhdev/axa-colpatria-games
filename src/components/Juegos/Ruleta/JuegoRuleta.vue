@@ -256,8 +256,10 @@ onMounted(() => {
 
 
 const sonidoPlayRuleta = () => {
+   
     if (config.audioPausas) {
         sonidoRuleta.value = new Audio(RuletaSonido);
+        sonidoRuleta.value.play()
     }
 }
 

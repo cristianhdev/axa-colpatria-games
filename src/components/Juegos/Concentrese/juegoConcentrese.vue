@@ -79,11 +79,8 @@
                             <VideoPausas ref="videoPausasRef" :ismonstrarMensajeCambio="monstrarMensajeCambio"
                                 :videoPausaUrl="videoPausa" :isPlayVideo="estadoVideoPause"
                                 :isPauseVideo="!estadoVideoPause" :mostrarImagenUrl="mostrarImagen"
-                                :mostrarimagenReferencia="false" idElementCamara="camaraPausaActivdad" />
-                            <!--  <div
-                                :style="{ border: `1.35px solid black`, background: `transparent url(${mostrarImagen}) no-repeat center center`, backgroundSize: '100% 100%', width: '-webkit-fill-available', maxWidth: '25vw', height: '22vw' }">
-                                <img :id="mostrarImagen" :src="mostrarImagen" alt="" width="320" height="320">
-                            </div> -->
+                                :mostrarimagenReferencia="false"  :isLoop="isLoopVideo" idElementCamara="camaraPausaActivdad" />
+                           
                             <div v-if="camaraReady">
                                 <div class=" contenedor-camara-pausa flex-center-elements-column">
                                     <CaramaWeb :width="250" :height="250" @camaraLoad="finLoadCamara" />
@@ -273,6 +270,8 @@ const nombreSeleccionada2 = ref('')
 // Variables pausas
 const mostrarImagen = ref('')
 const mostrarImagenId = ref('')
+const isLoopVideo = ref(false)
+
 const validarCambioActividad = ref(null)
 //Variables video pausas
 const videoPausa = ref(null)
@@ -350,7 +349,7 @@ const finLoadCamara = () => {
     ocultarBotonComenzarActividad.value = true
 }
 
-onMounted(() => {
+onBeforeMount(() => {
 
     /*  animateCSS(".mensaje-cambio", "bounceInLeft").then((message) => {
         
@@ -377,8 +376,8 @@ onMounted(() => {
 
 
     Object.values(pausasActivasInstrucciones.value).forEach((element, index) => {
-        const { imagen, id, video, cambio, tiempo } = element
-        imagesActividadesPausas.value.push({ imagen: imagen == undefined ? null : imagen, id, video, cambio, finalizado: false, tiempo })
+        const { imagen, id, video, cambio, tiempo,loop } = element
+        imagesActividadesPausas.value.push({ imagen: imagen == undefined ? null : imagen, id, video, cambio, finalizado: false,loop, tiempo })
     })
 
 
@@ -746,7 +745,8 @@ const cargarImagen = (elemento) => {
 
     mostrarImagen.value = elemento.imagen
     mostrarImagenId.value = elemento.id
-
+    isLoopVideo.value = elemento.loop
+    
     let busquedaVideoForId = Object.values(imagesActividadesPausas.value).filter((elementoImagen) => {
         return elementoImagen.id == mostrarImagenId.value
     })

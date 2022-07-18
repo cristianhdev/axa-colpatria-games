@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <video ref="videoPausaSeleccionado" :id="idElementCamara" width="320" height="320"
-            :poster="videoPausaUrl == '' ? mostrarImagenUrl : ''">
+    <div class="flex-center-elements-row" style="position: relative;">
+       
+        <video ref="videoPausaSeleccionado" :id="idElementCamara" :poster="videoPausaUrl == '' ? mostrarImagenUrl : ''">
             <source :src="videoPausaUrl == '' ? '' : videoPausaUrl" type="video/mp4">
         </video>
 
@@ -10,7 +10,7 @@
             CAMBIO DE LADO...
         </div>
         <div v-if="mostrarimagenReferencia" class="info-imagen auto">
-            Imagen de referencia {{}}
+            Imagen de referencia
         </div>
     </div>
 </template>
@@ -25,6 +25,10 @@ const opcionesVideo = defineProps({
     videoPausaUrl: String,
     mostrarImagenUrl: String,
     mostrarimagenReferencia: {
+        type: Boolean,
+        default: true
+    },
+    isLoop: {
         type: Boolean,
         default: true
     },
@@ -52,10 +56,7 @@ onMounted(() => {
 
     videoPausaSeleccionado.value = document.getElementById(`${opcionesVideo.idElementCamara}`)
     videoPausaSeleccionado.value.autoplay = opcionesVideo.isPlayVideo
-    videoPausaSeleccionado.value.loop = opcionesVideo.isPlayVideo
-
-
-
+    videoPausaSeleccionado.value.loop = opcionesVideo.isLoop
 })
 
 watch(() => opcionesVideo.isPlayVideo, (playVideoNew, playVideoNewOld) => {
@@ -78,6 +79,8 @@ const detectarTiempo = (e) => {
 
 
     videoTiempoActual.value = Math.floor(e.target.currentTime)
+
+
 
     /*   if (Math.floor(videoPausaSeleccionado.value.currentTime) == 1) {
           videoPausaSeleccionado.value.pause()
@@ -107,14 +110,18 @@ const playVideoPausa = () => {
     videoPausaSeleccionado.value.currentTime = videoTiempoActual.value
     videoPausaSeleccionado.value.play()
 
+    videoPausaSeleccionado.value.addEventListener('ended', () => {
+        videoPausaSeleccionado.value.currentTime = 0
+        videoPausaSeleccionado.value.pause()
+    }, false);
+
     videoPausaSeleccionado.value.addEventListener("timeupdate", detectarTiempo)
 
-    videoPausaSeleccionado.value.addEventListener('ended', () => {
-        videoPausaSeleccionado.value.removeEventListener("timeupdate", detectarTiempo)
-    }, false);
+
 }
 
 const pauseVideoPausa = () => {
+    videoPausaSeleccionado.value.currentTime = videoTiempoActual.value
     videoPausaSeleccionado.value.pause()
 }
 
@@ -127,22 +134,26 @@ const pauseVideoPausa = () => {
     font-weight: 600
 }
 
+video {
+    width: 290px;
+    border: 1px solid blue;
+}
 
 .mensaje-cambio {
     font-family: Source Sans Pro;
     font-size: 1.3em;
     color: white;
     font-weight: 600;
-    width: 29vh;
-    height: 3vh;
+    width: 208px;
+    height: 4vh;
     display: flex;
     align-items: center;
     align-content: center;
-    position: relative;
+    position: absolute;
     background-color: #000000b3;
     padding: 0px 42px;
     margin: 0px auto;
-    top: 90%;
+    bottom: 0vh;
     text-align: center;
     justify-content: center;
 }

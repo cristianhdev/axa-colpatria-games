@@ -31,12 +31,12 @@ onBeforeMount(() => {
 })
 
 const sonidos = ref([
-    { id: 1, audio: new Audio(Soundlife) },
-    { id: 2, audio: new Audio(Soundcoin) },
+    { id: 1, audio: new Audio(Soundcartoon2) },
+    { id: 2, audio: new Audio( Soundcartoon3 ) },
     { id: 3, audio: new Audio(Soundjump) },
     { id: 4, audio: new Audio(Soundcartoon1) },
-    { id: 5, audio: new Audio(Soundcartoon2) },
-    { id: 6, audio: new Audio(Soundcartoon3) }
+    { id: 5, audio: new Audio(Soundlife) },
+    { id: 6, audio: new Audio(Soundcoin) }
 ]);
 
 
@@ -77,11 +77,13 @@ const posicionSonidos = defineProps({
 
 const playSonido = (posicion) => {
 
+    console.log(posicion)
+    console.log(Object.values(sonidos.value))
 
     let audioPlay = Object.values(sonidos.value).filter((Audio) => {
         return Audio.id == posicion
     })
-    console.log(audioPlay)
+    
 
     if (audio.value == null) {
         if (config.audioPausas) {

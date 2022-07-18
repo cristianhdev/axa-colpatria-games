@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, onUnmounted, onBeforeMount, defineEmits, watch } from 'vue'
+import { ref, reactive, onMounted, onUnmounted, onBeforeMount, watch } from 'vue'
 
 import Sonidos from '@/assets/helpers/sounds.js'
 

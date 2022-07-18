@@ -144,33 +144,33 @@
       <div ref="tamanoContenedor" id="contenedor-elemento-random" class="contenedor-mensaje center-element ">
         <!--   -->
         <div v-show="isTemasRandomVisible">
-          <Cronometro v-if="mostrarcronometro" :isRun="habilitarCronometro" :segundos="30"  @endTime="limpiarTiempo"/>
+          <Cronometro v-if="mostrarcronometro" :isRun="habilitarCronometro" :segundos="30" @endTime="limpiarTiempo" />
         </div>
         <div :id="`objetos-volador-abajo-${index + 1} `" :style="styleObjectPositionAbajo"
           class="objetos-actividad-1 flex-center-elements-row" v-for="(imagen, index) in imagenes_aleatorias"
           :key="index" @click="validarClick(imagen.tipo, `objetos-volador-abajo-${index + 1} `)">
-          
+
           <ContenedorImagenes :id="index + 1" :srcImagen="imagenes_aleatorias[index].imagen"
             class="animate__animated animate__heartBeat animate__infinite" />
         </div>
         <div :id="`objetos-volador-arriba-${index + 1} `" :style="styleObjectPositionArriba"
           class="objetos-actividad-2 flex-center-elements-column" v-for="(imagen, index) in imagenes_aleatorias"
           :key="index" @click="validarClick(imagen.tipo, `objetos-volador-arriba-${index + 1} `)">
-          
+
           <ContenedorImagenes :id="index + 1" :srcImagen="imagenes_aleatorias[index].imagen"
             class="animate__animated animate__heartBeat animate__infinite" />
         </div>
         <div :id="`objetos-volador-derecha-${index + 1} `" :style="styleObjectPositionDerecha"
           class="objetos-actividad-3 flex-center-elements-column" v-for="(imagen, index) in imagenes_aleatorias"
           :key="index" @click="validarClick(imagen.tipo, `objetos-volador-derecha-${index + 1} `)">
-          
+
           <ContenedorImagenes :id="index + 1" :srcImagen="imagenes_aleatorias[index].imagen"
             class="animate__animated animate__heartBeat animate__infinite" />
         </div>
         <div :id="`objetos-volador-izquierda-${index + 1} `" :style="styleObjectPositionIzquierda"
           class="objetos-actividad-4 flex-center-elements-column" v-for="(imagen, index) in imagenes_aleatorias"
           :key="index" @click="validarClick(imagen.tipo, `objetos-volador-izquierda-${index + 1} `)">
-          
+
           <ContenedorImagenes :id="index + 1" :srcImagen="imagenes_aleatorias[index].imagen"
             class="animate__animated animate__heartBeat animate__infinite" />
         </div>
@@ -321,7 +321,7 @@ const mostrarMenu = () => {
 
 const styleObjectPositionAbajo = reactive({
   position: 'relative',
-  top: '-26%',
+  top: '-36vh',
   left: '0%',
   /*   border: '2px solid green', */
   width: '15vh',
@@ -333,7 +333,7 @@ const styleObjectPositionAbajo = reactive({
 
 const styleObjectPositionDerecha = reactive({
   position: 'relative',
-  top: '-15vh',
+  top: '-21vh',
   right: '-100%',
   /*  border: '2px solid green', */
   width: '15vh',
@@ -432,7 +432,7 @@ const animarElementsoAleatorios = () => {
 
 
 const validarClick = (elemento, id) => {
-  
+
   let busqueda = Object.values(temasSeleccionadosArray.value)
 
   if (busqueda[0].toLowerCase() == elemento.toLowerCase()) {

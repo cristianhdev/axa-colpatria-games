@@ -105,15 +105,16 @@ const escenaCojines = ref([])
 const rutasActividad = ref([
 
     '/JuegoConcentrese',//11
-    '/JuegoConcentrese',//12
+    '/JuegoManos',//7
+     '/JuegoAudiosPosturas',//3
     '/JuegoPosturas',//0
-    '/JuegoPosturas',//1
-    '/JuegoAudiosPosturas',//3
     '/JuegoAudiosPosturas',//4
     '/JuegoManos',//6
-    '/JuegoManos',//7
-    '/JuegoOjos',//9
     '/JuegoOjos',//10
+    '/JuegoConcentrese',//12
+    '/JuegoOjos',//9
+    '/JuegoPosturas',//1
+    
 ])
 const config = useConfigStore();
 const animacionAvancePersonaje = ref(null)

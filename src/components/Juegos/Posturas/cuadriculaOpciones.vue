@@ -98,7 +98,6 @@
                         <div class="imagen-random">
                             <div class="imagen-random-img">
                                 <div>
-
                                     <img :id="getOpcionRandomSeleccionada()?.id"
                                         :src="getOpcionRandomSeleccionada()?.imagen" alt="">
                                 </div>
@@ -143,9 +142,9 @@
                         <div :style="styleItemsCuadricula">
                             <!--  <img :id="opcionIdInterroganteSeleccionada" :src="opcionImagenInterroganteSeleccionada"
                                 alt="" style="width: auto;height: 43vh"> -->
-                            <VideoPausas :ismonstrarMensajeCambio="monstrarMensajeCambio" :videoPausaUrl="videoPausa"
+                            <VideoPausas  :mostrarimagenReferencia="false" :ismonstrarMensajeCambio="monstrarMensajeCambio" :videoPausaUrl="videoPausa"
                                 :isPlayVideo="estadoVideoPause" :isPauseVideo="!estadoVideoPause"
-                                :mostrarImagenUrl="opcionImagenInterroganteSeleccionada" />
+                                :mostrarImagenUrl="opcionImagenInterroganteSeleccionada"   :isLoop="isLoopVideo" />
                         </div>
                         <div class="contenedor-ejercicios" v-if="camaraReady">
 
@@ -209,7 +208,7 @@
                         <img :id="mostrarImagen" :src="mostrarImagen" alt="" width="320" height="320">
                     </div> -->
                     <div>
-                        <VideoPausas :videoPausaUrl="videoPausa"
+                        <VideoPausas :mostrarimagenReferencia="true" :isPlayVideo="true" :videoPausaUrl="videoPausa"
                             :mostrarImagenUrl="opcionImagenInterroganteSeleccionada" />
                     </div>
 
@@ -294,6 +293,7 @@ const IsVisibleInstruccion = ref(false)
 const BotonInicio = ref(true)
 const tiempoActividad = ref(10)
 
+const isLoopVideo = ref(false)
 
 
 const monstrarBotonCerrarInstrucciones = ref(false)
@@ -322,7 +322,7 @@ onBeforeMount(() => {
 })
 
 
-onMounted(() => {
+onBeforeMount(() => {
     pausasActivasInstrucciones.value = Object.values(PausasActivas).filter(pausa => {
         return pausa.tipo == "recordarPosicion"
     })
@@ -335,8 +335,8 @@ onMounted(() => {
 
 
     Object.values(pausasActivasInstrucciones.value).forEach((element, index) => {
-        const { imagen, id, cambio, tiempo,video } = element
-        imagesActividadesPausas.value.push({ imagen: imagen == undefined ? null : imagen, idInstruccion: id, cambio, tiempo,video })
+        const { imagen, id, cambio, tiempo,video,loop } = element
+        imagesActividadesPausas.value.push({ imagen: imagen == undefined ? null : imagen, idInstruccion: id, cambio, tiempo,loop,video })
     })
 
 
@@ -449,7 +449,7 @@ const styleCuadricula = reactive({
 
 
 const styleItemsCuadricula = reactive({
-    width: "26vw",
+    width: "auto",
     height: "58vh",
     textAlign: "center",
     color: "white",
@@ -685,6 +685,7 @@ const opcionSiguiente = (idInstruccion) => {
 
     configurarTiempoPausas(Object.values(elementClickCorrecto)[0].idInstruccion)
     videoPausa.value = Object.values(elementClickCorrecto)[0].video
+    isLoopVideo.value = Object.values(elementClickCorrecto)[0].loop
     
     
 
@@ -749,6 +750,7 @@ const FinOpcion = () => {
         monstrarBotonCerrarInstrucciones.value = false
         isInstruccionesPausaVisible.value = false
         estadoVideoPause.value = false
+        opcionImagenInterroganteSeleccionada.value =  Interrogante
         continuarSiguienteActividad()
 
     }
