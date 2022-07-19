@@ -3,7 +3,7 @@ export const instruccionesBienvenida = [
     'Cada vez que sea redirigido al escenario, el personaje avanzará automáticamente por el mismo, no hace falta que de clic sobre ningún punto de la pantalla.<br><br>Al llegar a cada estación, debe primero leer atentamente las instrucciones que se presentan para realizar cada uno de los juegos que mostrarán las pausas activas.',//slider2
     'Durante su recorrido deberá realizar correctamente los juegos que muestran las pausas activas a ejecutar. Encontrará diferentes mecánicas de juegos antes de pasar a realizar cada pausa activa.',//slider3
     'Luego de ejecutar 2 dinámicas de juegos y realizar las pausas activas propuestas, tendrá un gran reto de conocimiento donde deberá responder de forma asertiva tres preguntas que se presentarán a través de la actividad de la ruleta ¿estás listo?',//slider4
-    'Al finalizar todo el recorrido del escenarios, se presentará un balance con los resultados y beneficios obtenidos por la correcta realización de las pausas activas.<br><br>Recuerde que realizar pausas activas ayuda a reducir el estrés (barra de medición azul), aumentar la energía (barra de medición verde) y favorecer la salud (barra de medición roja) de los trabajadores, por ello, es muy importante realizarlas.'//slider5
+    'Al finalizar todo el recorrido del escenario, se presentará un balance con los resultados y beneficios obtenidos por la correcta realización de las pausas activas.<br><br>Recuerde que realizar pausas activas ayuda a reducir el estrés (barra de medición azul), aumentar la energía (barra de medición verde) y favorecer la salud (barra de medición roja) de los trabajadores, por ello, es muy importante realizarlas.'//slider5
 ]
 
 
